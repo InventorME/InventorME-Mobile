@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import { Text, View, Image } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
 
-const HomeScreen = () => {
+const HomeScreen = props => {
   const [userName, setUsername]= useState();
   const [Password, setPassword]= useState();
   return (
@@ -20,14 +20,13 @@ const HomeScreen = () => {
         placeholder='Password'
         onChangeText={(val)=>setPassword(val)}
       />
-      <Text>
-        Username:
-        {userName}
-      </Text>
-      <Text>
-        Password:
-        {Password}
-      </Text>
+      <TouchableOpacity
+        style={styles.appButtonContainer}
+        onPress={()=>props.navigation.navigate('MainMenu')}
+      >
+        <Text style={styles.appButtonText}>Log In</Text>
+      </TouchableOpacity>
+
     </View>
 );};
 

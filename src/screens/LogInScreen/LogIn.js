@@ -14,7 +14,7 @@ const HomeScreen = props => {
         placeholder='Username'
         onChangeText={(val)=>setUsername(val)}
       />
-      <TextInput 
+      <TextInput
         secureTextEntry
         style={styles.TextInput}
         placeholder='Password'

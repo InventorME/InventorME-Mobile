@@ -11,7 +11,7 @@ const navigator = createStackNavigator(
   {
     initialRouteName: 'HomeScreen',
     defaultNavigationOptions: {
-      title: 'InvertorMe',
+      title: 'InventorMe',
     },
   }
 );

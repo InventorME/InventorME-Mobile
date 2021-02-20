@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./src/screens/LogInScreen/LogIn";
-import MainPage from "./src/screens/MainPage/mainPage";
+import MainPageNav from "./src/screens/MainPage/mainPage";
 
 const Stack = createStackNavigator();
 
@@ -21,7 +21,7 @@ function myStack() {
 
         <Stack.Screen
           name = "MainPage"
-          component = {MainPage}
+          component = {MainPageNav}
        />
 
       </Stack.Navigator>

@@ -1,6 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TouchableOpacity, FlatList, Text } from "react-native";
+import { View, Text } from "react-native";
+import styles from "./mainPage.style";
+import addItem from "../addItemScreen/addItem";
+import scanItem from "../scanItemScreen/scanItem";
 
 const MainPageNav = () => {
   // Once the user is logged in we will have to get the information from the database using an array of titles just 
@@ -31,7 +34,11 @@ const MainPageNav = () => {
 };
 
 const MainPage = () => {
-
+  return (
+    <View style = {styles.container}>
+      <Text>Main Page</Text>
+    </View>
+  );  
 };
 
 export default MainPageNav;

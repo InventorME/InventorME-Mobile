@@ -3,7 +3,7 @@ import { Text, View, Image } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
 
-const HomeScreen = props => {
+const HomeScreen = (props) => {
   const [userName, setUsername]= useState();
   const [Password, setPassword]= useState();
   return (
@@ -22,7 +22,7 @@ const HomeScreen = props => {
       />
       <TouchableOpacity
         style={styles.appButtonContainer}
-        onPress={()=>props.navigation.navigate('MainMenu')}
+        onPress={()=>props.navigation.navigate("MainPage")}
       >
         <Text style={styles.appButtonText}>Log In</Text>
       </TouchableOpacity>

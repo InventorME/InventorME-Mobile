@@ -5,7 +5,7 @@ import styles from "./scanItem.style";
 const scanItem = () => {
     return (
         <View style = {styles.container}>
-            <Text>scan Item</Text>
+            <Text>Scan Item</Text>
         </View>
     );
 }

@@ -14,6 +14,13 @@ const MainPageNav = () => {
       <Tab.Navigator
         initialRouteName = "MainPage"
         backBehavior = "none"
+        tabBarOptions = {{
+          activeTintColor : "white",
+          inactiveTintColor : "#009688",
+          activeBackgroundColor : "#009688",
+          inactiveBackgroundColor : "white",
+          showLabel : "false"
+        }}
       >
         <Tab.Screen
           name = "addItem"

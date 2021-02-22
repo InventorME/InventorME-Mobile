@@ -1,19 +1,32 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import HomeScreen from './src/screens/LogInScreen/LogIn';
-import MainMenu from './src/screens/MainPage/mainPage';
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import HomeScreen from "./src/screens/LogInScreen/LogIn";
+import MainPageNav from "./src/screens/MainPage/mainPage";
 
-const navigator = createStackNavigator(
-  {
-    HomeScreen,
-    MainMenu,
-  },
-  {
-    initialRouteName: 'HomeScreen',
-    defaultNavigationOptions: {
-      title: 'InventorMe',
-    },
-  }
-);
+const Stack = createStackNavigator();
 
-export default createAppContainer(navigator);
+function myStack() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator 
+        initialRouteName = "HomeScreen"
+        headerMode = "none"
+      >
+      
+        <Stack.Screen
+          name = "HomeScreen"
+          component = {HomeScreen}
+        />
+
+        <Stack.Screen
+          name = "MainPage"
+          component = {MainPageNav}
+       />
+
+      </Stack.Navigator>
+    </NavigationContainer>  
+  );
+}
+
+export default myStack;

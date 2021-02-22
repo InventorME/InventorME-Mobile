@@ -20,6 +20,9 @@ const MainPageNav = () => {
           inactiveTintColor : "#009688",
           activeBackgroundColor : "#009688",
           inactiveBackgroundColor : "white",
+          style : {
+            borderTopColor : "white"
+          },
           showLabel : false
         }}
       >

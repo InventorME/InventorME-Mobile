@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Button } from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styles from "./catagories.style";
 import photos from "../PhotosScreen/photos";
@@ -44,10 +44,13 @@ const catagoriesNav = () => {
     )
 }
 
-const catagories = () => {
+const catagories = ({navigation}) => {
     return (
         <View style = {styles.container}>
-            <Text>Catagories Screen</Text>
+            <Button
+                title = "Toggle Drawer"
+                onPress = {() => {navigation.toggleDrawer()}}
+            />
         </View>
     );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, {useState} from "react";
 import { Text, View, Image } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
@@ -22,7 +23,7 @@ const HomeScreen = (props) => {
       />
       <TouchableOpacity
         style={styles.appButtonContainer}
-        onPress={()=>props.navigation.navigate("MainPage")}
+        onPress={()=>props.navigation.navigate("ProfilePage")}
       >
         <Text style={styles.appButtonText}>Log In</Text>
       </TouchableOpacity>

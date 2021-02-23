@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
-import styles from "./Completed.style";
+import styles from "./completed.style";
 
 const completed = () => {
     return (
         <View style = {styles.container}>
-            <Text>Scan Item</Text>
+            <Text>Completed Page</Text>
         </View>
     );
 }

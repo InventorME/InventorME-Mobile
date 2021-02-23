@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
-import styles from "./Settings.style";
+import styles from "./settings.style";
 
 const settings = () => {
     return (
         <View style = {styles.container}>
-            <Text>Scan Item</Text>
+            <Text>Settings Page</Text>
         </View>
     );
 }

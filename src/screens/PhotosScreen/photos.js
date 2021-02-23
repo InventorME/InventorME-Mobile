@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import styles from "./Photos.style";
+import styles from "./photos.style";
 
 const photos = () => {
     return (

@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
-import styles from "./Date.style";
+import styles from "./date.style";
 
 const date = () => {
     return (
         <View style = {styles.container}>
-            <Text>Scan Item</Text>
+            <Text>Date Page</Text>
         </View>
     );
 }

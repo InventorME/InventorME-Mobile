@@ -2,6 +2,10 @@ import React from "react";
 import { View, Text } from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styles from "./catagories.style";
+import photos from "../PhotosScreen/photos";
+import completed from "../CompletedScreen/completed";
+import date from "../DateScreen/date";
+import settings from "../SettingsScreen/settings";
 
 const catagoriesNav = () => {
     const Drawer = createDrawerNavigator();

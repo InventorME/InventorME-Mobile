@@ -5,6 +5,7 @@ import { View, Text } from "react-native";
 import styles from "./mainPage.style";
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
+import catagoriesNav from "../CatagoriesScreen/catagories";
 
 const MainPageNav = () => {
   // Once the user is logged in we will have to get the information from the database using an array of titles just 
@@ -42,10 +43,10 @@ const MainPageNav = () => {
           }}
       />
 
-      <Tab.Screen
-        name="MainPage"
-        component={MainPage}
-        options={{
+        <Tab.Screen
+          name = "MainPage"
+          component = {catagoriesNav}
+          options = {{
             tabBarIcon : ({color, size}) => {
               return (<FontAwesome name="home" size={size} color={color} />);
             }

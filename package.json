@@ -6,9 +6,12 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint."
+    "lint": "eslint.",
+    "tunnelcombo": "ngrok authtoken 1ovqfhcVMIBTXEJERT12w2GaS65_4wAexX41CvcEv4AdngeBK && ngrok http 1234",
+    "server": "json-server --watch db.json --port 1234"
   },
   "dependencies": {
+    "@expo/ngrok": "^2.4.3",
     "@expo/vector-icons": "^12.0.3",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
@@ -35,7 +38,8 @@
     "react-native-web": "~0.13.12",
     "react-navigation": "^4.4.3",
     "react-navigation-stack": "^2.10.2",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

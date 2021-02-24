@@ -1,7 +1,20 @@
 {
   "users": [
     {
-     
+      "email": "test1@email.com",
+      "firstName": "Anthony",
+      "lastName": "Lopez-Guerra",
+      "phoneNum": "123-456-7890",
+      "password": "test123",
+      "id": 1
+    },
+    {
+      "email": "Test@123.com",
+      "firstName": "Any",
+      "lastName": "Last",
+      "phoneNum": "Fdjsaf",
+      "password": "fdafds",
+      "id": 2
     }
   ]
 }

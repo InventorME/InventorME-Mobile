@@ -6,59 +6,70 @@ import { render } from 'react-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { FontAwesome } from '@expo/vector-icons';
 import { useState, useEffect} from 'react';
+import Users from '../../Components/Users';
 
 
 const CreateAccountScreen = (props) => {
 
     const phoneRegEx = new RegExp('/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-/\s\.]{0,1}[0-9]{4}$/');
+    
     const [email, setEmail] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [phoneNum, setPhoneNum] = useState('')
     const [password, setPassword] = useState('')
+    const [id, setID] = useState()
     const [users, setUsers] = useState([])
+    const [user, setUser] = useState()
+
+    
 
     useEffect(() => {
         const getUsers = async () => {
           const usersFromServer = await fetchUsers()
           setUsers(usersFromServer)
         }
+    
         getUsers()
+        
       }, [])
 
       // Fetch Users
       const fetchUsers = async () => {
-          const res = await fetch('https://application-mock-server.localtunnel.me/users')
+          const res = await fetch('http://localhost:1234/users')
           const data = await res.json()
           return data
       }
 
-      // Fetch User
-      const fetchUser = async (id) => {
-        const res = await fetch(`https://application-mock-server.localtunnel.me/users/${id}`)
-        const data = await res.json()
-        return data
-    }
+    //   // Fetch User
+    //   const fetchUser = async (id) => {
+    //     const res = await fetch(`http://19af076a5754.ngrok.io/users/${id}`)
+    //     const data = await res.json()
+    //     return data
+    // }
     //Add User
-    const addUser = async (user) => {
-        const res = await fetch('https://application-mock-server.localtunnel.me/users',{
+    const addUser = async () => {
+        const tempID = Math.floor(Math.random() * 10000) +1;
+        // setID(tempID);
+        const updUsers = {email,firstName,lastName,phoneNum,password,id}
+        const res = await fetch('http://localhost:1234/users',{
             method: "POST",
             headers: {
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify(user)
+            body: JSON.stringify(updUsers)
 
         })
         const data = await res.json()
         setUsers([...users, data])
     }
-    //Delete User
-    const deleteUser = async (id) => {
-        await fetch(`https://application-mock-server.localtunnel.me/users/${id}`, {
-            method: 'DELETE'
-        })
-        //setUsers(users.filter(user) => user.id != id)
-    }
+    // //Delete User
+    // const deleteUser = async (id) => {
+    //     await fetch(`http://19af076a5754.ngrok.io/isers/${id}`, {
+    //         method: 'DELETE'
+    //     })
+    //     //setUsers(users.filter(user) => user.id != id)
+    // }
     return (
         <View style={styles.Page}>
             <View style={styles.arrow}>
@@ -81,17 +92,19 @@ const CreateAccountScreen = (props) => {
                 <TextInput 
                     style={styles.TextInput}
                     placeholder='Email'
-                    value={email} onChange={(e) => setEmail(e.target.value)}
+                    onChangeText={(text) => {setEmail(text)}}
+                    value={email} 
                 />
             </View>
 
             <View style={styles.child}>
                 <Text style={{color: '#009688'}} >First Name:</Text>
                 <TextInput
-                    label="First Name:"
                     style={styles.TextInput}
                     placeholder='First Name'
-                    value={firstName} onChange={(e) => setFirstName(e.target.value)}
+                    onChangeText={ (text) => { setFirstName(text)}}
+                    value={firstName}
+                    
                     
                 />
             </View>
@@ -99,38 +112,41 @@ const CreateAccountScreen = (props) => {
             <View style={styles.child}>
                 <Text style={{color: '#009688', }}>Last Name:</Text>
                 <TextInput 
-                    label="Last Name:"
+                    
                     style={styles.TextInput}
                     placeholder='Last Name'
-                    value={lastName} onChange={(e) => setLastName(e.target.value)}
+                    onChangeText={(text) => {setLastName(text)}}
+                    value={lastName} 
                 />
             </View>
 
             <View style={styles.child}>
                 <Text style={{color: '#009688'}}>Phone Number:</Text>
                 <TextInput 
-                    label="Phone Number::"
+                    
                     style={styles.TextInput}
                     placeholder='Phone Number'
                     validations={{matchRegexp:phoneRegEx}}
-                    value={phoneNum} onChange={(e) => setPhoneNum(e.target.value)}
+                    onChangeText={(text) => {setPhoneNum(text)}}
+                    value={phoneNum} 
                 />
             </View>
 
             <View style={styles.child}>
                 <Text style={{color: '#009688'}}>Password:</Text>
                 <TextInput
-                    label="Password:"
+                    
                     secureTextEntry
                     style={styles.TextInput}
                     placeholder='Password'
-                    value={password} onChange={(e) => setPassword(e.target.value)}
+                    onChangeText={(text) => {setPassword(text)}}
+                    value={password} 
                     
                 />
             </View>
             <View style={styles.logo}>
                 <TouchableOpacity
-                    style={styles.appButtonContainer} onPress={()=>{{addUser};props.navigation.navigate("MainPage");}}>
+                    style={styles.appButtonContainer} onPress={()=>{{addUser(email,firstName,lastName,phoneNum)};}}>
                     <Text style={styles.appButtonText}>Create Account</Text>
                 </TouchableOpacity>
             </View> 

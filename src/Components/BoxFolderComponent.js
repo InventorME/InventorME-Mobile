@@ -17,13 +17,12 @@ const BoxFolderComponent = props => {
 }
 const styles = StyleSheet.create({
     Container:{
-        width:"50%",
-        height:"50%",
-        padding: 10,
+        flex:1,
+        padding: 5,
     }, 
     Box : {
-        width:'100%',
-        height:'50%',
+        flex:1,
+        maxWidth:175,
         backgroundColor : '#009688',
         flexDirection:'row',
         justifyContent:'center',

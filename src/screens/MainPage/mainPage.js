@@ -8,6 +8,23 @@ import scanItem from "../scanItemScreen/scanItem";
 import UpperTab from "../../Components/UpperTab";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 
+
+const DrawBoxes=()=>{
+return(
+  <View style={styles.boxFolderColumn}>
+    <View style={styles.boxFolderRow}>
+      <BoxFolderComponent />
+      <BoxFolderComponent />
+    </View>
+    <View style={styles.boxFolderRow}>
+      <BoxFolderComponent />
+    </View>
+    <View style={styles.boxFolderRow}>
+      <BoxFolderComponent />
+    </View>
+  </View>
+)};
+
 const MainPageNav = () => {
   // Once the user is logged in we will have to get the information from the database using an array of titles just 
   // to have an Idea
@@ -19,10 +36,7 @@ const MainPageNav = () => {
           <UpperTab title="Main Page" />
         </View>
         <View style={styles.container}>
-          <Text>Main Page</Text>
-          <View style={{ flexDirection:'row', flex : 1}}>
-            <BoxFolderComponent />
-          </View>
+          <DrawBoxes />
         </View>
       </View>
     );  

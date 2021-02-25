@@ -10,19 +10,19 @@ function myStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName = "HomeScreen"
-        headerMode = "none"
+        initialRouteName="HomeScreen"
+        headerMode="none"
       >
       
         <Stack.Screen
-          name = "HomeScreen"
-          component = {HomeScreen}
+          name="HomeScreen"
+          component={HomeScreen}
         />
 
         <Stack.Screen
-          name = "MainPage"
-          component = {MainPageNav}
-       />
+          name="MainPage"
+          component={MainPageNav}
+        />
 
       </Stack.Navigator>
     </NavigationContainer>  

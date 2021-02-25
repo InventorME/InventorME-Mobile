@@ -146,7 +146,7 @@ const CreateAccountScreen = (props) => {
             </View>
             <View style={styles.logo}>
                 <TouchableOpacity
-                    style={styles.appButtonContainer} onPress={()=>{{addUser(email,firstName,lastName,phoneNum)};}}>
+                    style={styles.appButtonContainer} onPress={()=>{{addUser()};props.navigation.navigate("MainPage")}}>
                     <Text style={styles.appButtonText}>Create Account</Text>
                 </TouchableOpacity>
             </View> 

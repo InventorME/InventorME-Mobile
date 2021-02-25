@@ -15,6 +15,22 @@
       "phoneNum": "Fdjsaf",
       "password": "fdafds",
       "id": 2
+    },
+    {
+      "email": "Test3@email.com",
+      "firstName": "Esteban",
+      "lastName": "ANy",
+      "phoneNum": "123-456-7890",
+      "password": "Test1234",
+      "id": 3
+    },
+    {
+      "email": "Qwet@asdfg.com",
+      "firstName": "Test4",
+      "lastName": "Test4",
+      "phoneNum": "123-456-7890",
+      "password": "test5",
+      "id": 4
     }
   ]
 }

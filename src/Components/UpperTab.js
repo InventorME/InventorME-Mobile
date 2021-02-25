@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React from "react";
-import { View, Text, StyleSheet, Touchable } from "react-native";
-import { MaterialCommunityIcons, FontAwesome,FontAwesome5, Entypo } from "@expo/vector-icons";
+import { View, Text, StyleSheet } from "react-native";
+import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 

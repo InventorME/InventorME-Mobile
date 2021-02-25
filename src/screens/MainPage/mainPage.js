@@ -6,6 +6,7 @@ import styles from "./mainPage.style";
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
 import UpperTab from "../../Components/UpperTab";
+import BoxFolderComponent from "../../Components/BoxFolderComponent";
 
 const MainPageNav = () => {
   // Once the user is logged in we will have to get the information from the database using an array of titles just 
@@ -19,6 +20,9 @@ const MainPageNav = () => {
         </View>
         <View style={styles.container}>
           <Text>Main Page</Text>
+          <View style={{ flexDirection:'row', flex : 1}}>
+            <BoxFolderComponent />
+          </View>
         </View>
       </View>
     );  

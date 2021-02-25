@@ -16,12 +16,13 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor : '#009688',
         alignItems : 'center',
-        justifyContent : 'center',
+        justifyContent : 'flex-end',
     },
     textStyle:{
         color: 'black',
         fontSize:20,
         fontWeight:"bold",
+        height:35,
     },
 });
 export default ProfilePage;

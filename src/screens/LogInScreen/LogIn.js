@@ -23,9 +23,15 @@ const HomeScreen = (props) => {
       />
       <TouchableOpacity
         style={styles.appButtonContainer}
-        onPress={()=>props.navigation.navigate("ProfilePage")}
+        onPress={()=>props.navigation.navigate("MainPage")}
       >
         <Text style={styles.appButtonText}>Log In</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.appButtonContainer} 
+        onPress={()=>props.navigation.navigate("CreateAccountScreen")}
+      >
+        <Text style={styles.appButtonText}>Create Account</Text>
       </TouchableOpacity>
 
     </View>

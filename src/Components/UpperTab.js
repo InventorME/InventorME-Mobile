@@ -4,13 +4,13 @@ import { View, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-
-
 const ProfilePage = props => {
     return (
       <View style={styles.container}>
         <View style={styles.buttonLeftStyle}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress = {}
+          >
             <FontAwesome5 name="hamburger" size={30} color='black' />
           </TouchableOpacity>
         </View>

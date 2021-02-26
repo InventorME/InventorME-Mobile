@@ -8,7 +8,17 @@ export default StyleSheet.create({
         justifyContent : 'flex-start',
     },
 
-    drawer_button : {
-
-    }
+    boxFolderRow:{
+        flex:1,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-around',
+        maxHeight:150,
+    },
+    
+    boxFolderColumn:{
+        flexDirection:'column',
+        alignItems:'center', 
+        justifyContent:'space-between',
+    },
 });

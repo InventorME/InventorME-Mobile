@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { View } from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styles from "./catagories.style";
@@ -63,12 +63,19 @@ const catagoriesNav = () => {
 }
 
 const catagories = ({navigation}) => {
+
+    const [drawer, setDrawer] = useState(false);
+
+    if (drawer == true) {
+        navigation.toggleDrawer();
+    }
+
     return (
         <View style={{flex:1}}>
             <View style={{flex:0.1}}>
                 <UpperTab 
                     title="Catagories Page"
-                    nav = {navigation}
+                    func = {setDrawer()}
                 />
             </View>
             <View style={styles.container}>

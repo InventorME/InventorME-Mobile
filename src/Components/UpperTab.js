@@ -9,7 +9,7 @@ const ProfilePage = props => {
       <View style={styles.container}>
         <View style={styles.buttonLeftStyle}>
           <TouchableOpacity
-            onPress = {}
+            onPress = {props.func(true)}
           >
             <FontAwesome5 name="hamburger" size={30} color='black' />
           </TouchableOpacity>

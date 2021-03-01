@@ -4,12 +4,12 @@ import { View, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const ProfilePage = props => {
+const UpperTab = props => {
     return (
       <View style={styles.container}>
         <View style={styles.buttonLeftStyle}>
           <TouchableOpacity
-            onPress = {props.func(true)}
+            onPress = {props.nav.openDrawer()}
           >
             <FontAwesome5 name="hamburger" size={30} color='black' />
           </TouchableOpacity>
@@ -27,7 +27,7 @@ const ProfilePage = props => {
 }
 const styles = StyleSheet.create({
     container : {
-        flex:1,
+        flex:.1,
         backgroundColor : '#009688',
         flexDirection:'row',
         justifyContent:'space-between',
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
       right:10,
     }      
 });
-export default ProfilePage;
+export default UpperTab;

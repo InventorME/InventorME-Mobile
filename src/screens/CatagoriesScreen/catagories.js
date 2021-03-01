@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styles from "./catagories.style";
 import photos from "../PhotosScreen/photos";
@@ -31,6 +31,16 @@ const catagoriesNav = () => {
     return (
         <Drawer.Navigator
             initialRouteName = "catagories"
+            screenOptions = {{
+                header : ({scene}) => {
+                    return (<UpperTab
+                                title = "catagories"
+                                nav = {scene.descriptor.navigation}
+                            />
+                            );
+                },
+                headerShown : true
+            }}
             drawerContentOptions = {{
                 activeTintColor : "white",
                 activeBackgroundColor : "#009688",
@@ -62,22 +72,10 @@ const catagoriesNav = () => {
     )
 }
 
-const catagories = ({navigation}) => {
-
-    const [drawer, setDrawer] = useState(false);
-
-    if (drawer == true) {
-        navigation.toggleDrawer();
-    }
+const catagories = () => {
 
     return (
-        <View style={{flex:1}}>
-            <View style={{flex:0.1}}>
-                <UpperTab 
-                    title="Catagories Page"
-                    func = {setDrawer()}
-                />
-            </View>
+        <View style = {{flex : 1}}>
             <View style={styles.container}>
                 <DrawBoxes />
             </View>

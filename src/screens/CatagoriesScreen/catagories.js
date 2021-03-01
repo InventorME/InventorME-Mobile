@@ -49,23 +49,23 @@ const catagoriesNav = () => {
             }}
         >
             <Drawer.Screen
-                name = "catagories"
+                name = "Catagories"
                 component = {catagories}
             />
             <Drawer.Screen
-                name = "photos"
+                name = "Photos"
                 component = {photos}
             />
             <Drawer.Screen
-                name = "completed"
+                name = "Completed"
                 component = {completed}
             />
             <Drawer.Screen
-                name = "date"
+                name = "Date"
                 component = {date}
             />
             <Drawer.Screen
-                name = "settings"
+                name = "Settings"
                 component = {settings}
             />
         </Drawer.Navigator>

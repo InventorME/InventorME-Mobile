@@ -9,7 +9,7 @@ const UpperTab = props => {
       <View style={styles.container}>
         <View style={styles.buttonLeftStyle}>
           <TouchableOpacity
-            onPress = {props.nav.openDrawer()}
+            onPress = {props.nav}
           >
             <FontAwesome5 name="hamburger" size={30} color='black' />
           </TouchableOpacity>

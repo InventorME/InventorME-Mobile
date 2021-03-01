@@ -35,7 +35,7 @@ const catagoriesNav = () => {
                 header : ({scene}) => {
                     return (<UpperTab
                                 title = "catagories"
-                                nav = {scene.descriptor.navigation}
+                                nav = {() => {scene.descriptor.navigation.toggleDrawer()}}
                             />
                             );
                 },

@@ -34,7 +34,7 @@ const catagoriesNav = () => {
             screenOptions = {{
                 header : ({scene}) => {
                     return (<UpperTab
-                                title = "catagories"
+                                title = {scene.descriptor.options.title}
                                 nav = {() => {scene.descriptor.navigation.toggleDrawer()}}
                             />
                             );
@@ -49,23 +49,38 @@ const catagoriesNav = () => {
             }}
         >
             <Drawer.Screen
-                name = "catagories"
+                options = {{
+                    title : "Catagories"
+                }}
+                name = "Catagories"
                 component = {catagories}
             />
             <Drawer.Screen
-                name = "photos"
+                options = {{
+                    title : "Photos"
+                }}
+                name = "Photos"
                 component = {photos}
             />
             <Drawer.Screen
-                name = "completed"
+                options = {{
+                    title : "Completed"
+                }}
+                name = "Completed"
                 component = {completed}
             />
             <Drawer.Screen
-                name = "date"
+                options = {{
+                    title : "Date"
+                }}
+                name = "Date"
                 component = {date}
             />
             <Drawer.Screen
-                name = "settings"
+                options = {{
+                    title : "Settings"
+                }}
+                name = "Settings"
                 component = {settings}
             />
         </Drawer.Navigator>

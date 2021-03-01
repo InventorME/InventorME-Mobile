@@ -4,10 +4,10 @@ export default StyleSheet.create({
     container : {
         flex : 1,
         backgroundColor : '#fff',
-        alignItems : 'center',
-        alignSelf:'stretch',
-        padding: 5,
+        alignItems : 'flex-start',
+        justifyContent : 'flex-start',
     },
+
     boxFolderRow:{
         flex:1,
         flexDirection:'row',
@@ -15,6 +15,7 @@ export default StyleSheet.create({
         justifyContent:'space-around',
         maxHeight:150,
     },
+    
     boxFolderColumn:{
         flexDirection:'column',
         alignItems:'center', 

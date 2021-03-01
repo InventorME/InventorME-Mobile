@@ -5,6 +5,7 @@ import HomeScreen from "./src/screens/LogInScreen/LogIn";
 import MainPageNav from "./src/screens/MainPage/mainPage";
 import CreateAccountScreen from "./src/screens/CreateAccountScreen/CreateAccount";
 
+import ProfilePageNav from "./src/screens/ProfilePage/profilePage";
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,11 @@ function myStack() {
           component = {CreateAccountScreen}
        />
        
+
+        <Stack.Screen
+          name="ProfilePage"
+          component={ProfilePageNav}
+        />
 
       </Stack.Navigator>
     </NavigationContainer>  

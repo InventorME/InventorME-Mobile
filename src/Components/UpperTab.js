@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-equals-spacing */
 /* eslint-disable no-use-before-define */
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";

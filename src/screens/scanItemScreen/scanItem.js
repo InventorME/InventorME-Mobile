@@ -4,10 +4,10 @@ import styles from "./scanItem.style";
 
 const scanItem = () => {
     return (
-      <View style={styles.container}>
-        <Text>Scan Item</Text>
-      </View>
+        <View style = {styles.container}>
+            <Text>Scan Item</Text>
+        </View>
     );
-};
+}
 
 export default scanItem;

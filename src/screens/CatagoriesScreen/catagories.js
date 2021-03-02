@@ -37,7 +37,7 @@ const DrawBoxes = () => {
       </View>
     )};
 
-const catagoriesNav = () => {
+const catagoriesNav = (props) => {
     const Drawer = createDrawerNavigator();
 
     return (
@@ -49,6 +49,7 @@ const catagoriesNav = () => {
                       <UpperTab
                         title={scene.descriptor.options.title}
                         nav={() => {scene.descriptor.navigation.toggleDrawer()}}
+                        profileNav={()=>{props.navigation.navigate("ProfilePage")}}
                       />
                             );
                 },

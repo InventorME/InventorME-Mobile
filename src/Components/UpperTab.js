@@ -20,7 +20,7 @@ const UpperTab = props => {
         </View>
         <View style={styles.buttonRightStyle}>
           <TouchableOpacity
-            onPress={()=>props.navigation.navigate("ProfilePage")}
+            onPress={props.profileNav}
           >
             <MaterialCommunityIcons name='face-profile' size={30} color='black' />
           </TouchableOpacity>

@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable react/jsx-max-props-per-line */
+/* eslint-disable no-unused-vars */
 import React, {useState} from "react";
 import { Text, View, Image } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
@@ -33,7 +36,8 @@ const HomeScreen = (props) => {
         <Text style={styles.appButtonText}>Log In</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.appButtonContainer} onPress={()=>props.navigation.navigate("CreateAccountScreen")}>
+        style={styles.appButtonContainer} onPress={()=>props.navigation.navigate("CreateAccountScreen")}
+      >
           <Text style={styles.appButtonText}>Create Account</Text>
       </TouchableOpacity>
 

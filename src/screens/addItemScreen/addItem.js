@@ -4,9 +4,9 @@ import styles from "./addItem.style";
 
 const addItem = () => {
     return (
-        <View style = {styles.container}>
-            <Text>Add Item</Text>
-        </View>
+      <View style={styles.container}>
+        <Text>Add Item</Text>
+      </View>
     );
 }
 

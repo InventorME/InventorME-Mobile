@@ -36,9 +36,10 @@ const HomeScreen = (props) => {
         <Text style={styles.appButtonText}>Log In</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.appButtonContainer} onPress={()=>props.navigation.navigate("CreateAccountScreen")}
+        style={styles.appButtonContainer}
+        onPress={()=>props.navigation.navigate("CreateAccountScreen")}
       >
-          <Text style={styles.appButtonText}>Create Account</Text>
+        <Text style={styles.appButtonText}>Create Account</Text>
       </TouchableOpacity>
 
     </View>

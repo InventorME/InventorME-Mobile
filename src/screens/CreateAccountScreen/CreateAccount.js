@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { FontAwesome } from '@expo/vector-icons';
 import { useState, useEffect} from 'react';
-import Users from '../../Components/Users';
+
 
 
 const CreateAccountScreen = (props) => {
@@ -20,7 +20,7 @@ const CreateAccountScreen = (props) => {
     const [password, setPassword] = useState('')
     const [id, setID] = useState()
     const [users, setUsers] = useState([])
-    const [user, setUser] = useState()
+    
 
     
 
@@ -48,7 +48,7 @@ const CreateAccountScreen = (props) => {
     //     return data
     // }
     //Add User
-    const addUser = async () => {
+    const addUser = async (email,firstName,lastName,phoneNum,password) => {
         const tempID = Math.floor(Math.random() * 10000) +1;
         // setID(tempID);
         const updUsers = {email,firstName,lastName,phoneNum,password,id}
@@ -110,7 +110,7 @@ const CreateAccountScreen = (props) => {
             </View>
 
             <View style={styles.child}>
-                <Text style={{color: '#009688', }}>Last Name:</Text>
+                <Text style={{color: '#009688' }}>Last Name:</Text>
                 <TextInput 
                     
                     style={styles.TextInput}
@@ -146,7 +146,7 @@ const CreateAccountScreen = (props) => {
             </View>
             <View style={styles.logo}>
                 <TouchableOpacity
-                    style={styles.appButtonContainer} onPress={()=>{{addUser()};props.navigation.navigate("MainPage")}}>
+                    style={styles.appButtonContainer} onPress={()=>{{addUser(email,firstName,lastName,phoneNum,password)};props.navigation.navigate("MainPage")}}>
                     <Text style={styles.appButtonText}>Create Account</Text>
                 </TouchableOpacity>
             </View> 

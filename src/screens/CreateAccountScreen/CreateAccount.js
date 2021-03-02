@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import styles from "../CreateAccountScreen/CreateAccountScreen.style";
 import { Text, View, Image, StatusBar } from "react-native";
 import { render } from 'react-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { FontAwesome } from '@expo/vector-icons';
-import { useState, useEffect} from 'react';
+import styles from "./CreateAccountScreen.style";
+
 
 
 
@@ -47,7 +47,7 @@ const CreateAccountScreen = (props) => {
     //     const data = await res.json()
     //     return data
     // }
-    //Add User
+    // Add User
     const addUser = async (email,firstName,lastName,phoneNum,password) => {
         const tempID = Math.floor(Math.random() * 10000) +1;
         // setID(tempID);
@@ -71,88 +71,85 @@ const CreateAccountScreen = (props) => {
     //     //setUsers(users.filter(user) => user.id != id)
     // }
     return (
-        <View style={styles.Page}>
-            <View style={styles.arrow}>
+      <View style={styles.Page}>
+        <View style={styles.arrow}>
                 
-                <TouchableOpacity
-                    style={styles.arrowButtonContainer} onPress={()=>props.navigation.navigate("HomeScreen")}>
-                    <FontAwesome name='arrow-left' color='#009688' size={45}>
-                    </FontAwesome>
-                </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.arrowButtonContainer}
+            onPress={()=>props.navigation.navigate("HomeScreen")}
+          >
+            <FontAwesome name='arrow-left' color='#009688' size={45} />
+          </TouchableOpacity>
                 
-            </View>
+        </View>
         <View style={styles.container}>
                 
             
-            <View style={styles.logo}>
-                <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
-            </View>
-            <View style={styles.child}>
-                <Text style={{color: '#009688'}}>Email:</Text>
-                <TextInput 
-                    style={styles.TextInput}
-                    placeholder='Email'
-                    onChangeText={(text) => {setEmail(text)}}
-                    value={email} 
-                />
-            </View>
+          <View style={styles.logo}>
+            <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
+          </View>
+          <View style={styles.child}>
+            <Text style={{color: '#009688'}}>Email:</Text>
+            <TextInput 
+              style={styles.TextInput}
+              placeholder='Email'
+              onChangeText={(text) => {setEmail(text)}}
+              value={email}
+            />
+          </View>
 
-            <View style={styles.child}>
-                <Text style={{color: '#009688'}} >First Name:</Text>
-                <TextInput
-                    style={styles.TextInput}
-                    placeholder='First Name'
-                    onChangeText={ (text) => { setFirstName(text)}}
-                    value={firstName}
-                    
-                    
-                />
-            </View>
+          <View style={styles.child}>
+            <Text style={{color: '#009688'}}>First Name:</Text>
+            <TextInput
+              style={styles.TextInput}
+              placeholder='First Name'
+              onChangeText={(text) => { setFirstName(text)}}
+              value={firstName}
+            />
+          </View>
 
-            <View style={styles.child}>
-                <Text style={{color: '#009688' }}>Last Name:</Text>
-                <TextInput 
-                    
-                    style={styles.TextInput}
-                    placeholder='Last Name'
-                    onChangeText={(text) => {setLastName(text)}}
-                    value={lastName} 
-                />
-            </View>
+          <View style={styles.child}>
+            <Text style={{color: '#009688' }}>Last Name:</Text>
+            <TextInput 
+              style={styles.TextInput}
+              placeholder='Last Name'
+              onChangeText={(text) => {setLastName(text)}}
+              value={lastName}
+            />
+          </View>
 
-            <View style={styles.child}>
-                <Text style={{color: '#009688'}}>Phone Number:</Text>
-                <TextInput 
-                    
-                    style={styles.TextInput}
-                    placeholder='Phone Number'
-                    validations={{matchRegexp:phoneRegEx}}
-                    onChangeText={(text) => {setPhoneNum(text)}}
-                    value={phoneNum} 
-                />
-            </View>
+          <View style={styles.child}>
+            <Text style={{color: '#009688'}}>Phone Number:</Text>
+            <TextInput   
+              style={styles.TextInput}
+              placeholder='Phone Number'
+              validations={{matchRegexp:phoneRegEx}}
+              onChangeText={(text) => {setPhoneNum(text)}}
+              value={phoneNum}
+            />
+          </View>
 
-            <View style={styles.child}>
-                <Text style={{color: '#009688'}}>Password:</Text>
-                <TextInput
-                    
-                    secureTextEntry
-                    style={styles.TextInput}
-                    placeholder='Password'
-                    onChangeText={(text) => {setPassword(text)}}
-                    value={password} 
-                    
-                />
-            </View>
-            <View style={styles.logo}>
-                <TouchableOpacity
-                    style={styles.appButtonContainer} onPress={()=>{{addUser(email,firstName,lastName,phoneNum,password)};props.navigation.navigate("MainPage")}}>
-                    <Text style={styles.appButtonText}>Create Account</Text>
-                </TouchableOpacity>
-            </View> 
+          <View style={styles.child}>
+            <Text style={{color: '#009688'}}>Password:</Text>
+            <TextInput    
+              secureTextEntry
+              style={styles.TextInput}
+              placeholder='Password'
+              onChangeText={(text) => {setPassword(text)}}
+              value={password}
+            />
+          </View>
+          <View style={styles.logo}>
+            <TouchableOpacity
+              style={styles.appButtonContainer}
+              onPress={()=>{{addUser(email,firstName,lastName,phoneNum,password)};props.navigation.navigate("MainPage")}}
+            >
+              <Text style={styles.appButtonText}>Create Account</Text>
+            </TouchableOpacity>
+          </View> 
 
         </View>
-        </View> 
+      </View> 
     )
     
 }

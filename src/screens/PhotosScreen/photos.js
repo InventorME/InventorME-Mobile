@@ -4,9 +4,9 @@ import styles from "./photos.style";
 
 const photos = () => {
     return (
-        <View style = {styles.container}>
-            <Text>Photos Page</Text>
-        </View>
+      <View style={styles.container}>
+        <Text>Photos Page</Text>
+      </View>
     );
 }
 

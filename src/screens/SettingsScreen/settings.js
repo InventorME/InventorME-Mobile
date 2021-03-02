@@ -4,9 +4,9 @@ import styles from "./settings.style";
 
 const settings = () => {
     return (
-        <View style = {styles.container}>
-            <Text>Settings Page</Text>
-        </View>
+      <View style={styles.container}>
+        <Text>Settings Page</Text>
+      </View>
     );
 }
 

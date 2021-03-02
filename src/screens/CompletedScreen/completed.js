@@ -4,9 +4,9 @@ import styles from "./completed.style";
 
 const completed = () => {
     return (
-        <View style = {styles.container}>
-            <Text>Completed Page</Text>
-        </View>
+      <View style={styles.container}>
+        <Text>Completed Page</Text>
+      </View>
     );
 }
 

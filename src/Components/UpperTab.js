@@ -10,7 +10,7 @@ const UpperTab = props => {
       <View style={styles.container}>
         <View style={styles.buttonLeftStyle}>
           <TouchableOpacity
-            onPress = {props.nav}
+            onPress={props.nav}
           >
             <FontAwesome5 name="hamburger" size={30} color='black' />
           </TouchableOpacity>
@@ -19,7 +19,9 @@ const UpperTab = props => {
           <Text style={styles.textStyle}>{props.title}</Text>
         </View>
         <View style={styles.buttonRightStyle}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={()=>props.navigation.navigate("ProfilePage")}
+          >
             <MaterialCommunityIcons name='face-profile' size={30} color='black' />
           </TouchableOpacity>
         </View>

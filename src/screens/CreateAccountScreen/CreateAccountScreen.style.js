@@ -16,14 +16,16 @@ export default StyleSheet.create({
       justifyContent: 'flex-end',
       paddingTop: 50,
       paddingStart: 30,
-      backgroundColor: '#fff',
+      backgroundColor: 'lightgray',
       
     },
-    container1: {
+    container: {
         flex:1,
+        backgroundColor:'#fff',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: 'lightgray'
+        
       },
       logo: {
         
@@ -49,10 +51,9 @@ export default StyleSheet.create({
       appButtonContainer: {
         elevation: 8,
         backgroundColor: "#009688",
-        // marginLeft: 135,
         borderRadius: 10,
         paddingVertical: 10,
-        paddingHorizontal: 12,
+        paddingHorizontal: 12
       },
       arrowButtonContainer: {
         elevation: 8,
@@ -66,12 +67,5 @@ export default StyleSheet.create({
         fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase"
-      },
-    container2: {
-        flex:2,
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        backgroundColor: '#fff'
-    }
-      
+      }
 });

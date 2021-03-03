@@ -20,5 +20,6 @@ export default StyleSheet.create({
         flexDirection:'column',
         alignItems:'center', 
         justifyContent:'space-between',
+        padding:10,
     },
 });

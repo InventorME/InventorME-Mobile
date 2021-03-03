@@ -5,6 +5,7 @@ import HomeScreen from "./src/screens/LogInScreen/LogIn";
 import MainPageNav from "./src/screens/MainPage/mainPage";
 import CreateAccountScreen from "./src/screens/CreateAccountScreen/CreateAccount";
 import ProfilePageNav from "./src/screens/ProfilePage/profilePage";
+import addItemScreen from './src/screens/addItemScreen/addItem';
 
 
 
@@ -32,6 +33,10 @@ function myStack() {
         <Stack.Screen
           name="ProfilePage"
           component={ProfilePageNav}
+        />
+        <Stack.Screen
+          name="AddItemScreen"
+          component={addItemScreen}
         />
 
       </Stack.Navigator>

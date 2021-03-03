@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import styles from "./addItem.style";
 
-const addItem = () => {
+const addItemScreen = () => {
     return (
       <View style={styles.container}>
         <Text>Add Item</Text>
@@ -10,4 +10,4 @@ const addItem = () => {
     );
 }
 
-export default addItem;
+export default addItemScreen;

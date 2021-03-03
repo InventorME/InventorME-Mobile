@@ -2,15 +2,20 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 
 const BoxFolderComponent = props => {
     return (
       <View style={styles.Container}>
-        <View style={styles.Box}>
+        <View {...props} style={{...styles.Box, ...props.style}}>
           <View style={{padding:5}}>
-            <AntDesign name='pluscircle' size={30} color="white"  />
+            <TouchableOpacity
+              onPress={props.addPageNavigate}
+            >
+              <AntDesign name='pluscircle' size={30} color="white"  />
+            </TouchableOpacity>
           </View>
           <View style={styles.boxText}>
             <Text style={styles.textStyle}>{props.title}</Text>

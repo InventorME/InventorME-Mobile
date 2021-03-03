@@ -10,35 +10,39 @@ import UpperTab from "../../Components/UpperTab";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 
 
-const catagories = () => {
-
-    return (
-      <View style={{flex : 1}}>
-        <View style={styles.container}>
-          <DrawBoxes />
-        </View>
-      </View>
-    );  
-};
-
-const DrawBoxes = () => {
-    return(
-      <View style={styles.boxFolderColumn}>
-        <View style={styles.boxFolderRow}>
-          <BoxFolderComponent title="School" numItems='3' />
-          <BoxFolderComponent title="Work" numItems='17' />
-        </View>
-        <View style={styles.boxFolderRow}>
-          <BoxFolderComponent title="Groceries" numItems='20' />
-        </View>
-        <View style={styles.boxFolderRow}>
-          <BoxFolderComponent title="Items to buy in the future" numItems='35' />
-        </View>
-      </View>
-    )};
-
 const catagoriesNav = (props) => {
     const Drawer = createDrawerNavigator();
+    const catagories = () => {
+
+      return (
+        <View style={{flex : 1}}>
+          <View style={styles.container}>
+            <DrawBoxes props />
+          </View>
+        </View>
+      );  
+  };
+  const DrawBoxes = () => {
+      return(
+        <View style={styles.boxFolderColumn}>
+          <View style={styles.boxFolderRow}>
+            <BoxFolderComponent 
+              title="School" 
+              numItems='3' 
+              style={{backgroundColor:'#ffb5b9'}} 
+              addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
+            />
+            <BoxFolderComponent title="Work" numItems='17' style={{backgroundColor:'#b3b5ff'}} />
+          </View>
+          <View style={styles.boxFolderRow}>
+            <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#47ff72'}} />
+            <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#b3b5ff'}} />
+          </View>
+          <View style={styles.boxFolderRow}>
+            <BoxFolderComponent title="Items to buy in the future" numItems='35' style={{backgroundColor:'#aebffc'}} />
+          </View>
+        </View>
+      )};
 
     return (
       <Drawer.Navigator

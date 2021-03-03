@@ -25,14 +25,14 @@ const DrawBoxes = () => {
     return(
       <View style={styles.boxFolderColumn}>
         <View style={styles.boxFolderRow}>
-          <BoxFolderComponent />
-          <BoxFolderComponent />
+          <BoxFolderComponent title="School" numItems='3' />
+          <BoxFolderComponent title="Work" numItems='17' />
         </View>
         <View style={styles.boxFolderRow}>
-          <BoxFolderComponent />
+          <BoxFolderComponent title="Groceries" numItems='20' />
         </View>
         <View style={styles.boxFolderRow}>
-          <BoxFolderComponent />
+          <BoxFolderComponent title="Items to buy in the future" numItems='35' />
         </View>
       </View>
     )};

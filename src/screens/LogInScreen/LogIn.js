@@ -5,29 +5,55 @@ import React, {useState} from "react";
 import { Text, View, Image } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
+import UserPool from "../UserPool";
 import data from "../../../db.json";
 
 const HomeScreen = (props) => {
-  const [userName, setUsername]= useState();
-  const [Password, setPassword]= useState();
-  
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const onSubmit = event => {
+    event.preventDefault();
+
+    const user = new CognitoUser({
+      Username: email,
+      Pool: UserPool
+    });
+    
+    const authDetails = new AuthenticationDetails({
+      Username: email,
+      Password: password
+    });
+
+    user.authenticateUser(authDetails, {
+      onSuccess: data => {
+        console.log("onSuccess:", data);
+      },
+
+      onFailure: err => {
+        console.error("onFailure:", err);
+      },
+
+      newPasswordRequired: data => {
+        console.log("newPasswordRequired:", data);
+      }
+    });
+  };
   return (
     <View style={styles.container}>
       <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
       <TextInput 
         style={styles.TextInput}
         placeholder='Username'
-        onChangeText={(val)=>setUsername(val)}
-        value={userName}
+        onChangeText={(val)=>setEmail(val)}
+        value={email}
       />
       <TextInput
         secureTextEntry
         style={styles.TextInput}
         placeholder='Password'
         onChangeText={(val)=>setPassword(val)}
-        value={Password}
+        value={password}
       />
       <TouchableOpacity
         style={styles.appButtonContainer}

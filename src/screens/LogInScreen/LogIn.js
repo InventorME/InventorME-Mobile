@@ -13,7 +13,7 @@ const HomeScreen = (props) => {
   const [password, setPassword] = useState("");
 
   const onSubmit = ()=> {
-    //event.preventDefault();
+    preventDefault();
 
     const user = new CognitoUser({
       Username: email,

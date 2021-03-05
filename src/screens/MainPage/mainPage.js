@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
-import catagoriesNav from "../CatagoriesScreen/catagories";
+import categoriesNav from "../CategoriesScreen/categories";
 
 const MainPageNav = () => {
   // Once the user is logged in we will have to get the information from the database using an array of titles just 
@@ -12,7 +12,7 @@ const MainPageNav = () => {
   
     return (
       <Tab.Navigator
-        initialRouteName="CatagoriesPage"
+        initialRouteName="Categories"
         backBehavior="none"
         tabBarOptions={{
             activeTintColor : "white",
@@ -36,8 +36,8 @@ const MainPageNav = () => {
         />
   
         <Tab.Screen
-          name="CatagoriesPage"
-          component={catagoriesNav}
+          name="Categories"
+          component={categoriesNav}
           options={{
               tabBarIcon : ({color, size}) => {
                 return (<FontAwesome name="home" size={size} color={color} />);

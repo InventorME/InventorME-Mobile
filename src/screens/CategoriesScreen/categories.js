@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import styles from "./catagories.style";
+import styles from "./categories.style";
 import photos from "../PhotosScreen/photos";
 import completed from "../CompletedScreen/completed";
 import date from "../DateScreen/date";
@@ -10,35 +10,12 @@ import UpperTab from "../../Components/UpperTab";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 
 
-const catagoriesNav = (props) => {
+const categoriesNav = (props) => {
     const Drawer = createDrawerNavigator();
-    const catagories = () => {
-
-      return (
-        <View style={styles.container}>
-          <DrawBoxes props />
-        </View>
-      );  
-  };
-  const DrawBoxes = () => {
-      return(
-        <View style={styles.boxFolder}>
-          <BoxFolderComponent 
-            title="School" 
-            numItems='3' 
-            style={{backgroundColor:'#ffb5b9'}} 
-            addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
-          />
-          <BoxFolderComponent title="Work" numItems='17' style={{backgroundColor:'#b3b5ff'}} />
-          <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#47ff72'}} />
-          <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#b3b5ff'}} />
-          <BoxFolderComponent title="Items to buy in the future" numItems='35' style={{backgroundColor:'#aebffc'}} />
-        </View>
-      )};
 
     return (
       <Drawer.Navigator
-        initialRouteName="catagories"
+        initialRouteName="categories"
         screenOptions={{
                 header : ({scene}) => {
                     return (
@@ -60,10 +37,10 @@ const catagoriesNav = (props) => {
       >
         <Drawer.Screen
           options={{
-                    title : "Catagories"
+                    title : "Categories"
                 }}
-          name="Catagories"
-          component={catagories}
+          name="Categories"
+          component={categories}
         />
         <Drawer.Screen
           options={{
@@ -97,4 +74,29 @@ const catagoriesNav = (props) => {
     )
 }
 
-export default catagoriesNav;
+const categories = () => {
+  return (
+    <View style={styles.container}>
+      <DrawBoxes/>
+    </View>
+  );  
+};
+
+const DrawBoxes = () => {
+  return(
+    <View style={styles.boxFolder}>
+      <BoxFolderComponent 
+        title="School" 
+        numItems='3' 
+        style={{backgroundColor:'#ffb5b9'}} 
+        addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
+      />
+      <BoxFolderComponent title="Work" numItems='17' style={{backgroundColor:'#b3b5ff'}} />
+      <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#47ff72'}} />
+      <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#b3b5ff'}} />
+      <BoxFolderComponent title="Items to buy in the future" numItems='35' style={{backgroundColor:'#aebffc'}} />
+    </View>
+  )
+};
+
+export default categoriesNav;

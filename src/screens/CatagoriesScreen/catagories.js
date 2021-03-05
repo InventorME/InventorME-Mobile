@@ -15,32 +15,24 @@ const catagoriesNav = (props) => {
     const catagories = () => {
 
       return (
-        <View style={{flex : 1}}>
-          <View style={styles.container}>
-            <DrawBoxes props />
-          </View>
+        <View style={styles.container}>
+          <DrawBoxes props />
         </View>
       );  
   };
   const DrawBoxes = () => {
       return(
-        <View style={styles.boxFolderColumn}>
-          <View style={styles.boxFolderRow}>
-            <BoxFolderComponent 
-              title="School" 
-              numItems='3' 
-              style={{backgroundColor:'#ffb5b9'}} 
-              addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
-            />
-            <BoxFolderComponent title="Work" numItems='17' style={{backgroundColor:'#b3b5ff'}} />
-          </View>
-          <View style={styles.boxFolderRow}>
-            <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#47ff72'}} />
-            <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#b3b5ff'}} />
-          </View>
-          <View style={styles.boxFolderRow}>
-            <BoxFolderComponent title="Items to buy in the future" numItems='35' style={{backgroundColor:'#aebffc'}} />
-          </View>
+        <View style={styles.boxFolder}>
+          <BoxFolderComponent 
+            title="School" 
+            numItems='3' 
+            style={{backgroundColor:'#ffb5b9'}} 
+            addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
+          />
+          <BoxFolderComponent title="Work" numItems='17' style={{backgroundColor:'#b3b5ff'}} />
+          <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#47ff72'}} />
+          <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#b3b5ff'}} />
+          <BoxFolderComponent title="Items to buy in the future" numItems='35' style={{backgroundColor:'#aebffc'}} />
         </View>
       )};
 

@@ -18,12 +18,20 @@ export default StyleSheet.create({
         margin: 10,
         width: 200,
       },
+      TextInputWrong:{
+        borderWidth:3,
+        borderColor: 'red',
+        padding: 8,
+        margin: 10,
+        width: 200,
+      },
       appButtonContainer: {
         elevation: 8,
         backgroundColor: "#009688",
         borderRadius: 10,
         paddingVertical: 10,
-        paddingHorizontal: 12
+        paddingHorizontal: 12,
+        marginTop: 5
       },
       appButtonText: {
         fontSize: 18,

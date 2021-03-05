@@ -8,18 +8,11 @@ export default StyleSheet.create({
         justifyContent : 'flex-start',
     },
 
-    boxFolderRow:{
-        flex:1,
+    boxFolder:{
+        flex:.25,
         flexDirection:'row',
+        flexWrap : "wrap",
         alignItems:'center',
-        justifyContent:'space-around',
-        maxHeight:150,
-    },
-    
-    boxFolderColumn:{
-        flexDirection:'column',
-        alignItems:'center', 
         justifyContent:'space-between',
-        padding:10,
-    },
+    }
 });

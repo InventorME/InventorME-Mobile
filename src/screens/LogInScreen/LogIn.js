@@ -6,14 +6,14 @@ import { Text, View, Image } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
 import UserPool from "../UserPool";
-import data from "../../../db.json";
+import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 
 const HomeScreen = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = event => {
-    event.preventDefault();
+  const onSubmit = ()=> {
+    //event.preventDefault();
 
     const user = new CognitoUser({
       Username: email,
@@ -28,6 +28,7 @@ const HomeScreen = (props) => {
     user.authenticateUser(authDetails, {
       onSuccess: data => {
         console.log("onSuccess:", data);
+        props.navigation.navigate("MainPage");
       },
 
       onFailure: err => {
@@ -57,7 +58,7 @@ const HomeScreen = (props) => {
       />
       <TouchableOpacity
         style={styles.appButtonContainer}
-        onPress={()=>{props.navigation.navigate("MainPage")}}
+        onPress={()=>{onSubmit();}}
       >
         <Text style={styles.appButtonText}>Log In</Text>
       </TouchableOpacity>

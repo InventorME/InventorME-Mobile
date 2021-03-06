@@ -1,19 +1,35 @@
-/* eslint-disable react/jsx-indent */
-/* eslint-disable react/jsx-max-props-per-line */
-/* eslint-disable no-unused-vars */
 import React, {useState} from "react";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, Alert } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
 import UserPool from "../../util/UserPool";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 
+
 const HomeScreen = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = ()=> {
-    //preventDefault();
+  const createAlert = (title, msg) =>
+    Alert.alert(
+      title,
+      msg,
+      [
+        { text: "OK"}
+      ]
+    );
+  const validateUser = () =>{
+    if(email === "")
+      createAlert("Error", "Please Type Email");
+    else if(password === "")
+      createAlert("Error", "Please Type Password");
+    else
+      submit();
+
+  };
+
+  const submit = ()=> {
+ 
 
     const user = new CognitoUser({
       Username: email,
@@ -33,6 +49,7 @@ const HomeScreen = (props) => {
 
       onFailure: err => {
         console.error("onFailure:", err);
+        createAlert("Error", "Log In Failed: Please Try Again.");
       },
 
       newPasswordRequired: data => {
@@ -44,8 +61,9 @@ const HomeScreen = (props) => {
     <View style={styles.container}>
       <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
       <TextInput 
+       
         style={styles.TextInput}
-        placeholder='Username'
+        placeholder='Email'
         onChangeText={(val)=>setEmail(val)}
         value={email}
       />
@@ -58,7 +76,7 @@ const HomeScreen = (props) => {
       />
       <TouchableOpacity
         style={styles.appButtonContainer}
-        onPress={()=>{onSubmit();}}
+        onPress={()=>{validateUser();}}
       >
         <Text style={styles.appButtonText}>Log In</Text>
       </TouchableOpacity>
@@ -66,7 +84,7 @@ const HomeScreen = (props) => {
         style={styles.appButtonContainer}
         onPress={()=>props.navigation.navigate("CreateAccountScreen")}
       >
-        <Text style={styles.appButtonText}>Create Account</Text>
+        <Text style={styles.appButtonText}>Sign Up</Text>
       </TouchableOpacity>
 
     </View>

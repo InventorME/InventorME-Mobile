@@ -5,7 +5,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import styles from "./CreateAccountScreen.style";
 import UserPool from "../../util/UserPool";
 import { CognitoUserAttribute } from "amazon-cognito-identity-js";
-//import { ToastContainer, toast } from 'react-toastify';
 
 const CreateAccountScreen = (props) => {
 
@@ -128,15 +127,6 @@ const CreateAccountScreen = (props) => {
           <View style={styles.logo}>
             <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
           </View>
-          <View style={styles.child}>
-            <Text style={{color: '#009688'}}>Email:</Text>
-            <TextInput 
-              style={styles.TextInput}
-              placeholder='Email'
-              onChangeText={(text) => {setEmail(text)}}
-              value={email}
-            />
-          </View>
 
           <View style={styles.child}>
             <Text style={{color: '#009688'}}>First Name:</Text>
@@ -161,6 +151,7 @@ const CreateAccountScreen = (props) => {
           <View style={styles.child}>
             <Text style={{color: '#009688'}}>Phone Number:</Text>
             <TextInput   
+              keyboardType = 'numeric'
               type="number"
               style={styles.TextInput}
               placeholder='Phone Number'
@@ -170,6 +161,17 @@ const CreateAccountScreen = (props) => {
             />
           </View>
 
+          <View style={styles.child}>
+            <Text style={{color: '#009688'}}>Email:</Text>
+            <TextInput 
+              type="email"
+              style={styles.TextInput}
+              placeholder='Email'
+              onChangeText={(text) => {setEmail(text)}}
+              value={email}
+            />
+          </View>
+          
           <View style={styles.child}>
             <Text style={{color: '#009688'}}>Password:</Text>
             <TextInput    

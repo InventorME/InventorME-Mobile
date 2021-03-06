@@ -8,7 +8,7 @@ import date from "../DateScreen/date";
 import settings from "../SettingsScreen/settings";
 import UpperTab from "../../Components/UpperTab";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
-
+import profilePageNav from "../ProfilePage/profilePage"
 
 const categoriesNav = (props) => {
     const Drawer = createDrawerNavigator();
@@ -69,6 +69,13 @@ const categoriesNav = (props) => {
                 }}
           name="Settings"
           component={settings}
+        />
+        <Drawer.Screen
+          options={{
+                    title : "Profile"
+                }}
+          name="Profile"
+          component={profilePageNav}
         />
       </Drawer.Navigator>
     )

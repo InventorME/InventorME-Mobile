@@ -22,7 +22,7 @@ const UpperTab = props => {
           <TouchableOpacity
             onPress={props.profileNav}
           >
-            <MaterialCommunityIcons name='face-profile' size={30} color='black' />
+            <MaterialCommunityIcons name='magnify' size={30} color='black' />
           </TouchableOpacity>
         </View>
       </View>

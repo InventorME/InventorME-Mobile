@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { Text, View, Image, Alert } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
+import { AccountContext } from '../../util/Accounts';
 import UserPool from "../../util/UserPool";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 
@@ -10,6 +11,7 @@ const HomeScreen = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { authenticate } = useContext(AccountContext);
   const createAlert = (title, msg) =>
     Alert.alert(
       title,
@@ -29,33 +31,19 @@ const HomeScreen = (props) => {
   };
 
   const submit = ()=> {
+    authenticate(email, password)
+      .then(data =>{
+        //success
+        console.log('Logged in!', data);
+        props.navigation.navigate("MainPage");
+      })
+      .catch(err =>{
+        createAlert("Error", "Please Type Password");
+        console.error('Failed to login!', err);
+      })
  
 
-    const user = new CognitoUser({
-      Username: email,
-      Pool: UserPool
-    });
-    
-    const authDetails = new AuthenticationDetails({
-      Username: email,
-      Password: password
-    });
-
-    user.authenticateUser(authDetails, {
-      onSuccess: data => {
-        console.log("onSuccess:", data);
-        props.navigation.navigate("MainPage");
-      },
-
-      onFailure: err => {
-        console.error("onFailure:", err);
-        createAlert("Error", "Log In Failed: Please Try Again.");
-      },
-
-      newPasswordRequired: data => {
-        console.log("newPasswordRequired:", data);
-      }
-    });
+ 
   };
   return (
     <View style={styles.container}>

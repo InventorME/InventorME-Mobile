@@ -1,16 +1,25 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Image, SafeAreaView, StyleSheet } from "react-native";
 import { Avatar, Text, TouchableRipple } from 'react-native-paper';
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from "./profilePage.style";
+import { AccountContext } from '../../util/Accounts';
+
 
 
 
 const ProfilePageNav = (props) => {
 
+  const { logout } = useContext(AccountContext);
+  
+
+    const signOut = () =>{
+        logout();
+        props.navigation.navigate("HomeScreen");
+    };
     const phoneRegEx = new RegExp('/^[(]{0,1}[0-9]{3}[)]{0,1}[-s.]{0,1}[0-9]{3}[-/s.]{0,1}[0-9]{4}$/');
     
       return (
@@ -66,12 +75,23 @@ const ProfilePageNav = (props) => {
           </SafeAreaView>
 
           <SafeAreaView style={styles.container1}>
+
             <TouchableOpacity
               style={styles.appButtonContainer}
               onPress={()=>props.navigation.navigate("EditProfilePage")}
             >
               <Text style={styles.appButtonText}>Edit Profile</Text>
             </TouchableOpacity> 
+
+           
+          </SafeAreaView>
+          <SafeAreaView style={styles.container1}>
+            <TouchableOpacity
+                style={styles.appButtonContainer}
+               onPress={() =>signOut()}
+              >
+                <Text style={styles.appButtonText}>Sign Out</Text>
+            </TouchableOpacity>
           </SafeAreaView>
         </View>                
       );

@@ -34,24 +34,25 @@ const styles = StyleSheet.create({
     },
     itemCountContainer:{
       flexDirection:'row-reverse',
-      paddingLeft:"1.5%",
-      paddingBottom:"1.5%",
+      padding : "5%"
     }, 
     Box : {
       //flex:1,
-      margin : 5,
-      width : 195,
+      margin : '2%',
+      height : '70%',
+      width : '46%',
       backgroundColor : '#009688',
       padding:5,
       borderRadius:20,
     }, 
     boxText :{
       flex:1,
-      justifyContent:'center',
-      alignItems:"center"
+      // justifyContent:'center',
+      // alignItems:"center"
     },
     textStyle:{
       fontSize:25,
+      paddingTop: 9,
       color:"white",
     },
 });

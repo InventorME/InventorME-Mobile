@@ -13,6 +13,7 @@ export default StyleSheet.create({
         flexDirection:'row',
         flexWrap : "wrap",
         alignItems:'center',
-        justifyContent:'space-between',
+        // margin : '2%'
+        // justifyContent:'space-between',
     }
 });

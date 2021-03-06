@@ -1,10 +1,12 @@
 import React, { useState, useEffect} from 'react'
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Text, View, Image, StatusBar } from "react-native";
-import { render } from 'react-dom';
-import { FaArrowLeft } from 'react-icons/fa';
 import { FontAwesome } from '@expo/vector-icons';
 import styles from "./CreateAccountScreen.style";
+import UserPool from "../../util/UserPool";
+import { CognitoUserAttribute } from "amazon-cognito-identity-js";
+//import { ToastContainer, toast } from 'react-toastify';
+
 
 
 
@@ -13,63 +15,95 @@ const CreateAccountScreen = (props) => {
 
     const phoneRegEx = new RegExp('/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-/\s\.]{0,1}[0-9]{4}$/');
     
-    const [email, setEmail] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [phoneNum, setPhoneNum] = useState('')
-    const [password, setPassword] = useState('')
-    const [id, setID] = useState()
-    const [users, setUsers] = useState([])
-    
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [phone_number, setPhone] = useState('');
+    const [name, setName] = useState('');
+    const [family_name, setFamilyName] = useState('');
 
-    
+    const submit = event => {
 
-    useEffect(() => {
-        const getUsers = async () => {
-          const usersFromServer = await fetchUsers()
-          setUsers(usersFromServer)
+      const attributeList = [];
+
+      attributeList.push(new CognitoUserAttribute({
+        Name: 'name',
+        Value: name
+      }));
+
+      attributeList.push(new CognitoUserAttribute({
+        Name: 'phone_number',
+        Value: phone_number
+      }));
+
+      attributeList.push(new CognitoUserAttribute({
+        Name: 'family_name',
+        Value: family_name
+      }));
+
+      UserPool.signUp(email, password, attributeList, null, (err, data) => {
+        if (err){
+          console.error(err);
+        } 
+        //If no errors new user is created here
+        else{
+          props.navigation.navigate("MainPage");
+          console.log(data);
         }
-    
-        getUsers()
         
-      }, [])
+      });
 
-      // Fetch Users
-      const fetchUsers = async () => {
-          const res = await fetch('http://localhost:1234/users')
-          const data = await res.json()
-          return data
+    };
+    
+    const upperCheck = (str) =>{
+      if(str.toLowerCase() === str){
+        return false;
+      }
+      return true;
+    };
+    const lowerCheck = (str) => {
+      if(str.toUpperCase() === str){
+        return false;
+      }
+      return true;
+    };
+    const alphCheck = (str) => {
+      regex = /[a-zA-Z]/g;
+      return regex.test(str);
+    };
+    const numCheck = (str) => {
+      var regex = /\d/g;
+      return regex.test(str);
+    };
+    const phoneCheck = (num) => {
+      //insert phone number checking here
+      return true;
+    };
+    
+
+
+    const validateUser = () => {
+      if(name === ""){
+
+      }else if(family_name === ""){
+
+      }else if(!upperCheck(password)){
+
+      }else if(!lowerCheck(password)){
+
+      }else if(!numCheck(password)){
+
+      }else if(!alphCheck(password)){
+
+      }else if(password.length<8){
+
+      }else if(!phoneCheck(phone_number)){
+
+      }else{
+        submit();
       }
 
-    //   // Fetch User
-    //   const fetchUser = async (id) => {
-    //     const res = await fetch(`http://19af076a5754.ngrok.io/users/${id}`)
-    //     const data = await res.json()
-    //     return data
-    // }
-    // Add User
-    const addUser = async (email,firstName,lastName,phoneNum,password) => {
-        const tempID = Math.floor(Math.random() * 10000) +1;
-        // setID(tempID);
-        const updUsers = {email,firstName,lastName,phoneNum,password,id}
-        const res = await fetch('http://localhost:1234/users',{
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(updUsers)
+    };
 
-        })
-        const data = await res.json()
-        setUsers([...users, data])
-    }
-    // //Delete User
-    // const deleteUser = async (id) => {
-    //     await fetch(`http://19af076a5754.ngrok.io/isers/${id}`, {
-    //         method: 'DELETE'
-    //     })
-    //     //setUsers(users.filter(user) => user.id != id)
-    // }
     return (
       <View style={styles.Page}>
         <View style={styles.arrow}>
@@ -103,8 +137,8 @@ const CreateAccountScreen = (props) => {
             <TextInput
               style={styles.TextInput}
               placeholder='First Name'
-              onChangeText={(text) => { setFirstName(text)}}
-              value={firstName}
+              onChangeText={(text) => {setName(text)}}
+              value={name}
             />
           </View>
 
@@ -113,19 +147,20 @@ const CreateAccountScreen = (props) => {
             <TextInput 
               style={styles.TextInput}
               placeholder='Last Name'
-              onChangeText={(text) => {setLastName(text)}}
-              value={lastName}
+              onChangeText={(text) => {setFamilyName(text)}}
+              value={family_name}
             />
           </View>
 
           <View style={styles.child}>
             <Text style={{color: '#009688'}}>Phone Number:</Text>
             <TextInput   
+              type="number"
               style={styles.TextInput}
               placeholder='Phone Number'
-              validations={{matchRegexp:phoneRegEx}}
-              onChangeText={(text) => {setPhoneNum(text)}}
-              value={phoneNum}
+              //validations={{matchRegexp:phoneRegEx}}
+              onChangeText={(text) => {setPhone(text)}}
+              value={phone_number}
             />
           </View>
 
@@ -142,7 +177,7 @@ const CreateAccountScreen = (props) => {
           <View style={styles.logo}>
             <TouchableOpacity
               style={styles.appButtonContainer}
-              onPress={()=>{{addUser(email,firstName,lastName,phoneNum,password)};props.navigation.navigate("MainPage")}}
+              onPress={()=>{{validateUser()};}}
             >
               <Text style={styles.appButtonText}>Create Account</Text>
             </TouchableOpacity>

@@ -5,8 +5,8 @@ import React, {useState} from "react";
 import { Text, View, Image } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
-import UserPool from "../UserPool";
-import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js"
+import UserPool from "../../util/UserPool";
+import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 
 const HomeScreen = (props) => {
   const [email, setEmail] = useState("");

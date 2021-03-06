@@ -1,15 +1,11 @@
 import React, { useState, useEffect} from 'react'
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { Text, View, Image, StatusBar } from "react-native";
+import { Text, View, Image, StyleSheet, Button, Alert, StatusBar } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 import styles from "./CreateAccountScreen.style";
 import UserPool from "../../util/UserPool";
 import { CognitoUserAttribute } from "amazon-cognito-identity-js";
 //import { ToastContainer, toast } from 'react-toastify';
-
-
-
-
 
 const CreateAccountScreen = (props) => {
 
@@ -20,6 +16,16 @@ const CreateAccountScreen = (props) => {
     const [phone_number, setPhone] = useState('');
     const [name, setName] = useState('');
     const [family_name, setFamilyName] = useState('');
+
+    const createAlert = (title, msg) =>
+    Alert.alert(
+      title,
+      msg,
+      [
+        { text: "OK"}
+      ],
+      { cancelable: false }
+    );
 
     const submit = event => {
 
@@ -67,7 +73,7 @@ const CreateAccountScreen = (props) => {
       return true;
     };
     const alphCheck = (str) => {
-      regex = /[a-zA-Z]/g;
+      var regex = /[a-zA-Z]/g;
       return regex.test(str);
     };
     const numCheck = (str) => {
@@ -83,21 +89,21 @@ const CreateAccountScreen = (props) => {
 
     const validateUser = () => {
       if(name === ""){
-
+        createAlert("Create Account Error", "Please Type First Name");
       }else if(family_name === ""){
-
-      }else if(!upperCheck(password)){
-
-      }else if(!lowerCheck(password)){
-
-      }else if(!numCheck(password)){
-
-      }else if(!alphCheck(password)){
-
+        createAlert("Create Account Error", "Please Type Last Name");
       }else if(password.length<8){
-
+        createAlert("Create Account Error", "Password Must Be At Least 8 Characters Long");
+      }else if(!alphCheck(password)){
+        createAlert("Create Account Error", "Password Must Contain Letter");
+      }else if(!upperCheck(password)){
+        createAlert("Create Account Error", "Password Must Contain One Upper-Case Letter");
+      }else if(!lowerCheck(password)){
+        createAlert("Create Account Error", "Password Must Contain One Lower-Case Letter");
+      }else if(!numCheck(password)){
+        createAlert("Create Account Error", "Password Must Contain One Number");
       }else if(!phoneCheck(phone_number)){
-
+        createAlert("Create Account Error", "Phone Number Must Be At Least 9 Numbers Long");
       }else{
         submit();
       }

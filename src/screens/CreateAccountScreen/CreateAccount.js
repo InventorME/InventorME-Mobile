@@ -81,7 +81,12 @@ const CreateAccountScreen = (props) => {
     };
     const phoneCheck = (num) => {
       //insert phone number checking here
-      return true;
+      var regex = /^(\+1\d{3}\d{3}\d{4}$)/g
+      return regex.test(num);
+    };
+    const emailCheck = (str) => {
+      var regex = /^[a-zA-Z]+[0-9_.+-]*@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/g
+      return regex.test(str);
     };
     
 
@@ -103,7 +108,11 @@ const CreateAccountScreen = (props) => {
         createAlert("Create Account Error", "Password Must Contain One Number");
       }else if(!phoneCheck(phone_number)){
         createAlert("Create Account Error", "Phone Number Must Be At Least 9 Numbers Long");
-      }else{
+      }else if(!emailCheck(email)){
+        console.log("here", emailCheck(email))
+        createAlert("Create Account Error", "Email must be in the correct format 'Example@Example.Example'");
+      }
+      else{
         submit();
       }
 

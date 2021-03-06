@@ -27,7 +27,7 @@ const ProfilePageNav = (props) => {
           <View style={styles.arrow}>
             <TouchableOpacity
               style={styles.arrowButtonContainer}
-              onPress={()=>props.navigation.navigate("MainPage")}
+              onPress={()=>props.navigation.goBack()}
             >
               <FontAwesome name='arrow-left' color='#009688' size={45} />
             </TouchableOpacity>

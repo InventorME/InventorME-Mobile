@@ -13,8 +13,7 @@ import { AccountContext } from '../../util/Accounts';
 
 const ProfilePageNav = (props) => {
 
-  const { logout } = useContext(AccountContext);
-  
+  const { getSession, logout } = useContext(AccountContext);
 
     const signOut = () =>{
         logout();

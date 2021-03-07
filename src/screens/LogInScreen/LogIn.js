@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { Text, View, Image, Alert } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
@@ -10,8 +10,20 @@ import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 const HomeScreen = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { authenticate, getSession } = useContext(AccountContext);
 
-  const { authenticate } = useContext(AccountContext);
+
+  useEffect(() => {
+    getSession()
+      .then(session => {
+        console.log('Signed In:', "user found");
+        console.log('Session:', session);
+        props.navigation.navigate("MainPage");
+      }).catch(err => {
+        console.log('err:', "no user found");
+      })
+  }, []);
+  
   const createAlert = (title, msg) =>
     Alert.alert(
       title,

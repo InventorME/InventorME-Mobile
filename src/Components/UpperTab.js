@@ -2,7 +2,7 @@
 /* eslint-disable no-use-before-define */
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const UpperTab = props => {
@@ -12,7 +12,7 @@ const UpperTab = props => {
           <TouchableOpacity
             onPress={props.nav}
           >
-            <FontAwesome5 name="hamburger" size={30} color='black' />
+            <Ionicons name="menu" size={30} color='black' />
           </TouchableOpacity>
         </View>
         <View style={{alignItems:'center'}}>

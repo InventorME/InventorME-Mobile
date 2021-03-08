@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { Text, View, Image, StyleSheet, Button, Alert, StatusBar } from "react-native";
+import { Text, View, Image, ScrollView, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FontAwesome } from '@expo/vector-icons';
 import styles from "./CreateAccountScreen.style";
 import UserPool from "../../util/UserPool";
@@ -119,89 +120,97 @@ const CreateAccountScreen = (props) => {
     };
 
     return (
-      <View style={styles.Page}>
-        <View style={styles.arrow}>
-                
-          <TouchableOpacity
-            style={styles.arrowButtonContainer}
-            onPress={()=>props.navigation.navigate("HomeScreen")}
-          >
-            <FontAwesome name='arrow-left' color='#009688' size={45} />
-          </TouchableOpacity>
-                
-        </View>
-        <View style={styles.container}>
-                
-            
-          <View style={styles.logo}>
-            <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
-          </View>
+      <KeyboardAwareScrollView 
+        resetScrollToCoords = {{x : 0, y : 0}}
+        contentContainerStyle = {styles.Page}
+        scrollEnabled = {false}  
+      >
+        <TouchableWithoutFeedback onPress = {Keyboard.dismiss}>
+          <ScrollView contentContainerStyle={styles.Page}>
+            <View style={styles.arrow}>
+                  
+              <TouchableOpacity
+                style={styles.arrowButtonContainer}
+                onPress={()=>props.navigation.navigate("HomeScreen")}
+              >
+                <FontAwesome name='arrow-left' color='#009688' size={45} />
+              </TouchableOpacity>
+                  
+            </View>
+            <View style={styles.container}>
+                  
+              
+              <View style={styles.logo}>
+                <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
+              </View>
 
-          <View style={styles.child}>
-            <Text style={{color: '#009688'}}>First Name:</Text>
-            <TextInput
-              style={styles.TextInput}
-              placeholder='First Name'
-              onChangeText={(text) => {setName(text)}}
-              value={name}
-            />
-          </View>
+              <View style={styles.child}>
+                <Text style={{color: '#009688'}}>First Name:</Text>
+                <TextInput
+                  style={styles.TextInput}
+                  placeholder='First Name'
+                  onChangeText={(text) => {setName(text)}}
+                  value={name}
+                />
+              </View>
 
-          <View style={styles.child}>
-            <Text style={{color: '#009688' }}>Last Name:</Text>
-            <TextInput 
-              style={styles.TextInput}
-              placeholder='Last Name'
-              onChangeText={(text) => {setFamilyName(text)}}
-              value={family_name}
-            />
-          </View>
+              <View style={styles.child}>
+                <Text style={{color: '#009688' }}>Last Name:</Text>
+                <TextInput 
+                  style={styles.TextInput}
+                  placeholder='Last Name'
+                  onChangeText={(text) => {setFamilyName(text)}}
+                  value={family_name}
+                />
+              </View>
 
-          <View style={styles.child}>
-            <Text style={{color: '#009688'}}>Phone Number:</Text>
-            <TextInput   
-              keyboardType = 'numeric'
-              type="number"
-              style={styles.TextInput}
-              placeholder='Phone Number'
-              //validations={{matchRegexp:phoneRegEx}}
-              onChangeText={(text) => {setPhone(text)}}
-              value={phone_number}
-            />
-          </View>
+              <View style={styles.child}>
+                <Text style={{color: '#009688'}}>Phone Number:</Text>
+                <TextInput   
+                  keyboardType = 'numeric'
+                  type="number"
+                  style={styles.TextInput}
+                  placeholder='Phone Number'
+                  //validations={{matchRegexp:phoneRegEx}}
+                  onChangeText={(text) => {setPhone(text)}}
+                  value={phone_number}
+                />
+              </View>
 
-          <View style={styles.child}>
-            <Text style={{color: '#009688'}}>Email:</Text>
-            <TextInput 
-              type="email"
-              style={styles.TextInput}
-              placeholder='Email'
-              onChangeText={(text) => {setEmail(text)}}
-              value={email}
-            />
-          </View>
-          
-          <View style={styles.child}>
-            <Text style={{color: '#009688'}}>Password:</Text>
-            <TextInput    
-              secureTextEntry
-              style={styles.TextInput}
-              placeholder='Password'
-              onChangeText={(text) => {setPassword(text)}}
-              value={password}
-            />
-          </View>
-          <View style={styles.logo}>
-            <TouchableOpacity
-              style={styles.appButtonContainer}
-              onPress={()=>{{validateUser()};}}
-            >
-              <Text style={styles.appButtonText}>Create Account</Text>
-            </TouchableOpacity>
-          </View> 
+              <View style={styles.child}>
+                <Text style={{color: '#009688'}}>Email:</Text>
+                <TextInput 
+                  type="email"
+                  style={styles.TextInput}
+                  placeholder='Email'
+                  onChangeText={(text) => {setEmail(text)}}
+                  value={email}
+                />
+              </View>
+              
+              <View style={styles.child}>
+                <Text style={{color: '#009688'}}>Password:</Text>
+                <TextInput    
+                  secureTextEntry
+                  style={styles.TextInput}
+                  placeholder='Password'
+                  onChangeText={(text) => {setPassword(text)}}
+                  value={password}
+                />
+              </View>
+              <View style={styles.logo}>
+                <TouchableOpacity
+                  style={styles.appButtonContainer}
+                  onPress={()=>{{validateUser()};}}
+                >
+                  <Text style={styles.appButtonText}>Create Account</Text>
+                </TouchableOpacity>
+              </View> 
 
-        </View>
-      </View> 
+            </View>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView> 
     )
     
 }

@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from "react";
-import { Text, View, Image, Alert } from "react-native";
+import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
 import { AccountContext } from '../../util/Accounts';
@@ -58,36 +58,37 @@ const HomeScreen = (props) => {
  
   };
   return (
-    <View style={styles.container}>
-      <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
-      <TextInput 
+    <TouchableWithoutFeedback onPress = {Keyboard.dismiss}>
+      <View style={styles.container}>
+        <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
+        <TextInput 
        
-        style={styles.TextInput}
-        placeholder='Email'
-        onChangeText={(val)=>setEmail(val)}
-        value={email}
-      />
-      <TextInput
-        secureTextEntry
-        style={styles.TextInput}
-        placeholder='Password'
-        onChangeText={(val)=>setPassword(val)}
-        value={password}
-      />
-      <TouchableOpacity
-        style={styles.appButtonContainer}
-        onPress={()=>{validateUser();}}
-      >
-        <Text style={styles.appButtonText}>Log In</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.appButtonContainer}
-        onPress={()=>props.navigation.navigate("CreateAccountScreen")}
-      >
-        <Text style={styles.appButtonText}>Sign Up</Text>
-      </TouchableOpacity>
-
-    </View>
+          style={styles.TextInput}
+          placeholder='Email'
+          onChangeText={(val)=>setEmail(val)}
+          value={email}
+        />
+        <TextInput
+          secureTextEntry
+          style={styles.TextInput}
+          placeholder='Password'
+          onChangeText={(val)=>setPassword(val)}
+          value={password}
+        />
+        <TouchableOpacity
+          style={styles.appButtonContainer}
+          onPress={()=>{validateUser();}}
+        >
+          <Text style={styles.appButtonText}>Log In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.appButtonContainer}
+          onPress={()=>props.navigation.navigate("CreateAccountScreen")}
+        >
+          <Text style={styles.appButtonText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableWithoutFeedback>
 );};
 
 export default HomeScreen;

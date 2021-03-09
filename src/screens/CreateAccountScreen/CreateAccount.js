@@ -167,7 +167,6 @@ const CreateAccountScreen = (props) => {
               <View style={styles.child}>
                 <Text style={{color: '#009688'}}>Phone Number:</Text>
                 <TextInput   
-                  keyboardType = 'numeric'
                   type="number"
                   style={styles.TextInput}
                   placeholder='Phone Number'

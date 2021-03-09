@@ -23,7 +23,8 @@ export default StyleSheet.create({
         backgroundColor: "#009688",
         borderRadius: 10,
         paddingVertical: 10,
-        paddingHorizontal: 12
+        paddingHorizontal: 12,
+        margin : 5
       },
       appButtonText: {
         fontSize: 18,

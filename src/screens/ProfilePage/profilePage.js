@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable react/jsx-indent-props */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { View, Image, SafeAreaView, StyleSheet } from "react-native";
@@ -34,8 +36,7 @@ const ProfilePageNav = (props) => {
               />
               <View style={styles.child}>
                 <View>
-                  <Text style={{fontWeight: "bold", color:"#000000", fontSize:25, alignSelf: 'center', }}>John Doe</Text>
-                  <Text style={{color:"#bbbbc5", fontSize:12, alignSelf: 'center', }}>@j_doe</Text>
+                  <Text style={{fontWeight: "bold", color:"#000000", fontSize:25, alignSelf: 'center', }}>John Doe</Text> 
                 </View>
               </View>
             </View>
@@ -72,6 +73,12 @@ const ProfilePageNav = (props) => {
             >
               <Text style={styles.appButtonText}>Edit Profile</Text>
             </TouchableOpacity> 
+            <TouchableOpacity
+              style={styles.appButtonContainer}
+              onPress={() =>signOut()}
+            >
+              <Text style={styles.appButtonText}>Sign Out</Text>
+            </TouchableOpacity>
           </SafeAreaView>
         </View>                
       );

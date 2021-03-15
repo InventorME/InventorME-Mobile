@@ -51,9 +51,7 @@ function myStack() {
           <Stack.Screen
             name = "ItemsScreen"
             component = {Items}
-          />
-        
-
+          />        
       </Stack.Navigator>
       </Account>
     </NavigationContainer>  

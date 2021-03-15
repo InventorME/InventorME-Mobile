@@ -21,7 +21,7 @@ const Account = props => {
                 if (err) {
                   reject(err)
                 } else {
-                  console.log('attributes:', attributes)
+                  // console.log('attributes:', attributes)
                   const results = {}
 
                   for (let attribute of attributes) {
@@ -61,7 +61,7 @@ const Account = props => {
             reject();
           } 
           if (session) {
-            console.log("Imma here3");
+            // console.log("Imma here3");
             user.setSignInUserSession(session);
             
           }
@@ -79,7 +79,7 @@ const Account = props => {
       user.authenticateUser(authDetails, {
         onSuccess: data => {
           // console.log("onSuccess:", data);
-          console.log("new stuff");
+          // console.log("new stuff");
           resolve(data);
           setSession();
         },

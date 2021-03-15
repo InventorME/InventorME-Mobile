@@ -8,127 +8,114 @@
 /* eslint-disable camelcase */
 /* eslint-disable spaced-comment */
 /* eslint-disable no-lone-blocks */
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, Component} from 'react'
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { Text, View, Image, ScrollView, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Text, View, Image, ScrollView, Alert, TouchableWithoutFeedback, Keyboard, AppState } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FontAwesome } from '@expo/vector-icons';
 import styles from "./editProfilePage.style";
 import UserPool from "../../util/UserPool";
+import { AccountContext } from '../../util/Accounts';
 import { CognitoUserAttribute } from "amazon-cognito-identity-js";
+import { render } from 'react-dom';
 
-const EditProfilePage = (props) => {
-
-    const phoneRegEx = new RegExp('/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-/\s\.]{0,1}[0-9]{4}$/');
+class EditProfilePage extends Component {
+  static contextType = AccountContext
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      name: '',
+      family_name: '',
+      email: '',
+      phone_number: '',
+    }
+    this.validateUser = this.validateUser.bind(this);
+    this.saveChanges = this.saveChanges.bind(this);
+    this.nameOnChange = this.nameOnChange.bind(this);
     
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [phone_number, setPhone] = useState('');
-    const [name, setName] = useState('');
-    const [family_name, setFamilyName] = useState('');
-
-    const createAlert = (title, msg) =>
+  }
+  componentDidMount() {
+    const { getSession } = this.context;
+    getSession()
+      .then((data) => { 
+        this.setState({ name: data.name })
+        this.setState({ family_name: data.family_name })
+        this.setState({ email: data.email })
+        this.setState({ phone_number: data.phone_number })
+      })
+      .catch(err =>{
+        console.log(err);
+        alert("Error: No user found, please sign in again");
+    });
+  }
+  
+  createAlert(title, msg){
     Alert.alert(
       title,
       msg,
-      [
-        { text: "OK"}
-      ],
-      { cancelable: false }
-    );
+      [{ text: "OK"}],{ cancelable: false })
+    }
 
-    const submit = event => {
-
-      const attributeList = [];
-
-      attributeList.push(new CognitoUserAttribute({
-        Name: 'name',
-        Value: name
-      }));
-
-      attributeList.push(new CognitoUserAttribute({
-        Name: 'phone_number',
-        Value: phone_number
-      }));
-
-      attributeList.push(new CognitoUserAttribute({
-        Name: 'family_name',
-        Value: family_name
-      }));
-
-      UserPool.signUp(email, password, attributeList, null, (err, data) => {
-        if (err){
-          console.error(err);
-        } 
-        //If no errors new user is created here
-        else{
-          props.navigation.navigate("ProfilePage");
-          console.log(data);
-        }
-        
-      });
-
-    };
-    
-    const upperCheck = (str) =>{
-      if(str.toLowerCase() === str){
-        return false;
-      }
-      return true;
-    };
-    const lowerCheck = (str) => {
-      if(str.toUpperCase() === str){
-        return false;
-      }
-      return true;
-    };
-    const alphCheck = (str) => {
-      var regex = /[a-zA-Z]/g;
-      return regex.test(str);
-    };
-    const numCheck = (str) => {
-      var regex = /\d/g;
-      return regex.test(str);
-    };
-    const phoneCheck = (num) => {
+    phoneCheck(num){
       //insert phone number checking here
       var regex = /^(\+1\d{3}\d{3}\d{4}$)/g
       return regex.test(num);
     };
-    const emailCheck = (str) => {
-      var regex = /^[a-zA-Z]+[0-9_.+-]*@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/g
-      return regex.test(str);
-    };
+
+    nameOnChange = (event) => {
+      this.setState({name: event});
+    }
+    lastNameOnChange = (event) => {
+      this.setState({family_name: event});
+    }
+    phoneOnChange = (event) => {
+      this.setState({phone_number: event});
+    }
+    
+    saveChanges(){
+      const { getSession } = this.context;
+      getSession().then(({ user }) => {
+        const attributes = [];
+        attributes.push(new CognitoUserAttribute({
+          Name: 'name',
+          Value: this.state.name
+        }));
+        attributes.push(new CognitoUserAttribute({
+          Name: 'phone_number',
+          Value: this.state.phone_number
+        }));
+        attributes.push(new CognitoUserAttribute({
+          Name: 'family_name',
+          Value: this.state.family_name
+        }));
+  
+        user.updateAttributes(attributes, (err, result) => {
+          if(err){
+            console.error(err);
+            this.createAlert("Error","Could Not Save Changes");
+          } 
+          this.props.navigation.navigate("ProfilePage");
+          // console.log(result);
+        });
+      });
+    }
+    
     
 
 
-    const validateUser = () => {
-      if(name === ""){
-        createAlert("Saving Error", "Please Type First Name");
-      }else if(family_name === ""){
-        createAlert("Saving Error", "Please Type Last Name");
-      }else if(password.length<8){
-        createAlert("Saving Error", "Password Must Be At Least 8 Characters Long");
-      }else if(!alphCheck(password)){
-        createAlert("Saving Error", "Password Must Contain Letter");
-      }else if(!upperCheck(password)){
-        createAlert("Saving Error", "Password Must Contain One Upper-Case Letter");
-      }else if(!lowerCheck(password)){
-        createAlert("Saving Error", "Password Must Contain One Lower-Case Letter");
-      }else if(!numCheck(password)){
-        createAlert("Saving Error", "Password Must Contain One Number");
-      }else if(!phoneCheck(phone_number)){
-        createAlert("Saving Error", "Phone Number Must Be At Least 9 Numbers Long");
-      }else if(!emailCheck(email)){
-        console.log("here", emailCheck(email))
-        createAlert("Saving Error", "Email must be in the correct format 'Example@Example.Example'");
+    validateUser(){
+      if(this.state.name === ""){
+        this.createAlert("Saving Error", "Please Type First Name");
+      }else if(this.state.family_name === ""){
+        this.createAlert("Saving Error", "Please Type Last Name");
+      }else if(!this.phoneCheck(this.state.phone_number)){
+        this.createAlert("Saving Error", "Phone Number Must Be At Least 9 Numbers Long");
+      }else{
+        this.saveChanges();
       }
-      else{
-        submit();
-      }
-
-    };
-
+    }
+    render(){
     return (
       <KeyboardAwareScrollView 
         resetScrollToCoords = {{x : 0, y : 0}}
@@ -142,7 +129,7 @@ const EditProfilePage = (props) => {
                     
                 <TouchableOpacity
                     style={styles.arrowButtonContainer}
-                    onPress={()=>props.navigation.navigate("ProfilePage")}
+                    onPress={()=>this.props.navigation.goBack()}
                 >
                     <FontAwesome name='arrow-left' color='#009688' size={45} />
                 </TouchableOpacity>
@@ -172,8 +159,8 @@ const EditProfilePage = (props) => {
                 <TextInput
                   style={styles.TextInput}
                   placeholder='First Name'
-                  onChangeText={(text) => {setName(text)}}
-                  value={name}
+                  onChangeText={this.nameOnChange}
+                  value={this.state.name}
                 />
               </View>
 
@@ -182,8 +169,8 @@ const EditProfilePage = (props) => {
                 <TextInput 
                   style={styles.TextInput}
                   placeholder='Last Name'
-                  onChangeText={(text) => {setFamilyName(text)}}
-                  value={family_name}
+                  onChangeText={this.lastNameOnChange}
+                  value={this.state.family_name}
                 />
               </View>
 
@@ -193,37 +180,15 @@ const EditProfilePage = (props) => {
                   type="number"
                   style={styles.TextInput}
                   placeholder='Phone Number'
-                  //validations={{matchRegexp:phoneRegEx}}
-                  onChangeText={(text) => {setPhone(text)}}
-                  value={phone_number}
+                  onChangeText={this.phoneOnChange}
+                  value={this.state.phone_number}
                 />
               </View>
 
-              <View style={styles.child}>
-                <Text style={{color: '#009688'}}>Email:</Text>
-                <TextInput 
-                  type="email"
-                  style={styles.TextInput}
-                  placeholder='Email'
-                  onChangeText={(text) => {setEmail(text)}}
-                  value={email}
-                />
-              </View>
-              
-              <View style={styles.child}>
-                <Text style={{color: '#009688'}}>Password:</Text>
-                <TextInput    
-                  secureTextEntry
-                  style={styles.TextInput}
-                  placeholder='Password'
-                  onChangeText={(text) => {setPassword(text)}}
-                  value={password}
-                />
-              </View>
               <View style={styles.logo}>
                 <TouchableOpacity
                   style={styles.appButtonContainer}
-                  onPress={()=>{{validateUser()};}}
+                  onPress={this.validateUser}
                 >
                   <Text style={styles.appButtonText}>Save</Text>
                 </TouchableOpacity>
@@ -233,7 +198,8 @@ const EditProfilePage = (props) => {
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView> 
-    )
+    );
+  }
     
 }
 

@@ -27,26 +27,26 @@ function myStack() {
           component={HomeScreen}
         />
         
-          <Stack.Screen
-            name="MainPage"
-            component={MainPageNav}
-          />
-          <Stack.Screen
-            name="CreateAccountScreen"
-            component={CreateAccountScreen}
-          />
-          <Stack.Screen
-            name="ProfilePage"
-            component={ProfilePageNav}
-          />
-          <Stack.Screen
-            name="AddItemScreen"
-            component={addItemScreen}
-          />
-          <Stack.Screen
-            name="EditProfilePage"
-            component={EditProfilePage}
-          />
+        <Stack.Screen
+          name="MainPage"
+          component={MainPageNav}
+        />
+        <Stack.Screen
+          name="CreateAccountScreen"
+          component={CreateAccountScreen}
+        />
+        <Stack.Screen
+          name="ProfilePage"
+          component={ProfilePageNav}
+        />
+        <Stack.Screen
+          name="AddItemScreen"
+          component={addItemScreen}
+        />
+        <Stack.Screen
+          name="EditProfilePage"
+          component={EditProfilePage}
+        />
         
 
       </Stack.Navigator>

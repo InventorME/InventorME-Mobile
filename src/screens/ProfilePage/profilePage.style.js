@@ -19,6 +19,15 @@ export default StyleSheet.create({
       backgroundColor: '#fff',
       
     },
+    signOutBtn: {
+      alignItems: 'flex-end',
+      justifyContent: 'flex-start',
+      paddingTop: 55,
+      paddingEnd: 100,
+      paddingLeft: 190,
+      backgroundColor: '#fff',
+
+  },
     container1: {
         flex:1,
         justifyContent: 'center',
@@ -60,6 +69,15 @@ export default StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12
+      },
+      signOutButtonContainer: {
+        elevation: 8,
+        backgroundColor: "#e01f0d",
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        
+        
       },
       appButtonText: {
         fontSize: 18,

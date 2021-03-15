@@ -7,40 +7,69 @@ const AccountContext = createContext();
 const Account = props => {
   const getSession = async () =>
     await new Promise((resolve, reject) => {
+      const user = Pool.getCurrentUser()
+      if(user.getSignInUserSession()){
+        console.log("USER FOUND");
+      }
+      else if (user) {
+        user.getSession(async (err, session) => {
+          if (err) {
+            reject()
+          } else {
+            const attributes = await new Promise((resolve, reject) => {
+              user.getUserAttributes((err, attributes) => {
+                if (err) {
+                  reject(err)
+                } else {
+                  console.log('attributes:', attributes)
+                  const results = {}
+
+                  for (let attribute of attributes) {
+                    const { Name, Value } = attribute
+                    results[Name] = Value
+                  }
+
+                  resolve(results)
+                }
+              })
+            })
+
+            const token = session.getIdToken().getJwtToken()
+
+            resolve({
+              user,
+              headers: {
+                'x-api-key': attributes['custom:apikey'],
+                Authorization: token,
+              },
+              ...session,
+              ...attributes,
+            })
+          }
+        })
+      } else {
+        reject()
+      }
+    })
+
+  const setSession = async () =>
+    await new Promise((resolve, reject) => {
       const user = Pool.getCurrentUser();
       if (user) {
         user.getSession(async (err, session) => {
           if (err) {
             reject();
-          } else {
-            const attributes = await new Promise((resolve, reject) => {
-              user.getUserAttributes((err, attributes) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  const results = {};
-
-                  for (let attribute of attributes) {
-                    const { Name, Value } = attribute;
-                    results[Name] = Value;
-                  }
-
-                  resolve(results);
-                }
-              });
-            });
-
-            resolve({
-              user,
-              ...session,
-              ...attributes
-            });
+          } 
+          if (session) {
+            console.log("Imma here3");
+            user.setSignInUserSession(session);
+            
           }
         });
       } else {
         reject();
       }
-    });
+  })
 
   const authenticate = async (Username, Password) =>
     await new Promise((resolve, reject) => {
@@ -49,8 +78,10 @@ const Account = props => {
 
       user.authenticateUser(authDetails, {
         onSuccess: data => {
-          console.log("onSuccess:", data);
+          // console.log("onSuccess:", data);
+          console.log("new stuff");
           resolve(data);
+          setSession();
         },
 
         onFailure: err => {

@@ -1,23 +1,43 @@
 import React, {useState, useContext, useEffect} from "react";
-import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback, Component, AppState } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { useFocusEffect } from '@react-navigation/native';
 import styles from "./LogIn.style";
 import { AccountContext } from '../../util/Accounts';
 import UserPool from "../../util/UserPool";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 
 
-const HomeScreen = (props) => {
+
+const HomeScreen  = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
   const { authenticate, getSession } = useContext(AccountContext);
+  const [appState, setAppState] = useState(AppState.currentState);
 
-
-  useEffect(() => {
-    getSession()
+  useFocusEffect(
+    React.useCallback(() =>{
+      console.log("here");
+      getSession()
       .then(session => {
         console.log('Signed In:', "user found");
         console.log('Session:', session);
+        props.navigation.navigate("MainPage");
+      }).catch(err => {
+        console.log('err:', "no user found");
+      })
+    })
+  );
+
+
+
+  useEffect(() => {
+    
+    getSession()
+      .then(session => {
+        console.log('Signed In:', "user found");
+        // console.log('Session:', session);
         props.navigation.navigate("MainPage");
       }).catch(err => {
         console.log('err:', "no user found");
@@ -46,7 +66,7 @@ const HomeScreen = (props) => {
     authenticate(email, password)
       .then(data =>{
         //success
-        console.log('Logged in!', data);
+        // console.log('Logged in!', data);
         props.navigation.navigate("MainPage");
       })
       .catch(err =>{

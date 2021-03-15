@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, Component } from "react";
 import { View, Image, SafeAreaView, StyleSheet } from "react-native";
 import { Avatar, Text, TouchableRipple } from 'react-native-paper';
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
@@ -10,23 +10,54 @@ import { AccountContext } from '../../util/Accounts';
 
 
 
+class ProfilePageNav extends Component{
+  static contextType = AccountContext
+  constructor(props) {
+    super(props);
+    this.state = {email: '', password: '', phone_number: '', name: '', family_name: ''}
+    this.signOut = this.signOut.bind(this);
+    // phoneRegEx = new RegExp('/^[(]{0,1}[0-9]{3}[)]{0,1}[-s.]{0,1}[0-9]{3}[-/s.]{0,1}[0-9]{4}$/');
 
-const ProfilePageNav = (props) => {
+  }
 
-  const { getSession, logout } = useContext(AccountContext);
+  // const { getSession, logout } = useContext(AccountContext);
 
-    const signOut = () =>{
+  componentDidMount() {
+    console.log("Conversion Worked!!");
+    const { getSession } = this.context;
+    getSession()
+      .then((data) => { 
+        this.setState({ name: data.name })
+        this.setState({ family_name: data.family_name })
+        this.setState({ email: data.email })
+        this.setState({ phone_number: data.phone_number })
+        // this.setState({ userProfilePic: res.userProfilePicURL })
+        // console.log("Data:",data);
+        // console.log("Name:",data.name);
+      
+        
+      })
+      .catch(err =>{
+        console.log(err);
+        // alert("Error: No user found, please sign in again");
+        this.props.navigation.navigate("HomeScreen");
+    });
+
+  }
+    signOut(){
+      const {logout} = this.context;
         logout();
-        props.navigation.navigate("HomeScreen");
-    };
-    const phoneRegEx = new RegExp('/^[(]{0,1}[0-9]{3}[)]{0,1}[-s.]{0,1}[0-9]{3}[-/s.]{0,1}[0-9]{4}$/');
+        this.props.navigation.navigate("HomeScreen");
+    }
     
+    
+    render(){
       return (
         <View style={styles.Page}>
           <View style={styles.arrow}>
             <TouchableOpacity
               style={styles.arrowButtonContainer}
-              onPress={()=>props.navigation.goBack()}
+              onPress={()=>this.props.navigation.goBack()}
             >
               <FontAwesome name='arrow-left' color='#009688' size={45} />
             </TouchableOpacity>
@@ -42,7 +73,7 @@ const ProfilePageNav = (props) => {
               />
               <View style={styles.child}>
                 <View>
-                  <Text style={{fontWeight: "bold", color:"#000000", fontSize:25, alignSelf: 'center', }}>John Doe</Text>
+                  <Text style={{fontWeight: "bold", color:"#000000", fontSize:25, alignSelf: 'center', }}>{this.state.name} {this.state.family_name}</Text>
                   <Text style={{color:"#bbbbc5", fontSize:12, alignSelf: 'center', }}>@j_doe</Text>
                 </View>
               </View>
@@ -54,21 +85,14 @@ const ProfilePageNav = (props) => {
             <View style={{flexDirection:"row", marginLeft: 100, }}>
               <Icon name="phone" color="#009688" size={50} />
               <View style={styles.child}>
-                <Text style={{color:"#777777", fontSize:20, marginHorizontal:20 }}>123-456-7890</Text>
+                <Text style={{color:"#777777", fontSize:20, marginHorizontal:20 }}>{this.state.phone_number}</Text>
               </View>
             </View>
             <Text style={{color:"#777777", fontSize:10, marginLeft: 170, marginTop: 20, }}>Email:</Text>
             <View style={{flexDirection:"row", marginLeft: 100, }}>
               <Icon name="mail" color="#009688" size={50} />
               <View style={styles.child}>
-                <Text style={{color:"#777777", fontSize:20, marginHorizontal:20  }}>j_doe@gmail.com</Text>
-              </View>
-            </View>
-            <Text style={{color:"#777777", fontSize:10, marginLeft: 170, marginTop: 20, }}>Creation Date:</Text>
-            <View style={{flexDirection:"row", marginLeft: 100, }}>
-              <Icon name="calendar" color="#009688" size={50} />
-              <View style={styles.child}>
-                <Text style={{color:"#777777", fontSize:20, marginHorizontal:20  }}>2-25-2021</Text>
+                <Text style={{color:"#777777", fontSize:20, marginHorizontal:20  }}>{this.state.email}</Text>
               </View>
             </View>
           </SafeAreaView>
@@ -77,7 +101,7 @@ const ProfilePageNav = (props) => {
 
             <TouchableOpacity
               style={styles.appButtonContainer}
-              onPress={()=>props.navigation.navigate("EditProfilePage")}
+              onPress={()=>this.props.navigation.navigate("EditProfilePage")}
             >
               <Text style={styles.appButtonText}>Edit Profile</Text>
             </TouchableOpacity> 
@@ -87,12 +111,13 @@ const ProfilePageNav = (props) => {
           <SafeAreaView style={styles.container1}>
             <TouchableOpacity
                 style={styles.appButtonContainer}
-               onPress={() =>signOut()}
+               onPress={this.signOut}
               >
                 <Text style={styles.appButtonText}>Sign Out</Text>
             </TouchableOpacity>
           </SafeAreaView>
         </View>                
       );
-};
+                  }
+}
 export default ProfilePageNav;

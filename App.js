@@ -9,6 +9,7 @@ import CreateAccountScreen from "./src/screens/CreateAccountScreen/CreateAccount
 import ProfilePageNav from "./src/screens/ProfilePage/profilePage";
 import addItemScreen from './src/screens/addItemScreen/addItem';
 import EditProfilePage from "./src/screens/EditProfilePage/editProfilePage";
+import Items from "./src/screens/ItemsScreen/Items";
 
 
 
@@ -46,6 +47,10 @@ function myStack() {
           <Stack.Screen
             name="EditProfilePage"
             component={EditProfilePage}
+          />
+          <Stack.Screen
+            name = "ItemsScreen"
+            component = {Items}
           />
         
 

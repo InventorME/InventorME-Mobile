@@ -81,15 +81,15 @@ const categoriesNav = (props) => {
     )
 }
 
-const categories = () => {
+const categories = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <DrawBoxes/>
+      <DrawBoxes navigation = {navigation}/>
     </View>
   );  
 };
 
-const DrawBoxes = () => {
+const DrawBoxes = props => {
   return(
     <View style={styles.boxFolder}>
       <BoxFolderComponent 
@@ -97,11 +97,36 @@ const DrawBoxes = () => {
         numItems='3' 
         style={{backgroundColor:'#ffb5b9'}} 
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
+        itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
       />
-      <BoxFolderComponent title="Work" numItems='17' style={{backgroundColor:'#b3b5ff'}} />
-      <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#47ff72'}} />
-      <BoxFolderComponent title="Groceries" numItems='20' style={{backgroundColor:'#b3b5ff'}} />
-      <BoxFolderComponent title="Items to buy in the future" numItems='35' style={{backgroundColor:'#aebffc'}} />
+      <BoxFolderComponent 
+        title="Work" 
+        numItems='17' 
+        style={{backgroundColor:'#b3b5ff'}} 
+        addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
+        itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}} 
+      />
+      <BoxFolderComponent 
+        title="Groceries" 
+        numItems='20' 
+        style={{backgroundColor:'#47ff72'}}
+        addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
+        itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
+      />
+      <BoxFolderComponent 
+        title="Groceries" 
+        numItems='20' 
+        style={{backgroundColor:'#b3b5ff'}} 
+        addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
+        itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
+      />
+      <BoxFolderComponent 
+      title="Items to buy in the future" 
+      numItems='35' 
+      style={{backgroundColor:'#aebffc'}} 
+      addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
+      itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
+      />
     </View>
   )
 };

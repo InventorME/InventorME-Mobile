@@ -1,14 +1,15 @@
 /* eslint-disable no-use-before-define */
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
-
-
 
 const BoxFolderComponent = props => {
     return (
-      <View {...props} style={{...styles.Box, ...props.style}}>
+      <TouchableOpacity {...props} 
+        style={{...styles.Box, ...props.style}}
+        onPress = {props.itemsNavigate}
+      
+      >
         <View style={{padding:5}}>
           <TouchableOpacity
             onPress={props.addPageNavigate}
@@ -25,7 +26,7 @@ const BoxFolderComponent = props => {
             {props.numItems}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
 }
 const styles = StyleSheet.create({

@@ -8,7 +8,7 @@ import MainPageNav from "./src/screens/MainPage/mainPage";
 import CreateAccountScreen from "./src/screens/CreateAccountScreen/CreateAccount";
 import ProfilePageNav from "./src/screens/ProfilePage/profilePage";
 import addItemScreen from './src/screens/addItemScreen/addItem';
-import EditProfilePage from './src/screens/EditProfilePage/editProfilePage';
+// import EditProfilePage from './src/screens/EditProfilePage/editProfilePage';
 
 
 
@@ -43,10 +43,10 @@ function myStack() {
             name="AddItemScreen"
             component={addItemScreen}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="EditProfilePage"
             component={EditProfilePage}
-          />
+          /> */}
         
 
       </Stack.Navigator>

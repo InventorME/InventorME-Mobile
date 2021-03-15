@@ -16,19 +16,19 @@ const HomeScreen  = (props) => {
   const { authenticate, getSession } = useContext(AccountContext);
   const [appState, setAppState] = useState(AppState.currentState);
 
-  useFocusEffect(
-    React.useCallback(() =>{
-      console.log("here");
-      getSession()
-      .then(session => {
-        console.log('Signed In:', "user found");
-        console.log('Session:', session);
-        props.navigation.navigate("MainPage");
-      }).catch(err => {
-        console.log('err:', "no user found");
-      })
-    })
-  );
+  // useFocusEffect(
+  //   React.useCallback(() =>{
+  //     console.log("here");
+  //     getSession()
+  //     .then(session => {
+  //       console.log('Signed In:', "user found");
+  //       console.log('Session:', session);
+  //       props.navigation.navigate("MainPage");
+  //     }).catch(err => {
+  //       console.log('err:', "no user found");
+  //     })
+  //   })
+  // );
 
 
 

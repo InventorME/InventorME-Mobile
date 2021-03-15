@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -7,6 +8,7 @@ import MainPageNav from "./src/screens/MainPage/mainPage";
 import CreateAccountScreen from "./src/screens/CreateAccountScreen/CreateAccount";
 import ProfilePageNav from "./src/screens/ProfilePage/profilePage";
 import addItemScreen from './src/screens/addItemScreen/addItem';
+import EditProfilePage from './src/screens/EditProfilePage/editProfilePage';
 
 
 
@@ -40,6 +42,10 @@ function myStack() {
           <Stack.Screen
             name="AddItemScreen"
             component={addItemScreen}
+          />
+          <Stack.Screen
+            name="EditProfilePage"
+            component={EditProfilePage}
           />
         
 

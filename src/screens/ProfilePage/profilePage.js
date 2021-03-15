@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable react/jsx-indent-props */
 /* eslint-disable no-unused-vars */
 import React, { useState, useContext, useEffect, Component } from "react";
 import { View, Image, SafeAreaView, StyleSheet } from "react-native";

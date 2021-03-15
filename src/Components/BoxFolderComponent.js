@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     Box : {
       //flex:1,
       margin : '2%',
-      height : '70%',
+      height : '90%',
       width : '46%',
       backgroundColor : '#009688',
       padding:5,

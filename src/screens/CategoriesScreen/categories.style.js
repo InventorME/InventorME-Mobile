@@ -9,11 +9,9 @@ export default StyleSheet.create({
     },
 
     boxFolder:{
-        flex:.25,
+        flex: .25,
+        backgroundColor : "black",
         flexDirection:'row',
         flexWrap : "wrap",
-        alignItems:'center',
-        // margin : '2%'
-        // justifyContent:'space-between',
     }
 });

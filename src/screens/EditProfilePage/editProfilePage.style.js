@@ -19,11 +19,21 @@ export default StyleSheet.create({
       backgroundColor: '#fff',
       
     },
-    container1: {
+    deleteBtn: {
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
+        paddingTop: 65,
+        paddingEnd: 100,
+        paddingLeft: 200,
+        backgroundColor: '#fff',
+
+    },
+    container: {
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff'
+        
       },
       logo: {
         
@@ -49,11 +59,9 @@ export default StyleSheet.create({
       appButtonContainer: {
         elevation: 8,
         backgroundColor: "#009688",
-        // marginLeft: 135,
         borderRadius: 10,
         paddingVertical: 10,
-        paddingHorizontal: 12,
-        marginTop: 10
+        paddingHorizontal: 12
       },
       arrowButtonContainer: {
         elevation: 8,
@@ -61,18 +69,28 @@ export default StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 12
       },
+      deleteButtonContainer: {
+        elevation: 8,
+        backgroundColor: "#e01f0d",
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        
+        
+      },
+      deleteButtonText: {
+        fontSize: 14,
+        color: "#fff",
+        fontWeight: "bold",
+        alignItems: "center",
+        justifyContent: "center",
+        textTransform: "uppercase"
+      },
       appButtonText: {
         fontSize: 18,
         color: "#fff",
         fontWeight: "bold",
-        alignSelf: "center",
+        alignItems: "center",
         textTransform: "uppercase"
-      },
-    container2: {
-        flex:2,
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        backgroundColor: '#fff'
-    }
-      
+      }
 });

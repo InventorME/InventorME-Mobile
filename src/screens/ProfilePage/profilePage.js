@@ -1,3 +1,7 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/static-property-placement */
+/* eslint-disable react/no-unused-state */
+/* eslint-disable lines-between-class-members */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable no-unused-vars */
@@ -76,7 +80,6 @@ class ProfilePageNav extends Component{
               <View style={styles.child}>
                 <View>
                   <Text style={{fontWeight: "bold", color:"#000000", fontSize:25, alignSelf: 'center', }}>{this.state.name} {this.state.family_name}</Text>
-                  <Text style={{color:"#bbbbc5", fontSize:12, alignSelf: 'center', }}>@j_doe</Text>
                 </View>
               </View>
             </View>
@@ -107,14 +110,10 @@ class ProfilePageNav extends Component{
             >
               <Text style={styles.appButtonText}>Edit Profile</Text>
             </TouchableOpacity> 
-
-           
-          </SafeAreaView>
-          <SafeAreaView style={styles.container1}>
             <TouchableOpacity
                 style={styles.appButtonContainer}
                onPress={this.signOut}
-              >
+            >
                 <Text style={styles.appButtonText}>Sign Out</Text>
             </TouchableOpacity>
           </SafeAreaView>

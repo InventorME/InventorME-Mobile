@@ -9,6 +9,7 @@ import CreateAccountScreen from "./src/screens/CreateAccountScreen/CreateAccount
 import ProfilePageNav from "./src/screens/ProfilePage/profilePage";
 import addItemScreen from './src/screens/addItemScreen/addItem';
 import EditProfilePage from "./src/screens/EditProfilePage/editProfilePage";
+import Items from "./src/screens/ItemsScreen/Items";
 
 
 
@@ -26,7 +27,6 @@ function myStack() {
           name="HomeScreen"
           component={HomeScreen}
         />
-        
         <Stack.Screen
           name="MainPage"
           component={MainPageNav}
@@ -47,8 +47,10 @@ function myStack() {
           name="EditProfilePage"
           component={EditProfilePage}
         />
-        
-
+        <Stack.Screen
+          name = "ItemsScreen"
+          component = {Items}
+        />
       </Stack.Navigator>
       </Account>
     </NavigationContainer>  

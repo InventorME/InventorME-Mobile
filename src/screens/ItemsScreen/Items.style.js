@@ -6,5 +6,12 @@ export default StyleSheet.create({
         backgroundColor : '#fff',
         alignItems : 'center',
         justifyContent : 'center',
-    }
+    },
+    addItemContainer: {
+        elevation: 8,
+        backgroundColor: "#009688",
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 12
+      }
 });

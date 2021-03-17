@@ -6,5 +6,19 @@ export default StyleSheet.create({
         backgroundColor : '#fff',
         alignItems : 'center',
         justifyContent : 'center',
-    }
+    },
+    arrow: {
+        alignItems:'flex-start',
+        justifyContent: 'flex-end',
+        paddingTop: 50,
+        paddingStart: 30,
+        backgroundColor: 'lightgray',
+        
+      },
+      arrowButtonContainer: {
+        elevation: 8,
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 12
+      }
 });

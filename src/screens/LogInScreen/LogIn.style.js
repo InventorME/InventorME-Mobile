@@ -1,11 +1,17 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-    container: {
-        flex:1,
+      mainContainer: {
+        flex:2,
         backgroundColor:'#fff',
-        alignItems:'center',
         justifyContent:'center',
+      },
+      container:{
+        flex:3,
+        backgroundColor:'#fff',
+        justifyContent:'center',
+        alignItems:'center',
+        bottom:'10%',
       },
       Image:{
         height:70,
@@ -24,7 +30,14 @@ export default StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12,
+        top:'150%',
         margin : 5
+      },
+      signUpButton:{
+        margin : 15,
+        alignSelf:'flex-end',
+        position:'relative',
+        top:25,
       },
       appButtonText: {
         fontSize: 18,
@@ -32,5 +45,13 @@ export default StyleSheet.create({
         fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase"
+      },
+      signUpText: {
+        fontSize: 20,
+        color: "#009688",
+        fontWeight: "bold",
+        alignSelf: "center",
+        textTransform: "uppercase",
+        textDecorationLine: 'underline',
       }
 });

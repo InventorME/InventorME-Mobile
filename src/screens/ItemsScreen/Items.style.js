@@ -7,16 +7,9 @@ export default StyleSheet.create({
         alignItems : 'center',
         justifyContent : 'center',
     },
-    arrow: {
-        alignItems:'flex-start',
-        justifyContent: 'flex-end',
-        paddingTop: 50,
-        paddingStart: 30,
-        backgroundColor: 'lightgray',
-        
-      },
-      arrowButtonContainer: {
+    addItemContainer: {
         elevation: 8,
+        backgroundColor: "#009688",
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12

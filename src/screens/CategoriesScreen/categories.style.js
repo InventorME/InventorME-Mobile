@@ -10,7 +10,7 @@ export default StyleSheet.create({
 
     boxFolder:{
         flex: .25,
-        backgroundColor : "black",
+        backgroundColor : "#fff",
         flexDirection:'row',
         flexWrap : "wrap",
     }

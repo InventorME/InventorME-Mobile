@@ -1,6 +1,4 @@
-import { JSDOM } from "jsdom";
-const { window } = new JSDOM( "" );
-const $ = require( "jquery" )( window );
+import $ from "jquery";
 
 var urly = "https://3cv3j619jg.execute-api.us-east-2.amazonaws.com/test/inventorme-items";
 

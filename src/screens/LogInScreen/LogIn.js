@@ -6,7 +6,7 @@ import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import styles from "./LogIn.style";
 import { AccountContext } from '../../util/Accounts';
 import UserPool from "../../util/UserPool";
-
+const { Database } = require('../../util/Database');
 
 
 const HomeScreen  = (props) => {
@@ -15,22 +15,6 @@ const HomeScreen  = (props) => {
   
   const { authenticate, getSession } = useContext(AccountContext);
   const [appState, setAppState] = useState(AppState.currentState);
-
-  // useFocusEffect(
-  //   React.useCallback(() =>{
-  //     console.log("here");
-  //     getSession()
-  //     .then(session => {
-  //       console.log('Signed In:', "user found");
-  //       console.log('Session:', session);
-  //       props.navigation.navigate("MainPage");
-  //     }).catch(err => {
-  //       console.log('err:', "no user found");
-  //     })
-  //   })
-  // );
-
-
 
   useEffect(() => {
     

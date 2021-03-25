@@ -36,7 +36,7 @@ const BoxFolderComponent = props => {
   else {
     return (
       <TouchableOpacity
-        style = {styles.Box2}
+        style = {{...styles.Box2, ...props.style}}
       >
         <View style = {styles.boxText2}>
           <Text style = {styles.textStyle2}>{props.title}</Text>
@@ -63,12 +63,13 @@ const styles = StyleSheet.create({
       borderRadius:20,
     },
     Box2 : {
-      margin : "2%",
-      height : "90%",
-      width : "96%",
-      backgroundColor : '#009688',
+      //margin : "2%",
+      height : "100%",
+      width : "100%",
       padding:"2%",
-      borderRadius:20,
+      borderBottomColor : "black",
+      borderBottomWidth : 3
+      //borderRadius:20,
     }, 
     boxText1 :{
       flex:1,
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     },
     textStyle2 : {
       fontSize : 30,
-      color : "white",
+      color : "black",
     }
 });
 export default BoxFolderComponent;

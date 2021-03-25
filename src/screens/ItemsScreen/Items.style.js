@@ -8,7 +8,7 @@ export default StyleSheet.create({
         justifyContent : 'flex-start',
     },
     boxRow : {
-        flex : .1,
+        flex : .2,
         flexDirection : 'row',
         flexWrap : 'wrap',
     },

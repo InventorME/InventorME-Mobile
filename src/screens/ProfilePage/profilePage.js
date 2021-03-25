@@ -21,17 +21,10 @@ class ProfilePageNav extends Component {
 
   constructor(props) {
     super(props);
-    // let db = new Database();
     this.state = { email: '', password: '', phone_number: '', name: '', family_name: '', appState: AppState.currentState }
     this.signOut = this.signOut.bind(this);
     
-    
-    // phoneRegEx = new RegExp('/^[(]{0,1}[0-9]{3}[)]{0,1}[-s.]{0,1}[0-9]{3}[-/s.]{0,1}[0-9]{4}$/');
-    // this._handleAppStateChange = this._handleAppStateChange.bind(this);
   }
-
-  // const { getSession, logout } = useContext(AccountContext);
-
   componentDidMount() {
     this.setState({ appState: AppState.currentState });
     AppState.addEventListener("change", this._handleAppStateChange);

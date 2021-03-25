@@ -1,6 +1,4 @@
-//one of these should work probably?
 const fetch = require('node-fetch');
-// import {fetch} from "node-fetch";
 
 var urly = "https://3cv3j619jg.execute-api.us-east-2.amazonaws.com/test/inventorme-items";
 
@@ -62,10 +60,6 @@ export class Database{
         });
     }
 }
-
-
-
-
 
 //THIS IS FOR TESTING PURPOSES ONLY
 // {

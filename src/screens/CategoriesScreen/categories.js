@@ -37,35 +37,35 @@ const categoriesNav = (props) => {
       >
         <Drawer.Screen
           options={{
-                    title : "Categories"
+                    title : "Items"
                 }}
           name="Categories"
           component={categories}
         />
         <Drawer.Screen
           options={{
-                    title : "Photos"
+                    title : "Collections"
                 }}
           name="Photos"
           component={photos}
         />
         <Drawer.Screen
           options={{
-                    title : "Completed"
-                }}
-          name="Completed"
-          component={completed}
-        />
-        <Drawer.Screen
-          options={{
-                    title : "Date"
+                    title : "Folders"
                 }}
           name="Date"
           component={date}
         />
         <Drawer.Screen
           options={{
-                    title : "Settings"
+                    title : "Archive"
+                }}
+          name="Completed"
+          component={completed}
+        />
+        <Drawer.Screen
+          options={{
+                    title : "Stats"
                 }}
           name="Settings"
           component={settings}

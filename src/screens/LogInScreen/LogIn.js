@@ -1,34 +1,37 @@
-import React, {useState, useContext, useEffect} from "react";
-import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback, Component, AppState } from "react-native";
+import React, {useState, useContext, useEffect, Component} from "react";
+import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback, AppState } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { useFocusEffect } from '@react-navigation/native';
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import styles from "./LogIn.style";
 import { AccountContext } from '../../util/Accounts';
 import UserPool from "../../util/UserPool";
-const { Database } = require('../../util/Database');
+import { Database } from '../../util/Database';
 
 
-const HomeScreen  = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
-  const { authenticate, getSession } = useContext(AccountContext);
-  const [appState, setAppState] = useState(AppState.currentState);
+class HomeScreen extends Component{
+  static contextType = AccountContext
 
-  useEffect(() => {
-    
+  constructor(props){
+    super(props);
+    this.state = {email: '', password: ''}
+    this.validateUser = this.validateUser.bind(this);
+    this.submit = this.submit.bind(this);
+    this.emailOnChange = this.emailOnChange.bind(this);
+    this.passwordOnChange = this.passwordOnChange.bind(this);
+  }
+  componentDidMount() {
+    const { getSession } = this.context;
     getSession()
       .then(session => {
         console.log('Signed In:', "user found");
-        // console.log('Session:', session);
-        props.navigation.navigate("MainPage");
+        this.props.navigation.navigate("MainPage");
       }).catch(err => {
         console.log('err:', "no user found");
       })
-  }, []);
-  
-  const createAlert = (title, msg) =>
+  }
+
+  createAlert = (title, msg) =>
     Alert.alert(
       title,
       msg,
@@ -36,66 +39,73 @@ const HomeScreen  = (props) => {
         { text: "OK"}
       ]
     );
-  const validateUser = () =>{
-    if(email === "")
-      createAlert("Error", "Please Type Email");
-    else if(password === "")
-      createAlert("Error", "Please Type Password");
+
+  emailOnChange = (event) =>{ this.setState({email: event}); }
+  passwordOnChange = (event) =>{ this.setState({password: event}); }
+
+  validateUser = () =>{
+    console.log("email", this.state.email);
+    console.log("password", this.state.password);
+    if(this.state.email == "")
+      this.createAlert("Error", "Please Type Email");
+    else if(this.state.password == "")
+      this.createAlert("Error", "Please Type Password");
     else
-      submit();
+      this.submit();
 
   };
-
-  const submit = ()=> {
-    authenticate(email, password)
+  submit = ()=> {
+    const { authenticate } = this.context;
+    authenticate(this.state.email, this.state.password)
       .then(data =>{
         // success
-        // console.log('Logged in!', data);
-        props.navigation.navigate("MainPage");
+        console.log('Logged in!', data);
+        this.props.navigation.navigate("MainPage");
       })
       .catch(err =>{
-        createAlert("Error", "Please Type Password");
+        this.createAlert("Error", "Email or Password Are Incorrect");
         console.error('Failed to login!', err);
       })
- 
-
- 
   };
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.mainContainer}>
-        <View style={{flex:1,alignItems:'flex-end'}}>
-          <TouchableOpacity
-            style={styles.signUpButton}
-            onPress={()=>props.navigation.navigate("CreateAccountScreen")}
-          >
-            <Text style={styles.signUpText}>Sign Up</Text>
-          </TouchableOpacity>
+
+  render(){
+    return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.mainContainer}>
+          <View style={{flex:1,alignItems:'flex-end'}}>
+            <TouchableOpacity
+              style={styles.signUpButton}
+              onPress={()=>this.props.navigation.navigate("CreateAccountScreen")}
+            >
+              <Text style={styles.signUpText}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.container}>
+            <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
+            <TextInput 
+              style={styles.TextInput}
+              placeholder='Email'
+              onChangeText={this.emailOnChange}
+              value={this.email}
+            />
+            <TextInput
+              secureTextEntry
+              style={styles.TextInput}
+              placeholder='Password'
+              onChangeText={this.passwordOnChange}
+              value={this.password}
+            />
+            <TouchableOpacity
+              style={styles.appButtonContainer}
+              onPress={this.validateUser}
+            >
+              <Text style={styles.appButtonText}>Log In</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.container}>
-          <Image source={require('../../../assets/appImages/InventorMELogo.png')} />
-          <TextInput 
-            style={styles.TextInput}
-            placeholder='Email'
-            onChangeText={(val)=>setEmail(val)}
-            value={email}
-          />
-          <TextInput
-            secureTextEntry
-            style={styles.TextInput}
-            placeholder='Password'
-            onChangeText={(val)=>setPassword(val)}
-            value={password}
-          />
-          <TouchableOpacity
-            style={styles.appButtonContainer}
-            onPress={()=>{validateUser();}}
-          >
-            <Text style={styles.appButtonText}>Log In</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-);};
+      </TouchableWithoutFeedback>
+    );
+  }
+}
 
 export default HomeScreen;

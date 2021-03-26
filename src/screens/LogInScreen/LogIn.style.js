@@ -30,7 +30,7 @@ export default StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12,
-        top:'150%',
+        marginTop:'25%',
         margin : 5
       },
       signUpButton:{

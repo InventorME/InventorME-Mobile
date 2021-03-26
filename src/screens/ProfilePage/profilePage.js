@@ -10,28 +10,21 @@ import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "./profilePage.style";
-import { AccountContext } from "../../util/Accounts";
+import { AccountContext } from '../../util/Accounts';
+const { Database } = require('../../util/Database');
+
+
 
 class ProfilePageNav extends Component {
-  static contextType = AccountContext;
+  static contextType = AccountContext
+  
 
   constructor(props) {
     super(props);
-    this.state = {
-      email: "",
-      password: "",
-      phone_number: "",
-      name: "",
-      family_name: "",
-      appState: AppState.currentState,
-    };
+    this.state = { email: '', password: '', phone_number: '', name: '', family_name: '', appState: AppState.currentState }
     this.signOut = this.signOut.bind(this);
-    // phoneRegEx = new RegExp('/^[(]{0,1}[0-9]{3}[)]{0,1}[-s.]{0,1}[0-9]{3}[-/s.]{0,1}[0-9]{4}$/');
-    // this._handleAppStateChange = this._handleAppStateChange.bind(this);
+    
   }
-
-  // const { getSession, logout } = useContext(AccountContext);
-
   componentDidMount() {
     this.setState({ appState: AppState.currentState });
     AppState.addEventListener("change", this._handleAppStateChange);

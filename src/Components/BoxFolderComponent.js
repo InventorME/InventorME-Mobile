@@ -4,21 +4,24 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 const BoxFolderComponent = props => {
+
+  const type = props.boxType;
+
+  if (type == 1) {
     return (
-      <TouchableOpacity {...props} 
-        style={{...styles.Box, ...props.style}}
+      <TouchableOpacity 
+        style={{...styles.Box1, ...props.style}}
         onPress = {props.itemsNavigate}
-      
       >
-        <View style={{padding:5}}>
+        <View style={{padding: "2%"}}>
           <TouchableOpacity
             onPress={props.addPageNavigate}
           >
             <AntDesign name='pluscircle' size={30} color="white"  />
           </TouchableOpacity>
         </View>
-        <View style={styles.boxText}>
-          <Text style={styles.textStyle}>{props.title}</Text>
+        <View style={styles.boxText1}>
+          <Text style={styles.textStyle1}>{props.title}</Text>
         </View>
         <View style={styles.itemCountContainer}>
           <Text style={styles.itemsText}>
@@ -28,6 +31,19 @@ const BoxFolderComponent = props => {
         </View>
       </TouchableOpacity>
     );
+  }
+
+  else {
+    return (
+      <TouchableOpacity
+        style = {{...styles.Box2, ...props.style}}
+      >
+        <View style = {styles.boxText2}>
+          <Text style = {styles.textStyle2}>{props.title}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
 }
 const styles = StyleSheet.create({
     itemsText:{
@@ -37,7 +53,7 @@ const styles = StyleSheet.create({
       flexDirection:'row-reverse',
       padding : "5%"
     }, 
-    Box : {
+    Box1 : {
       //flex:1,
       margin : '2%',
       height : '90%',
@@ -45,16 +61,34 @@ const styles = StyleSheet.create({
       backgroundColor : '#009688',
       padding:5,
       borderRadius:20,
+    },
+    Box2 : {
+      //margin : "2%",
+      height : "100%",
+      width : "100%",
+      padding:"2%",
+      borderBottomColor : "black",
+      borderBottomWidth : 3
+      //borderRadius:20,
     }, 
-    boxText :{
+    boxText1 :{
       flex:1,
       // justifyContent:'center',
       // alignItems:"center"
     },
-    textStyle:{
+    boxText2 :{
+      flex:1,
+      justifyContent : 'center',
+      alignItems : "center"
+    },
+    textStyle1 :{
       fontSize:25,
       paddingTop: 9,
       color:"white",
     },
+    textStyle2 : {
+      fontSize : 30,
+      color : "black",
+    }
 });
 export default BoxFolderComponent;

@@ -92,40 +92,45 @@ const categories = ({navigation}) => {
 const DrawBoxes = props => {
   return(
     <View style={styles.boxFolder}>
-      <BoxFolderComponent 
+      <BoxFolderComponent
+        boxType = {1} 
         title="School" 
         numItems='3' 
         style={{backgroundColor:'#ffb5b9'}} 
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
         itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
       />
-      <BoxFolderComponent 
+      <BoxFolderComponent
+        boxType = {1} 
         title="Work" 
         numItems='17' 
         style={{backgroundColor:'#b3b5ff'}} 
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
         itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}} 
       />
-      <BoxFolderComponent 
+      <BoxFolderComponent
+        boxType = {1} 
         title="Groceries" 
         numItems='20' 
         style={{backgroundColor:'#47ff72'}}
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
         itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
       />
-      <BoxFolderComponent 
+      <BoxFolderComponent
+        boxType = {1} 
         title="Groceries" 
         numItems='20' 
         style={{backgroundColor:'#b3b5ff'}} 
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
         itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
       />
-      <BoxFolderComponent 
-      title="Items to buy in the future" 
-      numItems='35' 
-      style={{backgroundColor:'#aebffc'}} 
-      addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
-      itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
+      <BoxFolderComponent
+        boxType = {1} 
+        title="Items to buy in the future" 
+        numItems='35' 
+        style={{backgroundColor:'#aebffc'}} 
+        addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
+        itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
       />
     </View>
   )

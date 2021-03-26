@@ -10,7 +10,7 @@ import { Database } from '../../util/Database';
 
 
 class HomeScreen extends Component{
-  static contextType = AccountContext
+  static contextType = AccountContext;
 
   constructor(props){
     super(props);
@@ -20,6 +20,7 @@ class HomeScreen extends Component{
     this.emailOnChange = this.emailOnChange.bind(this);
     this.passwordOnChange = this.passwordOnChange.bind(this);
   }
+
   componentDidMount() {
     const { getSession } = this.context;
     getSession()
@@ -41,6 +42,7 @@ class HomeScreen extends Component{
     );
 
   emailOnChange = (event) =>{ this.setState({email: event}); }
+
   passwordOnChange = (event) =>{ this.setState({password: event}); }
 
   validateUser = () =>{
@@ -54,6 +56,7 @@ class HomeScreen extends Component{
       this.submit();
 
   };
+
   submit = ()=> {
     const { authenticate } = this.context;
     authenticate(this.state.email, this.state.password)

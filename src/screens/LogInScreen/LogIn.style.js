@@ -34,10 +34,14 @@ export default StyleSheet.create({
         margin : 5
       },
       signUpButton:{
-        margin : 15,
-        alignSelf:'flex-end',
-        position:'relative',
-        top:25,
+        elevation: 8,
+        backgroundColor: "#009688",
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        marginTop:'15%',
+        marginRight:'4%',
+        margin : 5
       },
       appButtonText: {
         fontSize: 18,
@@ -48,10 +52,9 @@ export default StyleSheet.create({
       },
       signUpText: {
         fontSize: 20,
-        color: "#009688",
+        color: "#fff",
         fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase",
-        textDecorationLine: 'underline',
       }
 });

@@ -10,6 +10,8 @@ import { Database } from '../../util/Database';
 
 
 class HomeScreen extends Component{
+  
+  // eslint-disable-next-line react/static-property-placement
   static contextType = AccountContext;
 
   constructor(props){
@@ -48,9 +50,9 @@ class HomeScreen extends Component{
   validateUser = () =>{
     console.log("email", this.state.email);
     console.log("password", this.state.password);
-    if(this.state.email == "")
+    if(this.state.email === "")
       this.createAlert("Error", "Please Type Email");
-    else if(this.state.password == "")
+    else if(this.state.password === "")
       this.createAlert("Error", "Please Type Password");
     else
       this.submit();

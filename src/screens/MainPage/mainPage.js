@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
 import categoriesNav from "../CategoriesScreen/categories";
@@ -30,7 +30,7 @@ const MainPageNav = () => {
           component={addItem}
           options={{
               tabBarIcon : ({color, size}) => {
-                return (<AntDesign name="pluscircle" size={size} color={color} />);
+                return (<AntDesign name="plus" size={size} color={color} />);
               } 
             }}
         />
@@ -50,7 +50,7 @@ const MainPageNav = () => {
           component={scanItem}
           options={{
               tabBarIcon : ({color, size}) => {
-                return (<Entypo name="camera" size={size} color={color} />)
+                return (<MaterialCommunityIcons name="barcode" size={size} color={color} />)
               }
             }}
         />

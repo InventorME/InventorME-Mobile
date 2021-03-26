@@ -1,10 +1,10 @@
 const fetch = require('node-fetch');
 
-var urly = "https://3cv3j619jg.execute-api.us-east-2.amazonaws.com/test/inventorme-items";
+var url = "https://3cv3j619jg.execute-api.us-east-2.amazonaws.com/test/inventorme-items";
 
 export class Database{
     get(userEmail){
-        let queryURL = urly + "?userEmail='" + userEmail +"'";
+        let queryURL = url + "?userEmail='" + userEmail +"'";
         return new Promise((resolve, reject)=>{
             fetch(queryURL)
             .then(res => resolve(res.json()))
@@ -18,7 +18,7 @@ export class Database{
                 body: JSON.stringify(item),
                 headers: { 'Content-Type': 'application/json' }
             }
-            fetch(urly,postData)
+            fetch(url,postData)
             .then(res => resolve(res.json()))
             .catch(err => reject(err))
         });
@@ -30,7 +30,7 @@ export class Database{
                 body: JSON.stringify(item),
                 headers: { 'Content-Type': 'application/json' }
             }
-            fetch(urly,putData)
+            fetch(url,putData)
             .then(res => resolve(res.json()))
             .catch(err => reject(err))
         });
@@ -42,7 +42,7 @@ export class Database{
                 body: JSON.stringify(id),
                 headers: { 'Content-Type': 'application/json' }
             }
-            fetch(urly,deleteData)
+            fetch(url,deleteData)
             .then(res => resolve(res.json()))
             .catch(err => reject(err))
         });
@@ -54,7 +54,7 @@ export class Database{
                 body: JSON.stringify(email),
                 headers: { 'Content-Type': 'application/json' }
             }
-            fetch(urly,deleteData)
+            fetch(url,deleteData)
             .then(res => resolve(res.json()))
             .catch(err => reject(err))
         });

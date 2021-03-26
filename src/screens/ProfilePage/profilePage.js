@@ -11,7 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "./profilePage.style";
 import { AccountContext } from '../../util/Accounts';
-const { Database } = require('../../util/Database');
+import { Database } from '../../util/Database';
 
 
 

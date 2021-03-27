@@ -1,12 +1,10 @@
-import React, {useState, useContext, useEffect, Component} from "react";
-import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback, AppState } from "react-native";
+import React, {Component} from "react";
+import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { useFocusEffect } from '@react-navigation/native';
-import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import styles from "./LogIn.style";
 import { AccountContext } from '../../util/Accounts';
-import UserPool from "../../util/UserPool";
-import { Database } from '../../util/Database';
+import { User } from '../../util/User';
+
 
 
 class HomeScreen extends Component{
@@ -19,6 +17,8 @@ class HomeScreen extends Component{
     this.submit = this.submit.bind(this);
     this.emailOnChange = this.emailOnChange.bind(this);
     this.passwordOnChange = this.passwordOnChange.bind(this);
+    // this.setUsers = this.setUsers.bind(this);
+    //  this.getUsers = this.getUsers.bind(this);
   }
   componentDidMount() {
     const { getSession } = this.context;
@@ -28,7 +28,11 @@ class HomeScreen extends Component{
         this.props.navigation.navigate("MainPage");
       }).catch(err => {
         console.log('err:', "no user found");
+        //  this.getUsers();
+        
       })
+      
+      
   }
 
   createAlert = (title, msg) =>
@@ -43,6 +47,9 @@ class HomeScreen extends Component{
   emailOnChange = (event) =>{ this.setState({email: event}); }
   passwordOnChange = (event) =>{ this.setState({password: event}); }
 
+
+
+
   validateUser = () =>{
     if(this.state.email == "")
       this.createAlert("Error", "Please Type Email");
@@ -52,12 +59,31 @@ class HomeScreen extends Component{
       this.submit();
 
   };
+
+  // async getUsers(){
+  //   const us = new User();
+  //   try{
+  //         const user = await us.getUser();
+  //         console.log(user);
+  //         this.props.navigation.navigate("MainPage");
+  //     } catch(error){
+  //         console.log(error);
+  //     }
+  // }
+
+  // setUsers(session){
+  //   const us = new User();
+  //   us.setUser(JSON.stringify(session));
+  // }
+
   submit = ()=> {
+    
     const { authenticate } = this.context;
     authenticate(this.state.email, this.state.password)
       .then(data =>{
         // console.log('Logged in!', data);
         this.props.navigation.navigate("MainPage");
+        // this.setUsers(data);
       })
       .catch(err =>{
         this.createAlert("Error", "Email or Password Are Incorrect");

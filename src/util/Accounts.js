@@ -1,17 +1,17 @@
 import React, { createContext } from "react";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import Pool from "./UserPool";
+import { User } from '../util/User';
 
 const AccountContext = createContext();
+const us = new User();
 
 const Account = props => {
+
   const getSession = async () =>
     await new Promise((resolve, reject) => {
       const user = Pool.getCurrentUser()
-      if(user.getSignInUserSession()){
-        console.log("USER FOUND");
-      }
-      else if (user) {
+      if (user) {
         user.getSession(async (err, session) => {
           if (err) {
             reject()
@@ -52,24 +52,16 @@ const Account = props => {
       }
     })
 
-  const setSession = async () =>
-    await new Promise((resolve, reject) => {
-      const user = Pool.getCurrentUser();
-      if (user) {
-        user.getSession(async (err, session) => {
-          if (err) {
-            reject();
-          } 
-          if (session) {
-            // console.log("Imma here3");
-            user.setSignInUserSession(session);
-            
-          }
-        });
-      } else {
-        reject();
-      }
-  })
+  // const setBoth = async(use, session) =>{
+  //   us.setUser(use);
+  //   us.setSession(session);
+  //   const user = Pool.getCurrentUser();
+  //   if (user) {
+  //     user.setSignInUserSession(session);
+  //   } else {
+  //     reject();
+  //   }
+  // }
 
   const authenticate = async (Username, Password) =>
     await new Promise((resolve, reject) => {
@@ -78,17 +70,13 @@ const Account = props => {
 
       user.authenticateUser(authDetails, {
         onSuccess: data => {
-          // console.log("onSuccess:", data);
-          // console.log("new stuff");
+          // setBoth(user, data);
           resolve(data);
-          setSession();
         },
-
         onFailure: err => {
           console.error("onFailure:", err);
           reject(err);
         },
-
         newPasswordRequired: data => {
           console.log("newPasswordRequired:", data);
           resolve(data);
@@ -97,12 +85,10 @@ const Account = props => {
     });
 
   const logout = () => {
-  
     const user = Pool.getCurrentUser();
     if (user) {
       console.log("User Signed Out");
       user.signOut();
-      
     }
   };
 

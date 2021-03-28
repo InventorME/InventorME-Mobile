@@ -36,9 +36,11 @@ const CreateAccountScreen = (props) => {
       try{
         await Auth.signUp({username: email, password: password, attributes: attributeList});
         // console.log('User Created!');
-        createAlert("Account Created","Please confirm account by clicking on the email sent to your inbox");
+        // const user = await Auth.signIn(email, password);
+        createAlert("NOTE","Please confirm account by clicking on the link sent to your email, then sign in");
         this.props.navigation.navigate("HomeScreen");
       }catch(error){
+        createAlert("Error","There was an error creating your account. Please try again.");
         console.log('create user error: ', error);
       }
     };

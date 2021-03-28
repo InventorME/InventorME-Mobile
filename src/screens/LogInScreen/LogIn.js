@@ -49,11 +49,12 @@ class HomeScreen extends Component{
 
   submit = async ()=> {
     try{
-      const user = await Auth.signIn(email, password);
+      const user = await Auth.signIn(this.state.email, this.state.password);
       // console.log('Logged in!', user);
       this.props.navigation.navigate("MainPage");
     }catch(error){
-      this.createAlert("Error", "Email or Password Are Incorrect");
+      console.log(error);
+      this.createAlert("Sign In Error", "Please Make Sure Account Is Confirmed. Please Check Email or Password Are Correct");
     }
   };
 

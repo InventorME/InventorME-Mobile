@@ -25,26 +25,7 @@ const MainPageNav = () => {
             showLabel : false
           }}
       >
-        <Tab.Screen
-          name="addItem"
-          component={addItem}
-          options={{
-              tabBarIcon : ({color, size}) => {
-                return (<AntDesign name="plus" size={size} color={color} />);
-              } 
-            }}
-        />
-  
-        <Tab.Screen
-          name="Categories"
-          component={categoriesNav}
-          options={{
-              tabBarIcon : ({color, size}) => {
-                return (<FontAwesome name="home" size={size} color={color} />);
-              }
-            }}
-        />
-  
+       
         <Tab.Screen
           name="scanItem"
           component={scanItem}
@@ -54,6 +35,26 @@ const MainPageNav = () => {
               }
             }}
         />
+        <Tab.Screen
+          name="Categories"
+          component={categoriesNav}
+          options={{
+              tabBarIcon : ({color, size}) => {
+                return (<FontAwesome name="home" size={size} color={color} />);
+              }
+            }}
+        />
+         <Tab.Screen
+          name="addItem"
+          component={addItem}
+          options={{
+              tabBarIcon : ({color, size}) => {
+                return (<AntDesign name="plus" size={size} color={color} />);
+              } 
+            }}
+        />
+  
+        
       </Tab.Navigator>
     );
   };

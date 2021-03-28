@@ -48,8 +48,6 @@ class HomeScreen extends Component{
   passwordOnChange = (event) =>{ this.setState({password: event}); }
 
   validateUser = () =>{
-    console.log("email", this.state.email);
-    console.log("password", this.state.password);
     if(this.state.email === "")
       this.createAlert("Error", "Please Type Email");
     else if(this.state.password === "")
@@ -63,13 +61,12 @@ class HomeScreen extends Component{
     const { authenticate } = this.context;
     authenticate(this.state.email, this.state.password)
       .then(data =>{
-        // success
-        console.log('Logged in!', data);
+        // console.log('Logged in!', data);
         this.props.navigation.navigate("MainPage");
       })
       .catch(err =>{
         this.createAlert("Error", "Email or Password Are Incorrect");
-        console.error('Failed to login!', err);
+        // console.error('Failed to login!', err);
       })
   };
 

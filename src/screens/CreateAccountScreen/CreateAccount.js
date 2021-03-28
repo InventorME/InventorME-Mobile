@@ -4,13 +4,10 @@ import { Text, View, Image, ScrollView, Alert, TouchableWithoutFeedback, Keyboar
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FontAwesome } from '@expo/vector-icons';
 import styles from "./CreateAccountScreen.style";
-import UserPool from "../../util/UserPool";
-import { CognitoUserAttribute } from "amazon-cognito-identity-js";
+import { Auth } from "aws-amplify";
 
 const CreateAccountScreen = (props) => {
 
-    const phoneRegEx = new RegExp('/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-/\s\.]{0,1}[0-9]{4}$/');
-    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [phone_number, setPhone] = useState('');
@@ -27,37 +24,23 @@ const CreateAccountScreen = (props) => {
       { cancelable: false }
     );
 
-    const submit = event => {
+    const submit = async event => {
 
-      const attributeList = [];
-
-      attributeList.push(new CognitoUserAttribute({
-        Name: 'name',
-        Value: name
-      }));
-
-      attributeList.push(new CognitoUserAttribute({
-        Name: 'phone_number',
-        Value: phone_number
-      }));
-
-      attributeList.push(new CognitoUserAttribute({
-        Name: 'family_name',
-        Value: family_name
-      }));
-
-      UserPool.signUp(email, password, attributeList, null, (err, data) => {
-        if (err){
-          console.error(err);
-        } 
-        //If no errors new user is created here
-        else{
-          props.navigation.navigate("MainPage");
-          console.log(data);
-        }
-        
-      });
-
+      const attributeList = {
+        'name': name,
+        'phone_number': phone_number,
+        'family_name': family_name,
+        'email': email
+        // ,'photo': 'https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg'
+      };
+      try{
+        await Auth.signUp({username: email, password: password, attributes: attributeList});
+        // console.log('User Created!');
+        createAlert("Account Created","Please confirm account by clicking on the email sent to your inbox");
+        this.props.navigation.navigate("HomeScreen");
+      }catch(error){
+        console.log('create user error: ', error);
+      }
     };
     
     const upperCheck = (str) =>{
@@ -89,8 +72,6 @@ const CreateAccountScreen = (props) => {
       var regex = /^[a-zA-Z]+[0-9_.+-]*@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/g
       return regex.test(str);
     };
-    
-
 
     const validateUser = () => {
       if(name === ""){
@@ -107,8 +88,8 @@ const CreateAccountScreen = (props) => {
         createAlert("Create Account Error", "Password Must Contain One Lower-Case Letter");
       }else if(!numCheck(password)){
         createAlert("Create Account Error", "Password Must Contain One Number");
-      }else if(!phoneCheck(phone_number)){
-        createAlert("Create Account Error", "Phone Number Must Be At Least 9 Numbers Long");
+      // }else if(!phoneCheck(phone_number)){
+      //   createAlert("Create Account Error", "Phone Number Must Be At Least 9 Numbers Long");
       }else if(!emailCheck(email)){
         console.log("here", emailCheck(email))
         createAlert("Create Account Error", "Email must be in the correct format 'Example@Example.Example'");

@@ -2,13 +2,9 @@ import React, {Component} from "react";
 import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
-import { AccountContext } from '../../util/Accounts';
-import { User } from '../../util/User';
-
-
+import { Auth } from 'aws-amplify';
 
 class HomeScreen extends Component{
-  static contextType = AccountContext
 
   constructor(props){
     super(props);
@@ -17,22 +13,17 @@ class HomeScreen extends Component{
     this.submit = this.submit.bind(this);
     this.emailOnChange = this.emailOnChange.bind(this);
     this.passwordOnChange = this.passwordOnChange.bind(this);
-    // this.setUsers = this.setUsers.bind(this);
-    //  this.getUsers = this.getUsers.bind(this);
   }
-  componentDidMount() {
-    const { getSession } = this.context;
-    getSession()
-      .then(session => {
-        console.log('Signed In:', "user found");
-        this.props.navigation.navigate("MainPage");
-      }).catch(err => {
-        console.log('err:', "no user found");
-        //  this.getUsers();
-        
-      })
-      
-      
+  async componentDidMount() {
+    
+    try{
+      const session = await Auth.currentSession();
+      // console.log('user found!');
+      this.props.navigation.navigate("MainPage");
+    }
+    catch(error){
+      console.log('could not find user :(', error);
+    }
   }
 
   createAlert = (title, msg) =>
@@ -47,9 +38,6 @@ class HomeScreen extends Component{
   emailOnChange = (event) =>{ this.setState({email: event}); }
   passwordOnChange = (event) =>{ this.setState({password: event}); }
 
-
-
-
   validateUser = () =>{
     if(this.state.email == "")
       this.createAlert("Error", "Please Type Email");
@@ -57,38 +45,16 @@ class HomeScreen extends Component{
       this.createAlert("Error", "Please Type Password");
     else
       this.submit();
-
   };
 
-  // async getUsers(){
-  //   const us = new User();
-  //   try{
-  //         const user = await us.getUser();
-  //         console.log(user);
-  //         this.props.navigation.navigate("MainPage");
-  //     } catch(error){
-  //         console.log(error);
-  //     }
-  // }
-
-  // setUsers(session){
-  //   const us = new User();
-  //   us.setUser(JSON.stringify(session));
-  // }
-
-  submit = ()=> {
-    
-    const { authenticate } = this.context;
-    authenticate(this.state.email, this.state.password)
-      .then(data =>{
-        // console.log('Logged in!', data);
-        this.props.navigation.navigate("MainPage");
-        // this.setUsers(data);
-      })
-      .catch(err =>{
-        this.createAlert("Error", "Email or Password Are Incorrect");
-        // console.error('Failed to login!', err);
-      })
+  submit = async ()=> {
+    try{
+      const user = await Auth.signIn(email, password);
+      // console.log('Logged in!', user);
+      this.props.navigation.navigate("MainPage");
+    }catch(error){
+      this.createAlert("Error", "Email or Password Are Incorrect");
+    }
   };
 
   render(){

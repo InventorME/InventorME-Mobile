@@ -15,10 +15,12 @@ class EditProfilePage extends Component {
       family_name: '',
       email: '',
       phone_number: '',
+      phoneFormat: ''
     }
     this.validateUser = this.validateUser.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
     this.nameOnChange = this.nameOnChange.bind(this);
+    this.phoneOnChange = this.phoneOnChange.bind(this);
   }
   async componentDidMount() {
     try {
@@ -28,6 +30,7 @@ class EditProfilePage extends Component {
       this.setState({ family_name: data.attributes.family_name });
       this.setState({ email: data.attributes.email });
       this.setState({ phone_number: data.attributes.phone_number });
+      this.phoneOnChange(this.state.phone_number);
 
     }
     catch (error) {
@@ -45,7 +48,6 @@ class EditProfilePage extends Component {
   }
 
   phoneCheck(num) {
-    //insert phone number checking here
     var regex = /^(\+1\d{3}\d{3}\d{4}$)/g
     return regex.test(num);
   };
@@ -57,8 +59,21 @@ class EditProfilePage extends Component {
     this.setState({ family_name: event });
   }
   phoneOnChange = (event) => {
-    this.setState({ phone_number: event });
+    var cleaned = ('' + event).replace(/\D/g, '');
+    cleaned = '+' + cleaned;
+    cleaned = cleaned.substring(0,12);
+    this.setState({ phone_number: cleaned }); 
+    var format = '';
+    if(cleaned.length < 6)
+      format = '+1 (' + cleaned.substring(2,5);
+    else if(cleaned.length < 9)
+      format = '+1 (' + cleaned.substring(2,5) + ') ' + cleaned.substring(5,8);
+    else
+      format = '+1 (' + cleaned.substring(2,5) + ') ' + cleaned.substring(5,8) + '-' + cleaned.substring(8,12);
+    this.setState({ phoneFormat: format});
   }
+  
+
 
   async saveChanges() {
     const attributes = {
@@ -73,7 +88,6 @@ class EditProfilePage extends Component {
     } catch (error) {
       console.log("error saving user", error);
     }
-
   }
 
 
@@ -84,8 +98,8 @@ class EditProfilePage extends Component {
       this.createAlert("Saving Error", "Please Type First Name");
     } else if (this.state.family_name === "") {
       this.createAlert("Saving Error", "Please Type Last Name");
-      // }else if(!this.phoneCheck(this.state.phone_number)){
-      //   this.createAlert("Saving Error", "Phone Number Must Be At Least 9 Numbers Long");
+    }else if(!this.phoneCheck(this.state.phone_number)){
+        this.createAlert("Saving Error", "Phone Number Must Be At Least 9 Numbers Long");
     } else {
       this.saveChanges();
     }
@@ -156,7 +170,7 @@ class EditProfilePage extends Component {
                   style={styles.TextInput}
                   placeholder='Phone Number'
                   onChangeText={this.phoneOnChange}
-                  value={this.state.phone_number}
+                  value={this.state.phoneFormat}
                 />
               </View>
 

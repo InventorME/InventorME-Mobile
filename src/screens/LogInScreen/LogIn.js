@@ -1,18 +1,10 @@
-import React, {useState, useContext, useEffect, Component} from "react";
-import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback, AppState } from "react-native";
+import React, {Component} from "react";
+import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { useFocusEffect } from '@react-navigation/native';
-import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import styles from "./LogIn.style";
-import { AccountContext } from '../../util/Accounts';
-import UserPool from "../../util/UserPool";
-import { Database } from '../../util/Database';
-
+import { Auth } from 'aws-amplify';
 
 class HomeScreen extends Component{
-  
-  // eslint-disable-next-line react/static-property-placement
-  static contextType = AccountContext;
 
   constructor(props){
     super(props);
@@ -22,16 +14,16 @@ class HomeScreen extends Component{
     this.emailOnChange = this.emailOnChange.bind(this);
     this.passwordOnChange = this.passwordOnChange.bind(this);
   }
-
-  componentDidMount() {
-    const { getSession } = this.context;
-    getSession()
-      .then(session => {
-        console.log('Signed In:', "user found");
-        this.props.navigation.navigate("MainPage");
-      }).catch(err => {
-        console.log('err:', "no user found");
-      })
+  async componentDidMount() {
+    
+    try{
+      const session = await Auth.currentSession();
+      // console.log('user found!');
+      this.props.navigation.navigate("MainPage");
+    }
+    catch(error){
+      console.log('could not find user :(', error);
+    }
   }
 
   createAlert = (title, msg) =>
@@ -54,20 +46,17 @@ class HomeScreen extends Component{
       this.createAlert("Error", "Please Type Password");
     else
       this.submit();
-
   };
 
-  submit = ()=> {
-    const { authenticate } = this.context;
-    authenticate(this.state.email, this.state.password)
-      .then(data =>{
-        // console.log('Logged in!', data);
-        this.props.navigation.navigate("MainPage");
-      })
-      .catch(err =>{
-        this.createAlert("Error", "Email or Password Are Incorrect");
-        // console.error('Failed to login!', err);
-      })
+  submit = async ()=> {
+    try{
+      const user = await Auth.signIn(this.state.email, this.state.password);
+      // console.log('Logged in!', user);
+      this.props.navigation.navigate("MainPage");
+    }catch(error){
+      console.log(error);
+      this.createAlert("Sign In Error", "Please Make Sure Account Is Confirmed. Please Check Email or Password Are Correct");
+    }
   };
 
   render(){

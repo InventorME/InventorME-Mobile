@@ -1,71 +1,44 @@
-/* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable lines-between-class-members */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-unused-state */
-/* eslint-disable react/static-property-placement */
-import React, { useState, useContext, useEffect, Component } from "react";
-import { View, Image, SafeAreaView, StyleSheet, AppState } from "react-native";
-import { Avatar, Text, TouchableRipple } from "react-native-paper";
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import React, { Component } from "react";
+import { View, Image, SafeAreaView, AppState } from "react-native";
+import { Avatar, Text } from "react-native-paper";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "./profilePage.style";
-import { AccountContext } from '../../util/Accounts';
-import { Database } from '../../util/Database';
-
-
+import { Auth } from 'aws-amplify';
 
 class ProfilePageNav extends Component {
-  static contextType = AccountContext
-  
 
   constructor(props) {
     super(props);
     this.state = { email: '', password: '', phone_number: '', name: '', family_name: '', appState: AppState.currentState }
     this.signOut = this.signOut.bind(this);
-    
   }
-  componentDidMount() {
-    this.setState({ appState: AppState.currentState });
-    AppState.addEventListener("change", this._handleAppStateChange);
-    const { getSession } = this.context;
-    // console.log("Mounting");
-    getSession()
-      .then((data) => {
-        this.setState({ name: data.name });
-        this.setState({ family_name: data.family_name });
-        this.setState({ email: data.email });
-        this.setState({ phone_number: data.phone_number });
-        // this.setState({ userProfilePic: res.userProfilePicURL })
-        // console.log("Data:",data);
-        // console.log("Name:",data.name);
-        this.render();
-      })
-      .catch((err) => {
-        console.log(err);
-        // alert("Error: No user found, please sign in again");
-        this.props.navigation.navigate("HomeScreen");
-      });
-  }
-  componentWillUnmount() {
-    AppState.removeEventListener("change", this._handleAppStateChange);
-  }
-  _handleAppStateChange = (nextAppState) => {
-    console.log(this.state.appState);
-    if (
-      this.state.appState.match(/inactive|background/) &&
-      nextAppState === "active"
-    ) {
-      console.log("App has come to the foreground! (iOS and Android)");
-      // this.componentDidMount();
+  async componentDidMount() {
+    try {
+      const data = await Auth.currentUserInfo();
+      // console.log('userInfo data:', data);
+      this.setState({ name: data.attributes.name });
+      this.setState({ family_name: data.attributes.family_name });
+      this.setState({ email: data.attributes.email });
+      this.setState({ phone_number: data.attributes.phone_number });
     }
-    this.setState({ appState: nextAppState });
-  };
+    catch (error) {
+      console.log('could not find user :(', error);
+      alert("Error: No user found, please sign in again");
+      this.props.navigation.navigate("HomeScreen");
+    }
+  }
 
-  signOut() {
-    const { logout } = this.context;
-    logout();
-    this.props.navigation.navigate("HomeScreen");
+  async signOut() {
+    try {
+      await Auth.signOut();
+      console.log("User Signed Out");
+      this.props.navigation.navigate("HomeScreen");
+    }
+    catch (error) {
+      console.log("user sign out error");
+    }
   }
 
   render() {

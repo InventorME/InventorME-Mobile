@@ -2,7 +2,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { Account } from './src/util/Accounts';
 import { FontAwesome } from "@expo/vector-icons";
 import HomeScreen from "./src/screens/LogInScreen/LogIn";
 import MainPageNav from "./src/screens/MainPage/mainPage";
@@ -11,7 +10,17 @@ import ProfilePageNav from "./src/screens/ProfilePage/profilePage";
 import addItemScreen from './src/screens/addItemScreen/addItem';
 import EditProfilePage from "./src/screens/EditProfilePage/editProfilePage";
 import Items from "./src/screens/ItemsScreen/Items";
+import Amplify from 'aws-amplify';
+import config from './src/config.json';
 
+Amplify.configure({
+    Auth: {
+        mandatorySignId: true,
+        region: config.cognito.REGION,
+        userPoolId: config.cognito.USER_POOL_ID,
+        userPoolWebClientId: config.cognito.APP_CLIENT_ID
+    }
+});
 
 
 const Stack = createStackNavigator();
@@ -19,7 +28,6 @@ const Stack = createStackNavigator();
 function myStack() {
   return (
     <NavigationContainer>
-      <Account>
       <Stack.Navigator 
         initialRouteName="HomeScreen"
       >
@@ -76,7 +84,6 @@ function myStack() {
           }}
         />
       </Stack.Navigator>
-      </Account>
     </NavigationContainer>  
   );
 }

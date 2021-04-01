@@ -3,6 +3,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
+import { AppearanceProvider } from 'react-native-appearance';
 import HomeScreen from "./src/screens/LogInScreen/LogIn";
 import MainPageNav from "./src/screens/MainPage/mainPage";
 import CreateAccountScreen from "./src/screens/CreateAccountScreen/CreateAccount";
@@ -14,12 +15,12 @@ import Amplify from 'aws-amplify';
 import config from './src/config.json';
 
 Amplify.configure({
-    Auth: {
-        mandatorySignId: true,
-        region: config.cognito.REGION,
-        userPoolId: config.cognito.USER_POOL_ID,
-        userPoolWebClientId: config.cognito.APP_CLIENT_ID
-    }
+  Auth: {
+    mandatorySignId: true,
+    region: config.cognito.REGION,
+    userPoolId: config.cognito.USER_POOL_ID,
+    userPoolWebClientId: config.cognito.APP_CLIENT_ID
+  }
 });
 
 
@@ -27,64 +28,66 @@ const Stack = createStackNavigator();
 
 function myStack() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator 
-        initialRouteName="HomeScreen"
-      >
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options = {{
-            headerShown : false
-          }}
-        />
-        <Stack.Screen
-          name="MainPage"
-          component={MainPageNav}
-          options = {{
-            headerShown : false
-          }}
-        />
-        <Stack.Screen
-          name="CreateAccountScreen"
-          component={CreateAccountScreen}
-          options = {{
-            headerShown : false
-          }}
-        />
-        <Stack.Screen
-          name="ProfilePage"
-          component={ProfilePageNav}
-          options = {{
-            headerShown : false
-          }}
-        />
-        <Stack.Screen
-          name="AddItemScreen"
-          component={addItemScreen}
-          options = {{
-            headerShown : false
-          }}
-        />
-        <Stack.Screen
-          name="EditProfilePage"
-          component={EditProfilePage}
-          options = {{
-            headerShown : false
-          }}
-        />
-        <Stack.Screen
-          name = "ItemsScreen"
-          component = {Items}
-          options = {{
-            headerStyle : {backgroundColor : "#009688"},
-            headerBackImage : () => {return <FontAwesome name="arrow-left" color="white" size={25}/>},
-            headerBackTitleVisible : false,
-            headerLeftContainerStyle : {marginLeft : "2%"}
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>  
+    <AppearanceProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="HomeScreen"
+        >
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="MainPage"
+            component={MainPageNav}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="CreateAccountScreen"
+            component={CreateAccountScreen}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="ProfilePage"
+            component={ProfilePageNav}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="AddItemScreen"
+            component={addItemScreen}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="EditProfilePage"
+            component={EditProfilePage}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="ItemsScreen"
+            component={Items}
+            options={{
+              headerStyle: { backgroundColor: "#009688" },
+              headerBackImage: () => { return <FontAwesome name="arrow-left" color="white" size={25} /> },
+              headerBackTitleVisible: false,
+              headerLeftContainerStyle: { marginLeft: "2%" }
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AppearanceProvider>
   );
 }
 

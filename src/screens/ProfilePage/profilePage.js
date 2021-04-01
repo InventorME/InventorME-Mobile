@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "./profilePage.style";
+import { Appearance } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { colors } from '../../util/colors';
 import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";

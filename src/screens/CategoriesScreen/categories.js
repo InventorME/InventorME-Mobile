@@ -33,7 +33,8 @@ const categoriesNav = (props) => {
                 activeTintColor : colors.buttonText,
                 activeBackgroundColor : colors.button,
                 inactiveBackgroundColor : colors.background,
-                inactiveTintColor : colors.text
+                inactiveTintColor : colors.text,
+                backgroundColor: colors.background
             }}
       >
         <Drawer.Screen

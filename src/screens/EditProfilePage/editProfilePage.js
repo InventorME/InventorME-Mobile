@@ -5,6 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { FontAwesome } from '@expo/vector-icons';
 import styles from "./editProfilePage.style";
 import { Auth } from 'aws-amplify';
+import { colors } from '../../util/colors';
 
 class EditProfilePage extends Component {
 
@@ -120,7 +121,7 @@ class EditProfilePage extends Component {
                   style={styles.arrowButtonContainer}
                   onPress={() => this.props.navigation.goBack()}
                 >
-                  <FontAwesome name='arrow-left' color='#009688' size={45} />
+                  <FontAwesome name='arrow-left' color={colors.icon} size={45} />
                 </TouchableOpacity>
 
               </View>
@@ -144,7 +145,7 @@ class EditProfilePage extends Component {
               </View>
 
               <View style={styles.child}>
-                <Text style={{ color: '#009688' }}>First Name:</Text>
+                <Text style={{ color: colors.label }}>First Name:</Text>
                 <TextInput
                   style={styles.TextInput}
                   placeholder='First Name'
@@ -154,7 +155,7 @@ class EditProfilePage extends Component {
               </View>
 
               <View style={styles.child}>
-                <Text style={{ color: '#009688' }}>Last Name:</Text>
+                <Text style={{ color: colors.label }}>Last Name:</Text>
                 <TextInput
                   style={styles.TextInput}
                   placeholder='Last Name'
@@ -164,7 +165,7 @@ class EditProfilePage extends Component {
               </View>
 
               <View style={styles.child}>
-                <Text style={{ color: '#009688' }}>Phone Number:</Text>
+                <Text style={{ color: colors.label }}>Phone Number:</Text>
                 <TextInput
                   type="number"
                   style={styles.TextInput}

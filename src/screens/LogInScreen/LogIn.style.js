@@ -21,6 +21,7 @@ export default StyleSheet.create({
       TextInput:{
         borderWidth:1,
         borderColor: colors.text,
+        color: colors.text,
         padding: 8,
         margin: 10,
         width: 200,

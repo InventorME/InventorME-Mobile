@@ -6,11 +6,11 @@ function colorGenerator(){
             text: '#ffffff',
             accent: '#fffc40',
             background: '#333333',
-            theme: '#3f9388',
+            theme: '#001e38',
             button: '#f4ebc1',
-            buttonText: '#ffffff',
+            buttonText: '#333333',
             label: '#ffffff',
-            icon: '#36244f',
+            icon: '#f2f7ff',
             objects: ['#ffb5b9', '#b3b5ff', '#47ff72', '#aebffc', '#b3b5ff'],
             objectsText: '#ffffff'
         }

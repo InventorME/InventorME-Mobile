@@ -42,6 +42,7 @@
     "react-fontawesome": "^1.7.1",
     "react-icons": "^4.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+    "react-native-appearance": "~0.3.3",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.3",
     "react-native-paper": "^4.7.2",

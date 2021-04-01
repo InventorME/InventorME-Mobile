@@ -4,6 +4,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { colors } from '../util/colors';
 
 const UpperTab = props => {
     return (
@@ -12,7 +13,7 @@ const UpperTab = props => {
           <TouchableOpacity
             onPress={props.nav}
           >
-            <Ionicons name="menu" size={30} color='black' />
+            <Ionicons name="menu" size={30} color={colors.icon} />
           </TouchableOpacity>
         </View>
         <View style={{alignItems:'center'}}>
@@ -22,7 +23,7 @@ const UpperTab = props => {
           <TouchableOpacity
             onPress={props.profileNav}
           >
-            <MaterialCommunityIcons name='magnify' size={30} color='black' />
+            <MaterialCommunityIcons name='magnify' size={30} color={colors.icon} />
           </TouchableOpacity>
         </View>
       </View>
@@ -31,13 +32,13 @@ const UpperTab = props => {
 const styles = StyleSheet.create({
     container : {
         flex:.1,
-        backgroundColor : '#009688',
+        backgroundColor : colors.theme,
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'flex-end',
     },
     textStyle:{
-        color: 'black',
+        color: colors.text,
         fontSize:20,
         fontWeight:"bold",
         height:30,

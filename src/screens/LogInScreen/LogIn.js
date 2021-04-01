@@ -36,12 +36,13 @@ class HomeScreen extends Component{
     );
 
   emailOnChange = (event) =>{ this.setState({email: event}); }
+
   passwordOnChange = (event) =>{ this.setState({password: event}); }
 
   validateUser = () =>{
-    if(this.state.email == "")
+    if(this.state.email === "")
       this.createAlert("Error", "Please Type Email");
-    else if(this.state.password == "")
+    else if(this.state.password === "")
       this.createAlert("Error", "Please Type Password");
     else
       this.submit();

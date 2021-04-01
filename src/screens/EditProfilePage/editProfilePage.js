@@ -84,7 +84,7 @@ class EditProfilePage extends Component {
     try {
       const user = await Auth.currentAuthenticatedUser();
       await Auth.updateUserAttributes(user, attributes);
-      this.props.navigation.navigate("ProfilePage");
+      this.props.navigation.goBack();
     } catch (error) {
       console.log("error saving user", error);
     }

@@ -8,7 +8,8 @@ import date from "../DateScreen/date";
 import settings from "../SettingsScreen/settings";
 import UpperTab from "../../Components/UpperTab";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
-import profilePageNav from "../ProfilePage/profilePage"
+import profilePageNav from "../ProfilePage/profilePage";
+import { colors } from '../../util/colors';
 
 const categoriesNav = (props) => {
     const Drawer = createDrawerNavigator();
@@ -29,10 +30,10 @@ const categoriesNav = (props) => {
                 headerShown : true
             }}
         drawerContentOptions={{
-                activeTintColor : "white",
-                activeBackgroundColor : "#009688",
-                inactiveBackgroundColor : "white",
-                inactiveTintColor : "#009688"
+                activeTintColor : colors.buttonText,
+                activeBackgroundColor : colors.button,
+                inactiveBackgroundColor : colors.background,
+                inactiveTintColor : colors.text
             }}
       >
         <Drawer.Screen
@@ -96,7 +97,7 @@ const DrawBoxes = props => {
         boxType = {1} 
         title="School" 
         numItems='3' 
-        style={{backgroundColor:'#ffb5b9'}} 
+        style={{backgroundColor:colors.objects[0]}} 
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
         itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
       />
@@ -104,7 +105,7 @@ const DrawBoxes = props => {
         boxType = {1} 
         title="Work" 
         numItems='17' 
-        style={{backgroundColor:'#b3b5ff'}} 
+        style={{backgroundColor:colors.objects[0]}} 
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
         itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}} 
       />
@@ -112,7 +113,7 @@ const DrawBoxes = props => {
         boxType = {1} 
         title="Groceries" 
         numItems='20' 
-        style={{backgroundColor:'#47ff72'}}
+        style={{backgroundColor:colors.objects[2]}}
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
         itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
       />
@@ -120,7 +121,7 @@ const DrawBoxes = props => {
         boxType = {1} 
         title="Groceries" 
         numItems='20' 
-        style={{backgroundColor:'#b3b5ff'}} 
+        style={{backgroundColor:colors.objects[3]}} 
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
         itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
       />
@@ -128,7 +129,7 @@ const DrawBoxes = props => {
         boxType = {1} 
         title="Items to buy in the future" 
         numItems='35' 
-        style={{backgroundColor:'#aebffc'}} 
+        style={{backgroundColor:colors.objects[4]}} 
         addPageNavigate={()=>{props.navigation.navigate("AddItemScreen")}}
         itemsNavigate = {() => {props.navigation.navigate("ItemsScreen")}}
       />

@@ -5,6 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { FontAwesome } from '@expo/vector-icons';
 import styles from "./CreateAccountScreen.style";
 import { Auth } from "aws-amplify";
+import { colors } from '../../util/colors';
 
 const CreateAccountScreen = (props) => {
 
@@ -130,7 +131,7 @@ const CreateAccountScreen = (props) => {
               style={styles.arrowButtonContainer}
               onPress={() => props.navigation.navigate("HomeScreen")}
             >
-              <FontAwesome name='arrow-left' color='#009688' size={45} />
+              <FontAwesome name='arrow-left' color={colors.icon} size={45} />
             </TouchableOpacity>
 
           </View>
@@ -141,7 +142,7 @@ const CreateAccountScreen = (props) => {
             </View>
 
             <View style={styles.child}>
-              <Text style={{ color: '#009688' }}>First Name:</Text>
+              <Text style={{ color: colors.label }}>First Name:</Text>
               <TextInput
                 style={styles.TextInput}
                 placeholder='First Name'
@@ -151,7 +152,7 @@ const CreateAccountScreen = (props) => {
             </View>
 
             <View style={styles.child}>
-              <Text style={{ color: '#009688' }}>Last Name:</Text>
+              <Text style={{ color: colors.label }}>Last Name:</Text>
               <TextInput
                 style={styles.TextInput}
                 placeholder='Last Name'
@@ -161,7 +162,7 @@ const CreateAccountScreen = (props) => {
             </View>
 
             <View style={styles.child}>
-              <Text style={{ color: '#009688' }}>Phone Number:</Text>
+              <Text style={{ color: colors.label }}>Phone Number:</Text>
               <TextInput
                 type="number"
                 style={styles.TextInput}
@@ -172,7 +173,7 @@ const CreateAccountScreen = (props) => {
             </View>
 
             <View style={styles.child}>
-              <Text style={{ color: '#009688' }}>Email:</Text>
+              <Text style={{ color: colors.label }}>Email:</Text>
               <TextInput
                 type="email"
                 style={styles.TextInput}
@@ -183,7 +184,7 @@ const CreateAccountScreen = (props) => {
             </View>
 
             <View style={styles.child}>
-              <Text style={{ color: '#009688' }}>Password:</Text>
+              <Text style={{ color: colors.label }}>Password:</Text>
               <TextInput
                 secureTextEntry
                 style={styles.TextInput}

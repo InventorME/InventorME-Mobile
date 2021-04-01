@@ -6,6 +6,10 @@ import { FontAwesome } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "./profilePage.style";
 import { Auth } from 'aws-amplify';
+import { colors } from '../../util/colors';
+import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";
+import { Colors } from "react-native/Libraries/NewAppScreen";
+import { color } from "react-native-reanimated";
 
 class ProfilePageNav extends Component {
 
@@ -15,6 +19,9 @@ class ProfilePageNav extends Component {
     this.signOut = this.signOut.bind(this);
   }
   async componentDidMount() {
+    // this.focused = navigation.addListener('focus', () => {
+    //   console.log('focused');
+    // });
     try {
       const data = await Auth.currentUserInfo();
       // console.log('userInfo data:', data);
@@ -29,6 +36,8 @@ class ProfilePageNav extends Component {
       this.props.navigation.navigate("HomeScreen");
     }
   }
+
+
 
   async signOut() {
     try {
@@ -50,7 +59,7 @@ class ProfilePageNav extends Component {
               style={styles.arrowButtonContainer}
               onPress={() => this.props.navigation.goBack()}
             >
-              <FontAwesome name="arrow-left" color="#009688" size={45} />
+              <FontAwesome name="arrow-left" color={colors.accent} size={45} />
             </TouchableOpacity>
           </View>
           <View style={styles.signOutBtn}>
@@ -77,7 +86,7 @@ class ProfilePageNav extends Component {
                 <Text
                   style={{
                     fontWeight: "bold",
-                    color: "#000000",
+                    color: colors.text,
                     fontSize: 25,
                     alignSelf: "center",
                     marginTop: 20,
@@ -93,7 +102,7 @@ class ProfilePageNav extends Component {
         <SafeAreaView style={styles.container2}>
           <Text
             style={{
-              color: "#777777",
+              color: colors.label,
               fontSize: 15,
               marginLeft: 170,
               marginTop: 50,
@@ -102,10 +111,10 @@ class ProfilePageNav extends Component {
             Phone Number:
           </Text>
           <View style={{ flexDirection: "row", marginLeft: 100 }}>
-            <Icon name="phone" color="#009688" size={50} />
+            <Icon name="phone" color={colors.icon} size={50} />
             <View style={styles.child}>
               <Text
-                style={{ color: "#777777", fontSize: 20, marginHorizontal: 20 }}
+                style={{ color: colors.text, fontSize: 20, marginHorizontal: 20 }}
               >
                 {this.state.phone_number}
               </Text>
@@ -113,7 +122,7 @@ class ProfilePageNav extends Component {
           </View>
           <Text
             style={{
-              color: "#777777",
+              color: colors.label,
               fontSize: 15,
               marginLeft: 170,
               marginTop: 50,
@@ -122,10 +131,10 @@ class ProfilePageNav extends Component {
             Email:
           </Text>
           <View style={{ flexDirection: "row", marginLeft: 100 }}>
-            <Icon name="mail" color="#009688" size={50} />
+            <Icon name="mail" color={colors.icon} size={50} />
             <View style={styles.child}>
               <Text
-                style={{ color: "#777777", fontSize: 20, marginHorizontal: 20 }}
+                style={{ color: colors.text, fontSize: 20, marginHorizontal: 20 }}
               >
                 {this.state.email}
               </Text>

@@ -4,6 +4,7 @@ import { AntDesign, FontAwesome, MaterialCommunityIcons } from "@expo/vector-ico
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
 import categoriesNav from "../CategoriesScreen/categories";
+import { colors } from '../../util/colors';
 
 const MainPageNav = () => {
   // Once the user is logged in we will have to get the information from the database using an array of titles just 
@@ -15,12 +16,12 @@ const MainPageNav = () => {
         initialRouteName="Categories"
         backBehavior="none"
         tabBarOptions={{
-            activeTintColor : "white",
-            inactiveTintColor : "#009688",
-            activeBackgroundColor : "#009688",
-            inactiveBackgroundColor : "white",
+            activeTintColor : colors.buttonText,
+            inactiveTintColor : colors.icon,
+            activeBackgroundColor : colors.icon,
+            inactiveBackgroundColor : colors.background,
             style : {
-              borderTopColor : "white"
+              borderTopColor : colors.background
             },
             showLabel : false
           }}

@@ -2,6 +2,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { colors } from '../util/colors';
 
 const BoxFolderComponent = props => {
 
@@ -17,7 +18,7 @@ const BoxFolderComponent = props => {
           <TouchableOpacity
             onPress={props.addPageNavigate}
           >
-            <AntDesign name='pluscircle' size={30} color="white"  />
+            <AntDesign name='pluscircle' size={30} color={colors.icon}  />
           </TouchableOpacity>
         </View>
         <View style={styles.boxText1}>
@@ -47,7 +48,7 @@ const BoxFolderComponent = props => {
 }
 const styles = StyleSheet.create({
     itemsText:{
-      color:"white",
+      color: colors.objectsText,
     },
     itemCountContainer:{
       flexDirection:'row-reverse',
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
       margin : '2%',
       height : '90%',
       width : '46%',
-      backgroundColor : '#009688',
+      backgroundColor : colors.background,
       padding:5,
       borderRadius:20,
     },
@@ -84,11 +85,11 @@ const styles = StyleSheet.create({
     textStyle1 :{
       fontSize:25,
       paddingTop: 9,
-      color:"white",
+      color: colors.objectsText,
     },
     textStyle2 : {
       fontSize : 30,
-      color : "black",
+      color : colors.text,
     }
 });
 export default BoxFolderComponent;

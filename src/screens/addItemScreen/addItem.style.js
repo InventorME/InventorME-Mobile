@@ -1,9 +1,11 @@
 import {StyleSheet} from 'react-native';
+import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
     Page:{
       flex:1,
       alignItems: 'stretch',
+      backgroundColor: colors.background
     },
     child: {
       
@@ -11,28 +13,19 @@ export default StyleSheet.create({
       justifyContent: 'center'
       
     },
-    columnView: {
-      
-    },
     arrow: {
       alignItems:'flex-start',
       justifyContent: 'flex-end',
       paddingTop: 50,
       paddingStart: 30,
-      backgroundColor: 'lightgray',
+      backgroundColor: colors.icon,
       
     },
     container: {
-        flex:1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'lightgray'
-        
-      },
-      logo: {
-        
-       
-        
+        flexDirection: 'row',
+        backgroundColor: colors.background
       },
 
       Image:{
@@ -41,28 +34,30 @@ export default StyleSheet.create({
       },
       ColTextInput:{
         borderWidth:0.5,
-        borderColor: '#777',
-        borderRadius:25,
+        borderColor: colors.text,
+        borderRadius: 8,
         paddingHorizontal:16,
         padding: 8,
         margin: 10,
         width: 100,
-        backgroundColor: '#7FFFD4'
+        color: colors.text,
+        backgroundColor: colors.background
       },
       TextInput:{
         borderWidth:1,
-        borderColor: '#777',
-        borderRadius:25,
+        borderColor: colors.text,
+        borderRadius: 8,
         paddingHorizontal:16,
         padding: 8,
         margin: 10,
         width: 200,
-        backgroundColor: '#7FFFD4'
+        color: colors.text,
+        backgroundColor: colors.background
       },
       
       appButtonContainer: {
         elevation: 8,
-        backgroundColor: "#009688",
+        backgroundColor: colors.button,
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12
@@ -75,7 +70,7 @@ export default StyleSheet.create({
       },
       appButtonText: {
         fontSize: 18,
-        color: "#fff",
+        color: colors.buttonText,
         fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase"

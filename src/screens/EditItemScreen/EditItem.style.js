@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
     Page:{
@@ -19,50 +20,44 @@ export default StyleSheet.create({
       justifyContent: 'flex-end',
       paddingTop: 50,
       paddingStart: 30,
-      backgroundColor: 'lightgray',
+      backgroundColor: colors.background
       
     },
     container: {
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'lightgray'
+        backgroundColor: colors.background
         
       },
-      logo: {
-        
-       
-        
-      },
-
       Image:{
         height:70,
         width: 50,
       },
       ColTextInput:{
         borderWidth:0.5,
-        borderColor: '#777',
+        borderColor: colors.text,
         borderRadius:25,
         paddingHorizontal:16,
         padding: 8,
         margin: 10,
         width: 100,
-        backgroundColor: '#7FFFD4'
+        backgroundColor: colors.background
       },
       TextInput:{
         borderWidth:1,
-        borderColor: '#777',
+        borderColor: colors.text,
         borderRadius:25,
         paddingHorizontal:16,
         padding: 8,
         margin: 10,
         width: 200,
-        backgroundColor: '#7FFFD4'
+        backgroundColor: colors.background
       },
       
       appButtonContainer: {
         elevation: 8,
-        backgroundColor: "#009688",
+        backgroundColor: colors.button,
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12
@@ -75,7 +70,7 @@ export default StyleSheet.create({
       },
       appButtonText: {
         fontSize: 18,
-        color: "#fff",
+        color: colors.buttonText,
         fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase"

@@ -6,6 +6,7 @@ import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { Image } from 'react-native'
 import { Database } from '../../util/Database';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { colors } from '../../util/colors';
 
 
 const EditItemScreen = (props) => {
@@ -75,7 +76,7 @@ const EditItemScreen = (props) => {
       <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
         <View style={styles.columnView}>
           <View style={styles.child}>
-            <Text style={{ color: '#009688' }}>Name:</Text>
+            <Text style={{ color: colors.label }}>Name:</Text>
             <TextInput
               style={styles.ColTextInput}
               placeholder='Name'
@@ -85,10 +86,10 @@ const EditItemScreen = (props) => {
           </View>
 
           <View style={styles.child}>
-            <Text style={{ color: '#009688' }}>Category:</Text>
+            <Text style={{ color: colors.label }}>Collection:</Text>
             <TextInput
               style={styles.ColTextInput}
-              placeholder='Category'
+              placeholder='Collection'
               onChangeText={(text) => { setCategory(text) }}
               value={category}
             />
@@ -102,7 +103,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Serial Number:</Text>
+        <Text style={{ color: colors.label }}>Serial Number:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Serial Number'
@@ -112,7 +113,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Purchase Amount:</Text>
+        <Text style={{ color: colors.label }}>Purchase Amount:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Purchase Amount'
@@ -122,7 +123,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Worth:</Text>
+        <Text style={{ color: colors.label }}>Worth:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Worth'
@@ -132,7 +133,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Receipt Photo:</Text>
+        <Text style={{ color: colors.label }}>Receipt Photo:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Receipt Photo'
@@ -142,7 +143,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Item Manual:</Text>
+        <Text style={{ color: colors.label }}>Item Manual URL:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Item Manual'
@@ -152,7 +153,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Sell Date:</Text>
+        <Text style={{ color: colors.label }}>Sell Date:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Sell Date'
@@ -162,7 +163,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Buy Date:</Text>
+        <Text style={{ color: colors.label }}>Buy Date:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Buy Date'
@@ -172,7 +173,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Sell Amount:</Text>
+        <Text style={{ color: colors.label }}>Sell Amount:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Sell Amount'
@@ -182,7 +183,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Recurring Payment:</Text>
+        <Text style={{ color: colors.label }}>Recurring Payment:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Recurring Payment'
@@ -192,17 +193,17 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Ebay Url:</Text>
+        <Text style={{ color: colors.label }}>Shopping Url:</Text>
         <TextInput
           style={styles.TextInput}
-          placeholder='Ebay Url'
+          placeholder='Shopping Url'
           onChangeText={(text) => { setEbayUrl(text) }}
           value={EbayUrl}
         />
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Archived:</Text>
+        <Text style={{ color: colors.label }}>Archived:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Archived'
@@ -212,7 +213,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Folder:</Text>
+        <Text style={{ color: colors.label }}>Folder:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Folder'
@@ -223,7 +224,7 @@ const EditItemScreen = (props) => {
 
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Location:</Text>
+        <Text style={{ color: colors.label }}>Location:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Location'
@@ -234,7 +235,7 @@ const EditItemScreen = (props) => {
       
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Notes:</Text>
+        <Text style={{ color: colors.label }}>Notes:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Notes'
@@ -244,7 +245,7 @@ const EditItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Tags:</Text>
+        <Text style={{ color: colors.label }}>Tags:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Tags'

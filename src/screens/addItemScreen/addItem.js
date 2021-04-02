@@ -5,6 +5,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { Image } from 'react-native'
 import { Database } from '../../util/Database';
+import { colors } from '../../util/colors';
+import { color } from "react-native-reanimated";
 
 
 const addItemScreen = (props) => {
@@ -49,12 +51,12 @@ const addItemScreen = (props) => {
 
   return (
 
-    <View style={styles.page}>
+    <View style={styles.container}>
       
-      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+      <View style={ styles.container }>
         <View style={styles.columnView}>
           <View style={styles.child}>
-            <Text style={{ color: '#009688' }}>Name:</Text>
+            <Text style={{ color: colors.label }}>Name:</Text>
             <TextInput
               style={styles.ColTextInput}
               placeholder='Name'
@@ -64,10 +66,10 @@ const addItemScreen = (props) => {
           </View>
 
           <View style={styles.child}>
-            <Text style={{ color: '#009688' }}>Category:</Text>
+            <Text style={{ color: colors.label }}>Collection:</Text>
             <TextInput
               style={styles.ColTextInput}
-              placeholder='Category'
+              placeholder='Collection'
               onChangeText={(text) => { setCategory(text) }}
               value={category}
             />
@@ -81,7 +83,7 @@ const addItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Location:</Text>
+        <Text style={{ color: colors.label }}>Location:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Location'
@@ -91,7 +93,7 @@ const addItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Notes:</Text>
+        <Text style={{ color: colors.label }}>Notes:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Notes'
@@ -101,7 +103,7 @@ const addItemScreen = (props) => {
       </View>
 
       <View style={styles.child}>
-        <Text style={{ color: '#009688' }}>Tags:</Text>
+        <Text style={{ color: colors.label }}>Tags:</Text>
         <TextInput
           style={styles.TextInput}
           placeholder='Tags'

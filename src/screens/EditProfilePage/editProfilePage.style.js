@@ -37,11 +37,6 @@ export default StyleSheet.create({
         backgroundColor: colors.background
         
       },
-      logo: {
-        
-       
-        
-      },
 
       Image:{
         height:70,

@@ -21,10 +21,10 @@ const MainPageNav = () => {
   const route = useRoute();
 
   async function getter() {
-    try{
+    try {
       setData(await db.get("lukelmiller@icloud.com"));
-    } 
-    catch(error) {
+    }
+    catch (error) {
       console.log(error);
     }
   }
@@ -32,55 +32,58 @@ const MainPageNav = () => {
   useEffect(() => {
     getter();
   }, [route]);
-  
-    return (
-      <renderContext.Provider value = {data}>
-        <Tab.Navigator
-          initialRouteName="Categories"
-          backBehavior="none"
-          tabBarOptions={{
-              activeTintColor : "white",
-              inactiveTintColor : "#009688",
-              activeBackgroundColor : "#009688",
-              inactiveBackgroundColor : "white",
-              style : {
-                borderTopColor : "white"
-              },
-              showLabel : false
-            }}
-        >   
-          <Tab.Screen
-            name="scanItem"
-            component={scanItem}
-            options={{
-                tabBarIcon : ({color, size}) => {
-                  return (<MaterialCommunityIcons name="barcode" size={size} color={color} />)
-                }
-              }}
-          />
-          <Tab.Screen
-            name="Categories"
-            component={categoriesNav}
-            options={{
-                tabBarIcon : ({color, size}) => {
-                  return (<FontAwesome name="home" size={size} color={color} />);
-                }
-              }}
-          />
-          <Tab.Screen
-            name="addItem"
-            component={addItem}
-            options={{
-                tabBarIcon : ({color, size}) => {
-                  return (<AntDesign name="plus" size={size} color={color} />);
-                } 
-              }}
-          />
-    
-          
-        </Tab.Navigator>
-      </renderContext.Provider>
-    );
-  };
+
+  return (
+    <renderContext.Provider value={data}>
+
+      <Tab.Navigator
+        initialRouteName="Categories"
+        backBehavior="none"
+        tabBarOptions={{
+          activeTintColor: colors.buttonText,
+          inactiveTintColor: colors.icon,
+          activeBackgroundColor: colors.icon,
+          inactiveBackgroundColor: colors.background,
+          style: {
+            borderTopColor: colors.background,
+            backgroundColor: colors.background
+          },
+          showLabel: false
+
+        }}
+      >
+        <Tab.Screen
+          name="scanItem"
+          component={scanItem}
+          options={{
+            tabBarIcon: ({ color, size }) => {
+              return (<MaterialCommunityIcons name="barcode" size={size} color={color} />)
+            }
+          }}
+        />
+        <Tab.Screen
+          name="Categories"
+          component={categoriesNav}
+          options={{
+            tabBarIcon: ({ color, size }) => {
+              return (<FontAwesome name="home" size={size} color={color} />);
+            }
+          }}
+        />
+        <Tab.Screen
+          name="addItem"
+          component={addItem}
+          options={{
+            tabBarIcon: ({ color, size }) => {
+              return (<AntDesign name="plus" size={size} color={color} />);
+            }
+          }}
+        />
+
+
+      </Tab.Navigator>
+    </renderContext.Provider>
+  );
+};
 
 export default MainPageNav;

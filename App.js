@@ -69,6 +69,13 @@ function myStack() {
             }}
           />
           <Stack.Screen
+          name="EditItemScreen"
+          component={EditItemScreen}
+          options = {{
+            headerShown : false
+          }}
+        />
+          <Stack.Screen
             name="EditProfilePage"
             component={EditProfilePage}
             options={{

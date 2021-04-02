@@ -1,5 +1,5 @@
-import React from "react";
-import { View } from "react-native";
+import React, {useState, useContext} from "react";
+import { View, Text } from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styles from "./categories.style";
 import photos from "../PhotosScreen/photos";
@@ -8,11 +8,16 @@ import date from "../DateScreen/date";
 import settings from "../SettingsScreen/settings";
 import UpperTab from "../../Components/UpperTab";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
-import profilePageNav from "../ProfilePage/profilePage"
+import profilePageNav from "../ProfilePage/profilePage";
+import { renderContext } from "../MainPage/mainPage";
 
 const categoriesNav = (props) => {
     const Drawer = createDrawerNavigator();
 
+    const data = useContext(renderContext);
+
+    console.log(data);
+  
     return (
       <Drawer.Navigator
         initialRouteName="categories"
@@ -79,7 +84,7 @@ const categoriesNav = (props) => {
         />
       </Drawer.Navigator>
     )
-}
+};
 
 const categories = ({navigation}) => {
   return (

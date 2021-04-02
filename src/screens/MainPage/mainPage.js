@@ -21,9 +21,11 @@ const MainPageNav = () => {
             activeBackgroundColor : colors.icon,
             inactiveBackgroundColor : colors.background,
             style : {
-              borderTopColor : colors.background
+              borderTopColor : colors.background,
+              backgroundColor: colors.background
             },
             showLabel : false
+            
           }}
       >
        

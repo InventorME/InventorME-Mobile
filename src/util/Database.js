@@ -1,10 +1,18 @@
 const fetch = require('node-fetch');
+import { Auth } from 'aws-amplify';
 
 var url = "https://3cv3j619jg.execute-api.us-east-2.amazonaws.com/test/inventorme-items";
 
 export class Database{
-    get(userEmail){
-        let queryURL = url + "?userEmail='" + userEmail +"'";
+    async get(){
+        try{
+            const data = await Auth.currentUserInfo();
+            var email = data.attributes.email;
+        }
+        catch{
+            console.log('could not find user :(', error);
+        }
+        let queryURL = url + "?userEmail='" + email +"'";
         return new Promise((resolve, reject)=>{
             fetch(queryURL)
             .then(res => resolve(res.json()))
@@ -47,7 +55,14 @@ export class Database{
             .catch(err => reject(err))
         });
     }
-    deleteUser(email){
+    async deleteUser(){
+        try{
+            const data = await Auth.currentUserInfo();
+            var email = data.attributes.email;
+        }
+        catch{
+            console.log('could not find user :(', error);
+        }
         return new Promise((resolve, reject)=>{
             var deleteData = {
                 method: 'DELETE',

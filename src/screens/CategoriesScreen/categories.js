@@ -18,7 +18,7 @@ const categoriesNav = (props) => {
 
     const data = useContext(renderContext);
 
-    console.log(data);
+    //  console.log(data);
   
     return (
       <Drawer.Navigator

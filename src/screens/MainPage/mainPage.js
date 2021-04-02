@@ -23,8 +23,6 @@ const MainPageNav = () => {
   async function getter() {
     try{
       setData(await db.get("lukelmiller@icloud.com"));
-      //console.log(items.items);
-      //console.log(global.data);
     } 
     catch(error) {
       console.log(error);

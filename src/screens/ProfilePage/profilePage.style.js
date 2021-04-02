@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
     Page:{
@@ -16,7 +17,7 @@ export default StyleSheet.create({
       justifyContent: 'flex-end',
       paddingTop: 50,
       paddingStart: 30,
-      backgroundColor: '#fff',
+      backgroundColor: colors.background
       
     },
     signOutBtn: {
@@ -25,14 +26,14 @@ export default StyleSheet.create({
       paddingTop: 55,
       paddingEnd: 100,
       paddingLeft: 190,
-      backgroundColor: '#fff',
+      backgroundColor: colors.background
 
   },
     container1: {
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: colors.background
       },
       logo: {
         
@@ -46,13 +47,13 @@ export default StyleSheet.create({
       },
       TextInput:{
         borderWidth:1,
-        borderColor: '#777',
+        borderColor: colors.label,
         borderRadius:25,
         paddingHorizontal:16,
         padding: 8,
         margin: 10,
         width: 200,
-        backgroundColor: '#7FFFD4'
+        backgroundColor: colors.background
       },
       
       appButtonContainer: {
@@ -72,7 +73,7 @@ export default StyleSheet.create({
       },
       signOutButtonContainer: {
         elevation: 8,
-        backgroundColor: "#e01f0d",
+        backgroundColor: colors.background,
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12,
@@ -81,7 +82,7 @@ export default StyleSheet.create({
       },
       appButtonText: {
         fontSize: 18,
-        color: "#fff",
+        color: colors.buttonText,
         fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase"
@@ -90,7 +91,7 @@ export default StyleSheet.create({
         flex:2,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        backgroundColor: '#fff'
+        backgroundColor: colors.background
     }
       
 });

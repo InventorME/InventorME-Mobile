@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
     container : {
@@ -14,7 +15,7 @@ export default StyleSheet.create({
     },
     addItemContainer: {
         elevation: 8,
-        backgroundColor: "#009688",
+        backgroundColor: colors.background,
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12,

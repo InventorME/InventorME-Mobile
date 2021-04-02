@@ -1,4 +1,6 @@
 import {StyleSheet} from 'react-native';
+import { color } from 'react-native-reanimated';
+import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
     Page:{
@@ -16,7 +18,7 @@ export default StyleSheet.create({
       justifyContent: 'flex-end',
       paddingTop: 50,
       paddingStart: 30,
-      backgroundColor: '#fff',
+      backgroundColor: colors.background
       
     },
     deleteBtn: {
@@ -25,14 +27,14 @@ export default StyleSheet.create({
         paddingTop: 65,
         paddingEnd: 100,
         paddingLeft: 200,
-        backgroundColor: '#fff',
+        backgroundColor: colors.background,
 
     },
     container: {
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: colors.background
         
       },
       logo: {
@@ -47,18 +49,19 @@ export default StyleSheet.create({
       },
       TextInput:{
         borderWidth:1,
-        borderColor: '#777',
-        borderRadius:25,
+        borderColor: colors.text,
+        borderRadius:6,
         paddingHorizontal:16,
+        color: colors.text,
         padding: 8,
         margin: 10,
         width: 200,
-        backgroundColor: '#7FFFD4'
+        backgroundColor: colors.background
       },
       
       appButtonContainer: {
         elevation: 8,
-        backgroundColor: "#009688",
+        backgroundColor: colors.button,
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12

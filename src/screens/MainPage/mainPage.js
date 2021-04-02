@@ -4,6 +4,7 @@ import { AntDesign, FontAwesome, MaterialCommunityIcons } from "@expo/vector-ico
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
 import categoriesNav from "../CategoriesScreen/categories";
+import { colors } from '../../util/colors';
 import { Database } from "../../util/Database";
 import { useRoute } from '@react-navigation/native';
 
@@ -49,8 +50,7 @@ const MainPageNav = () => {
               },
               showLabel : false
             }}
-        >
-        
+        >   
           <Tab.Screen
             name="scanItem"
             component={scanItem}

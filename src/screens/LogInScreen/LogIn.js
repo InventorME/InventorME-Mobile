@@ -3,6 +3,7 @@ import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback } from "re
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
 import { Auth } from 'aws-amplify';
+import { colors } from '../../util/colors';
 
 class HomeScreen extends Component{
 
@@ -36,12 +37,13 @@ class HomeScreen extends Component{
     );
 
   emailOnChange = (event) =>{ this.setState({email: event}); }
+
   passwordOnChange = (event) =>{ this.setState({password: event}); }
 
   validateUser = () =>{
-    if(this.state.email == "")
+    if(this.state.email === "")
       this.createAlert("Error", "Please Type Email");
-    else if(this.state.password == "")
+    else if(this.state.password === "")
       this.createAlert("Error", "Please Type Password");
     else
       this.submit();

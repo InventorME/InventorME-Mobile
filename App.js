@@ -13,6 +13,7 @@ import EditProfilePage from "./src/screens/EditProfilePage/editProfilePage";
 import Items from "./src/screens/ItemsScreen/Items";
 import Amplify from 'aws-amplify';
 import config from './src/config.json';
+import EditItemScreen from "./src/screens/EditItemScreen/EditItem";
 
 Amplify.configure({
   Auth: {

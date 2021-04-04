@@ -140,13 +140,6 @@ const categories = ({navigation}) => {
           </View>
         )}
         numColumns = {2}
-        ListHeaderComponent = {
-          <UpperTab
-            title={"Title"}
-            nav={() => {navigation.toggleDrawer()}}
-            profileNav={()=>{navigation.navigate("ProfilePage")}}
-          />
-        }
       />
     );
   }  

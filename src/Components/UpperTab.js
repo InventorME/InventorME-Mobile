@@ -31,7 +31,8 @@ const UpperTab = props => {
 }
 const styles = StyleSheet.create({
     container : {
-        flex:.1,
+        //flex:.1,
+        height : "10%",
         backgroundColor : colors.theme,
         flexDirection:'row',
         justifyContent:'space-between',

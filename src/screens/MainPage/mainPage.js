@@ -22,7 +22,7 @@ const MainPageNav = () => {
 
   async function getter() {
     try {
-      setData(await db.get("lukelmiller@icloud.com"));
+      setData(await db.get());
     }
     catch (error) {
       console.log(error);

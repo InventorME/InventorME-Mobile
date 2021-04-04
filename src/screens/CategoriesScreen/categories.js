@@ -1,5 +1,5 @@
 import React, {useState, useContext} from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styles from "./categories.style";
 import photos from "../PhotosScreen/photos";
@@ -16,10 +16,6 @@ import { colors } from '../../util/colors';
 const categoriesNav = (props) => {
     const Drawer = createDrawerNavigator();
 
-    const data = useContext(renderContext);
-
-    //  console.log(data);
-  
     return (
       <Drawer.Navigator
         initialRouteName="categories"
@@ -90,14 +86,61 @@ const categoriesNav = (props) => {
 };
 
 const categories = ({navigation}) => {
-  return (
-    <View style={styles.container}>
-      <DrawBoxes navigation = {navigation}/>
-    </View>
-  );  
+
+  const data = useContext(renderContext);
+  let categoriesList = [];
+  let countList = [];
+
+  if (data != null) {
+    for (let i = 0; i < data.items.length; i++) {
+      if (!categoriesList.includes(data.items[i].itemCategory)) {
+        categoriesList.push(data.items[i].itemCategory);
+      }
+    }
+      
+    for (let i = 0; i < categoriesList.length; i++) {
+      let object = {name : categoriesList[i], count : 0, key : Math.random().toString()};
+
+      for (let j = 0; j < data.items.length; j++) {
+        if (data.items[j].itemCategory == categoriesList[i]) {
+          object.count += 1;
+        }
+      }
+
+        countList.push(object);
+    }
+  }
+
+  console.log(countList);
+
+  if (data == null) {
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
+
+  else {
+    return (
+      <ScrollView contentContainerStyle = {styles.container}> 
+        <View style = {styles.boxFolder}>
+          {countList.map((object) => <BoxFolderComponent
+                key = {object.name} 
+                boxType = {1} 
+                title = {object.name} 
+                numItems = {object.count}
+                style = {{backgroundColor : colors.objects[Math.floor(Math.random() * 5)]}}
+                addPageNavigate={() => {navigation.navigate("AddItemScreen")}}
+                itemsNavigate = {() => {navigation.navigate("ItemsScreen")}}
+              />)}
+        </View>
+      </ScrollView>
+    );
+  }  
 };
 
-const DrawBoxes = props => {
+/* const DrawBoxes = props => {
   return(
     <View style={styles.boxFolder}>
       <BoxFolderComponent
@@ -142,6 +185,6 @@ const DrawBoxes = props => {
       />
     </View>
   )
-};
+}; */
 
 export default categoriesNav;

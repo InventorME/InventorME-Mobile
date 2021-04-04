@@ -1,5 +1,5 @@
 import React, {useState, useContext} from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styles from "./categories.style";
 import photos from "../PhotosScreen/photos";
@@ -99,7 +99,7 @@ const categories = ({navigation}) => {
     }
       
     for (let i = 0; i < categoriesList.length; i++) {
-      let object = {name : categoriesList[i], count : 0, key : Math.random().toString()};
+      let object = {name : categoriesList[i], count : 0, key : categoriesList[i]};
 
       for (let j = 0; j < data.items.length; j++) {
         if (data.items[j].itemCategory == categoriesList[i]) {
@@ -123,19 +123,24 @@ const categories = ({navigation}) => {
 
   else {
     return (
-      <ScrollView contentContainerStyle = {styles.container}> 
-        <View style = {styles.boxFolder}>
-          {countList.map((object) => <BoxFolderComponent
-                key = {object.name} 
+      <FlatList
+        data = {countList}
+        renderItem = {({item}) => (
+          <View style = {styles.container}> 
+            <View style = {styles.boxFolder}> 
+              <BoxFolderComponent 
                 boxType = {1} 
-                title = {object.name} 
-                numItems = {object.count}
+                title = {item.name} 
+                numItems = {item.count}
                 style = {{backgroundColor : colors.objects[Math.floor(Math.random() * 5)]}}
                 addPageNavigate={() => {navigation.navigate("AddItemScreen")}}
                 itemsNavigate = {() => {navigation.navigate("ItemsScreen")}}
-              />)}
-        </View>
-      </ScrollView>
+              />
+            </View>
+          </View>
+        )}
+        numColumns = {2}
+      />
     );
   }  
 };

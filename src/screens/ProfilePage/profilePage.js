@@ -1,20 +1,28 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/extensions */
 /* eslint-disable no-unused-vars */
-/* eslint-disable import/order */
 /* eslint-disable react/no-unused-state */
-/* eslint-disable lines-between-class-members */
 /* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable import/no-duplicates */
+/* eslint-disable lines-between-class-members */
 import React, { Component } from "react";
 import { View, Image, SafeAreaView, AppState } from "react-native";
 import { Avatar, Text } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import styles from "./profilePage.style";
 import { Auth } from "aws-amplify";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { Appearance } from "react-native";
+import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";
+import { Colors } from "react-native/Libraries/NewAppScreen";
+import { color } from "react-native-reanimated";
+import { colors } from "../../util/colors";
+import styles from "./profilePage.style";
 
 class ProfilePageNav extends Component {
   constructor(props) {
@@ -58,14 +66,6 @@ class ProfilePageNav extends Component {
     return (
       <View style={styles.Page}>
         <View style={{ flexDirection: "row" }}>
-          <View style={styles.arrow}>
-            <TouchableOpacity
-              style={styles.arrowButtonContainer}
-              onPress={() => this.props.navigation.goBack()}
-            >
-              <FontAwesome name="arrow-left" color="#009688" size={45} />
-            </TouchableOpacity>
-          </View>
           <View style={styles.signOutBtn}>
             <TouchableOpacity
               style={styles.appButtonContainer}

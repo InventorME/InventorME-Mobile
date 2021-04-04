@@ -1,8 +1,12 @@
+/* eslint-disable import/extensions */
+/* eslint-disable no-unused-vars */
 import { StyleSheet } from "react-native";
+import { color } from "react-native-reanimated";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { colors } from "../../util/colors";
 
 export default StyleSheet.create({
   Page: {
@@ -18,7 +22,7 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
     paddingTop: hp("6%"),
     paddingStart: wp("5%"),
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
   deleteBtn: {
     alignItems: "flex-end",
@@ -26,17 +30,13 @@ export default StyleSheet.create({
     paddingTop: hp("6.9%"),
     paddingEnd: wp("10%"),
     paddingLeft: wp("30%"),
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  logo: {
-    paddingTop: 50,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
 
   Image: {
@@ -45,18 +45,19 @@ export default StyleSheet.create({
   },
   TextInput: {
     borderWidth: 1,
-    borderColor: "#777",
+    borderColor: colors.text,
     borderRadius: 1,
     paddingHorizontal: wp("2.5%"),
+    color: colors.text,
     padding: 8,
     margin: wp("5%"),
     width: wp("50%"),
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
 
   appButtonContainer: {
     elevation: 8,
-    backgroundColor: "#009688",
+    backgroundColor: colors.button,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
@@ -71,11 +72,11 @@ export default StyleSheet.create({
     elevation: 8,
     backgroundColor: "#e01f0d",
     borderRadius: 10,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
   },
   deleteButtonText: {
-    fontSize: 18,
+    fontSize: 14,
     color: "#fff",
     fontWeight: "bold",
     alignItems: "center",

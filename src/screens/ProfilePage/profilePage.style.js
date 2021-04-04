@@ -1,8 +1,10 @@
+/* eslint-disable import/extensions */
 import { StyleSheet } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { colors } from "../../util/colors";
 
 export default StyleSheet.create({
   Page: {
@@ -18,21 +20,21 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
     paddingTop: hp("2%"),
     paddingStart: wp("5%"),
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
   signOutBtn: {
     alignItems: "flex-end",
     justifyContent: "flex-start",
     paddingTop: hp("1.5%"),
     paddingEnd: wp("10%"),
-    paddingLeft: wp("44%"),
-    backgroundColor: "#fff",
+    paddingLeft: wp("80%"),
+    backgroundColor: colors.background,
   },
   container1: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
   logo: {},
 
@@ -42,13 +44,13 @@ export default StyleSheet.create({
   },
   TextInput: {
     borderWidth: 1,
-    borderColor: "#777",
+    borderColor: colors.label,
     borderRadius: 1,
     paddingHorizontal: wp("2.5%"),
     padding: 8,
     margin: wp("5%"),
     width: wp("50%"),
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
 
   appButtonContainer: {
@@ -56,8 +58,8 @@ export default StyleSheet.create({
     backgroundColor: "#009688",
     // marginLeft: 135,
     borderRadius: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 17,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     marginTop: 10,
   },
   arrowButtonContainer: {
@@ -68,14 +70,14 @@ export default StyleSheet.create({
   },
   signOutButtonContainer: {
     elevation: 8,
-    backgroundColor: "#e01f0d",
+    backgroundColor: colors.background,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
   },
   appButtonText: {
-    fontSize: 20,
-    color: "#fff",
+    fontSize: 18,
+    color: colors.buttonText,
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
@@ -84,6 +86,6 @@ export default StyleSheet.create({
     flex: 2,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
 });

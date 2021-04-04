@@ -1,10 +1,11 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable import/extensions */
 /* eslint-disable vars-on-top */
-/* eslint-disable prefer-template */
-/* eslint-disable no-var */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/sort-comp */
+/* eslint-disable no-var */
 /* eslint-disable class-methods-use-this */
+/* eslint-disable prefer-template */
 /* eslint-disable lines-between-class-members */
 import React, { Component } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
@@ -21,11 +22,8 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FontAwesome } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
 import styles from "./editProfilePage.style";
+import { colors } from "../../util/colors";
 
 class EditProfilePage extends Component {
   constructor(props) {
@@ -103,7 +101,7 @@ class EditProfilePage extends Component {
     try {
       const user = await Auth.currentAuthenticatedUser();
       await Auth.updateUserAttributes(user, attributes);
-      this.props.navigation.navigate("ProfilePage");
+      this.props.navigation.goBack();
     } catch (error) {
       console.log("error saving user", error);
     }
@@ -138,7 +136,11 @@ class EditProfilePage extends Component {
                   style={styles.arrowButtonContainer}
                   onPress={() => this.props.navigation.goBack()}
                 >
-                  <FontAwesome name="arrow-left" color="#009688" size={45} />
+                  <FontAwesome
+                    name="arrow-left"
+                    color={colors.icon}
+                    size={45}
+                  />
                 </TouchableOpacity>
               </View>
               <View style={styles.deleteBtn}>
@@ -156,12 +158,11 @@ class EditProfilePage extends Component {
                   source={{
                     uri: "https://api.adorable.io/avatars/285/10@adorable.png",
                   }}
-                  size={250}
                 />
               </View>
 
               <View style={styles.child}>
-                <Text style={{ color: "#009688" }}>First Name:</Text>
+                <Text style={{ color: colors.label }}>First Name:</Text>
                 <TextInput
                   style={styles.TextInput}
                   placeholder="First Name"
@@ -171,7 +172,7 @@ class EditProfilePage extends Component {
               </View>
 
               <View style={styles.child}>
-                <Text style={{ color: "#009688" }}>Last Name:</Text>
+                <Text style={{ color: colors.label }}>Last Name:</Text>
                 <TextInput
                   style={styles.TextInput}
                   placeholder="Last Name"
@@ -181,7 +182,7 @@ class EditProfilePage extends Component {
               </View>
 
               <View style={styles.child}>
-                <Text style={{ color: "#009688" }}>Phone Number:</Text>
+                <Text style={{ color: colors.label }}>Phone Number:</Text>
                 <TextInput
                   type="number"
                   style={styles.TextInput}

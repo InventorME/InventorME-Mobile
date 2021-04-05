@@ -3,13 +3,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
-import completed from "../CompletedScreen/completed";
+import archived from "../ArchivedScreen/archived";
 import UpperTab from "../../Components/UpperTab";
-import categories from "../CategoriesScreen/categories"
+import collections from "../CollectionsScreen/collections"
 import items from "../ItemsScreen/Items";
 import profilePageNav from "../ProfilePage/profilePage";
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import categoriesNav from "../CategoriesScreen/categories";
 import { colors } from '../../util/colors';
 import { Database } from "../../util/Database";
 import { useRoute } from '@react-navigation/native';
@@ -22,7 +21,7 @@ const mainNav = (props) => {
 
   return (
     <Drawer.Navigator
-      initialRouteName="Items"
+      initialRouteName="Collections"
       screenOptions={{
               header : ({scene}) => {
                   return (
@@ -45,32 +44,32 @@ const mainNav = (props) => {
     >
       <Drawer.Screen
         options={{
-                  title : "Items"
-              }}
-        name="Items"
-        component={items}
-      />
-      <Drawer.Screen
-        options={{
-                  title : "Collections"
-              }}
+          title : "Collections"
+        }}
         name="Collections"
-        component={categories}
+        component={collections}
       />
       {/* <Drawer.Screen
         options={{
-                  title : "Folders"
-              }}
+          title : "Folders"
+        }}
         name="Date"
         // component={date}
       /> */}
       <Drawer.Screen
         options={{
-                  title : "Archive"
-              }}
-        name="Completed"
-        component={completed}
+          title : "Archived"
+        }}
+        name="Archived"
+        component={archived}
       />
+      <Drawer.Screen
+        options={{
+          title : "Recent"
+        }}
+        name="Recent"
+        component={items}
+        />
       {/* <Drawer.Screen
         options={{
                   title : "Stats"

@@ -11,7 +11,7 @@ function colorGenerator(){
             buttonText: '#333333',
             label: '#ffffff',
             icon: '#f2f7ff',
-            objects: ['#ffb5b9', '#b3b5ff', '#47ff72', '#aebffc', '#b3b5ff'],
+            objects: ['#ffb5b9', '#b3b5ff', '#47ff72', '#aebffc', '#b3b5ff', '#b3b5ff', '#47ff72', '#aebffc'],
             objectsText: '#ffffff'
         }
         return color;
@@ -26,7 +26,7 @@ function colorGenerator(){
             buttonText: '#ffffff',
             label: '#000000',
             icon: '#36244f',
-            objects: ['#ffb5b9', '#b3b5ff', '#47ff72', '#aebffc', '#b3b5ff'],
+            objects: ['#ffb5b9', '#b3b5ff', '#47ff72', '#aebffc', '#b3b5ff', '#b3b5ff', '#47ff72', '#aebffc'],
             objectsText: '#ffffff'
         }
         return color;

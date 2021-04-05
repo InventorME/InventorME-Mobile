@@ -24,8 +24,9 @@ export default StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row',
-        backgroundColor: colors.background
+        // flexDirection: 'row',
+        backgroundColor: colors.background,
+        
       },
 
       Image:{

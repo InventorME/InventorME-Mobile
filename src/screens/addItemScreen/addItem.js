@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import styles from "./addItem.style";
-import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
-import { Image } from 'react-native'
 import { Database } from '../../util/Database';
 import { colors } from '../../util/colors';
-import { color } from "react-native-reanimated";
 
 
 const addItemScreen = (props) => {
@@ -111,8 +108,7 @@ const addItemScreen = (props) => {
           value={tags}
         />
       </View>
-
-      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
 
         <TouchableOpacity
           style={styles.appButtonContainer}

@@ -1,18 +1,18 @@
 import {StyleSheet} from 'react-native';
+import { color } from 'react-native-reanimated';
 import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
     Page:{
       flex:1,
       alignItems: 'stretch',
+      backgroundColor: colors.background,
+      color: colors.text
     },
     child: {
       
       alignItems: 'flex-start',
       justifyContent: 'center'
-      
-    },
-    columnView: {
       
     },
     arrow: {
@@ -27,7 +27,8 @@ export default StyleSheet.create({
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.background
+        backgroundColor: colors.background,
+        color: colors.text
         
       },
       Image:{
@@ -42,13 +43,15 @@ export default StyleSheet.create({
         padding: 8,
         margin: 10,
         width: 100,
-        backgroundColor: colors.background
+        backgroundColor: colors.background,
+        color: colors.text
       },
       TextInput:{
         borderWidth:1,
         borderColor: colors.text,
         borderRadius:25,
         paddingHorizontal:16,
+        color: colors.text,
         padding: 8,
         margin: 10,
         width: 200,

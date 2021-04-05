@@ -14,6 +14,7 @@ import Items from "./src/screens/ItemsScreen/Items";
 import Amplify from 'aws-amplify';
 import config from './src/config.json';
 import EditItemScreen from "./src/screens/EditItemScreen/EditItem";
+import {colors} from "./src/util/colors";
 
 Amplify.configure({
   Auth: {
@@ -87,7 +88,7 @@ function myStack() {
             name="ItemsScreen"
             component={Items}
             options={{
-              headerStyle: { backgroundColor: "#009688" },
+              headerStyle: { backgroundColor: colors.background },
               headerBackImage: () => { return <FontAwesome name="arrow-left" color="white" size={25} /> },
               headerBackTitleVisible: false,
               headerLeftContainerStyle: { marginLeft: "2%" }

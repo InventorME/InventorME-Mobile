@@ -3,7 +3,6 @@ import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback } from "re
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./LogIn.style";
 import { Auth } from 'aws-amplify';
-import { colors } from '../../util/colors';
 
 class HomeScreen extends Component{
 

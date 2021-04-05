@@ -3,12 +3,95 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
+import completed from "../CompletedScreen/completed";
+import UpperTab from "../../Components/UpperTab";
+import categories from "../CategoriesScreen/categories"
+import items from "../ItemsScreen/Items";
+import profilePageNav from "../ProfilePage/profilePage";
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import categoriesNav from "../CategoriesScreen/categories";
 import { colors } from '../../util/colors';
 import { Database } from "../../util/Database";
 import { useRoute } from '@react-navigation/native';
 
 export const renderContext = React.createContext();
+
+
+const mainNav = (props) => {
+  const Drawer = createDrawerNavigator();
+
+  return (
+    <Drawer.Navigator
+      initialRouteName="Items"
+      screenOptions={{
+              header : ({scene}) => {
+                  return (
+                    <UpperTab
+                      title={scene.descriptor.options.title}
+                      nav={() => {scene.descriptor.navigation.toggleDrawer()}}
+                      profileNav={()=>{props.navigation.navigate("ProfilePage")}}
+                    />
+                          );
+              },
+              headerShown : true
+          }}
+      drawerContentOptions={{
+              activeTintColor : colors.buttonText,
+              activeBackgroundColor : colors.button,
+              inactiveBackgroundColor : colors.background,
+              inactiveTintColor : colors.text,
+              backgroundColor: colors.background
+          }}
+    >
+      <Drawer.Screen
+        options={{
+                  title : "Items"
+              }}
+        name="Items"
+        component={items}
+      />
+      <Drawer.Screen
+        options={{
+                  title : "Collections"
+              }}
+        name="Collections"
+        component={categories}
+      />
+      {/* <Drawer.Screen
+        options={{
+                  title : "Folders"
+              }}
+        name="Date"
+        // component={date}
+      /> */}
+      <Drawer.Screen
+        options={{
+                  title : "Archive"
+              }}
+        name="Completed"
+        component={completed}
+      />
+      {/* <Drawer.Screen
+        options={{
+                  title : "Stats"
+              }}
+        name="Settings"
+        // component={stats}
+      /> */}
+      <Drawer.Screen
+        options={{
+                  title : "Profile"
+              }}
+        name="Profile"
+        component={profilePageNav}
+      />
+    </Drawer.Navigator>
+  )
+};
+
+
+
+
 
 const MainPageNav = () => {
   // Once the user is logged in we will have to get the information from the database using an array of titles just 
@@ -37,7 +120,7 @@ const MainPageNav = () => {
     <renderContext.Provider value={data}>
 
       <Tab.Navigator
-        initialRouteName="Categories"
+        initialRouteName="mainNav"
         backBehavior="none"
         tabBarOptions={{
           activeTintColor: colors.buttonText,
@@ -62,8 +145,8 @@ const MainPageNav = () => {
           }}
         />
         <Tab.Screen
-          name="Categories"
-          component={categoriesNav}
+          name="mainNav"
+          component={mainNav}
           options={{
             tabBarIcon: ({ color, size }) => {
               return (<FontAwesome name="home" size={size} color={color} />);

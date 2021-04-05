@@ -4,9 +4,9 @@ import { colors } from '../../util/colors';
 export default StyleSheet.create({
     container : {
         flex : 1,
-        backgroundColor : 'white',
+        backgroundColor : colors.background,
         alignItems : 'flex-start',
-        justifyContent : 'flex-start',
+        justifyContent : 'flex-start'
     },
     boxRow : {
         flex : .2,

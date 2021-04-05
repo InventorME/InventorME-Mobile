@@ -67,10 +67,8 @@ const styles = StyleSheet.create({
       //margin : "2%",
       height : "100%",
       width : "100%",
-      padding:"2%",
-      borderBottomColor : colors.background,
-      borderBottomWidth : 3
-      //borderRadius:20,
+      borderBottomColor : colors.text,
+      borderBottomWidth : 2
     }, 
     boxText1 :{
       flex:1,
@@ -80,16 +78,18 @@ const styles = StyleSheet.create({
     boxText2 :{
       flex:1,
       justifyContent : 'center',
-      alignItems : "center"
+      alignItems : "center",
+      backgroundColor: colors.background
     },
     textStyle1 :{
       fontSize:25,
       paddingTop: 9,
-      color: colors.objectsText,
+      color: colors.objectsText
     },
     textStyle2 : {
       fontSize : 30,
       color : colors.text,
+      backgroundColor: colors.background
     }
 });
 export default BoxFolderComponent;

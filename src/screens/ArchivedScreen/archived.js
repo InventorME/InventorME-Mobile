@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text } from "react-native";
-import styles from "./completed.style";
+import styles from "./archived.style";
 
-const completed = () => {
+const archived = () => {
     return (
       <View style={styles.container}>
         <Text>Completed Page</Text>
@@ -10,4 +10,4 @@ const completed = () => {
     );
 }
 
-export default completed;
+export default archived;

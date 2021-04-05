@@ -1,13 +1,13 @@
 import React, { useState, useContext, Component } from "react";
 import { View, Text, FlatList } from "react-native";
-import styles from "./categories.style";
+import styles from "./collections.style";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 import { renderContext } from "../MainPage/mainPage";
 import { colors } from '../../util/colors';
 import addItemScreen from '../addItemScreen/addItem';
 import EditProfilePage from "../EditProfilePage/editProfilePage";
 
-const categories = (props) => {
+const collections = (props) => {
 
   const data = useContext(renderContext);
   let categoriesList = [];
@@ -71,4 +71,4 @@ const categories = (props) => {
 }  
 };
 
-export default categories;
+export default collections;

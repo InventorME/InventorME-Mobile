@@ -10,6 +10,7 @@ import UpperTab from "../../Components/UpperTab";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 import profilePageNav from "../ProfilePage/profilePage";
 import { colors } from '../../util/colors';
+import StatisticsScreen from "../Statistics/StatisticsScreen";
 
 const categoriesNav = (props) => {
     const Drawer = createDrawerNavigator();
@@ -69,8 +70,8 @@ const categoriesNav = (props) => {
           options={{
                     title : "Stats"
                 }}
-          name="Settings"
-          component={settings}
+          name="Statistics"
+          component={StatisticsScreen}
         />
         <Drawer.Screen
           options={{

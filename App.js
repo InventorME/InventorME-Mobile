@@ -14,6 +14,7 @@ import Items from "./src/screens/ItemsScreen/Items";
 import Amplify from 'aws-amplify';
 import config from './src/config.json';
 import EditItemScreen from "./src/screens/EditItemScreen/EditItem";
+import StatisticsScreen from "./src/screens/Statistics/StatisticsScreen";
 
 Amplify.configure({
   Auth: {
@@ -79,6 +80,13 @@ function myStack() {
           <Stack.Screen
             name="EditProfilePage"
             component={EditProfilePage}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="StatisticsScreen"
+            component={StatisticsScreen}
             options={{
               headerShown: false
             }}

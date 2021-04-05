@@ -61,7 +61,6 @@ const collections = (props) => {
               addPageNavigate={() => { props.navigation.navigate("AddItemScreen") }}
               itemsNavigate={() => { props.navigation.navigate("ItemsScreen") }}
             />
-
           </View>
         </View>
       )}

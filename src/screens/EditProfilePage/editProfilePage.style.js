@@ -27,9 +27,9 @@ export default StyleSheet.create({
   deleteBtn: {
     alignItems: "flex-end",
     justifyContent: "flex-start",
-    paddingTop: hp("6.9%"),
+    paddingTop: hp("8%"),
     paddingEnd: wp("10%"),
-    paddingLeft: wp("30%"),
+    paddingLeft: wp("35%"),
     backgroundColor: colors.background,
   },
   container: {

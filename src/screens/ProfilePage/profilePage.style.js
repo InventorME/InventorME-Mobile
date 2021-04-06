@@ -14,6 +14,7 @@ export default StyleSheet.create({
   child: {
     alignItems: "flex-start",
     justifyContent: "center",
+    marginTop: hp("2%"),
   },
   arrow: {
     alignItems: "flex-start",
@@ -26,8 +27,8 @@ export default StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "flex-start",
     paddingTop: hp("1.5%"),
-    paddingEnd: wp("10%"),
-    paddingLeft: wp("80%"),
+    paddingEnd: wp("5%"),
+    paddingLeft: wp("60%"),
     backgroundColor: colors.background,
   },
   container1: {
@@ -84,8 +85,7 @@ export default StyleSheet.create({
   },
   container2: {
     flex: 2,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    marginTop: hp("10%"),
     backgroundColor: colors.background,
   },
 });

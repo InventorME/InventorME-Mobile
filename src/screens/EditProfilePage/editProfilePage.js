@@ -158,6 +158,7 @@ class EditProfilePage extends Component {
                   source={{
                     uri: "https://api.adorable.io/avatars/285/10@adorable.png",
                   }}
+                  size={160}
                 />
               </View>
 

@@ -65,15 +65,13 @@ class ProfilePageNav extends Component {
   render() {
     return (
       <View style={styles.Page}>
-        <View style={{ flexDirection: "row" }}>
-          <View style={styles.signOutBtn}>
-            <TouchableOpacity
-              style={styles.appButtonContainer}
-              onPress={this.signOut}
-            >
-              <Text style={styles.appButtonText}>Sign Out</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.signOutBtn}>
+          <TouchableOpacity
+            style={styles.appButtonContainer}
+            onPress={this.signOut}
+          >
+            <Text style={styles.appButtonText}>Sign Out</Text>
+          </TouchableOpacity>
         </View>
 
         <SafeAreaView style={styles.container1}>
@@ -83,7 +81,7 @@ class ProfilePageNav extends Component {
               source={{
                 uri: "https://api.adorable.io/avatars/285/10@adorable.png",
               }}
-              size={120}
+              size={180}
             />
             <View style={styles.child}>
               <View>
@@ -94,6 +92,7 @@ class ProfilePageNav extends Component {
                     fontSize: 25,
                     alignSelf: "center",
                     marginTop: hp("2%"),
+                    marginLeft: wp("5%"),
                   }}
                 >
                   {this.state.name} {this.state.family_name}
@@ -101,78 +100,79 @@ class ProfilePageNav extends Component {
               </View>
             </View>
           </View>
-        </SafeAreaView>
 
-        <SafeAreaView style={styles.container2}>
-          <Text
-            style={{
-              color: "#777777",
-              fontSize: 15,
-              marginLeft: wp("25%"),
-              marginTop: hp("8%"),
-            }}
-          >
-            Phone Number:
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              marginLeft: wp("25%"),
-              marginTop: hp("2%"),
-            }}
-          >
-            <Icon name="phone" color="#009688" size={50} />
-            <View style={styles.child}>
-              <Text
-                style={{
-                  color: "#777777",
-                  fontSize: 20,
-                  marginHorizontal: wp("5%"),
-                }}
-              >
-                {this.state.phone_number}
-              </Text>
+          <View style={styles.child}>
+            <Text
+              style={{
+                color: "#777777",
+                fontSize: 15,
+                marginLeft: wp("25%"),
+                marginTop: hp("2%"),
+              }}
+            >
+              Phone Number:
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                marginLeft: wp("25%"),
+                marginTop: hp("2%"),
+              }}
+            >
+              <Icon name="phone" color="#009688" size={50} />
+              <View style={styles.child}>
+                <Text
+                  style={{
+                    color: "#777777",
+                    fontSize: 20,
+                    marginHorizontal: wp("5%"),
+                  }}
+                >
+                  {this.state.phone_number}
+                </Text>
+              </View>
+            </View>
+            <Text
+              style={{
+                color: "#777777",
+                fontSize: 15,
+                marginLeft: wp("25%"),
+                marginTop: hp("5%"),
+              }}
+            >
+              Email:
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                marginLeft: wp("25%"),
+                marginTop: hp("2%"),
+                marginBottom: hp("4%"),
+              }}
+            >
+              <Icon name="mail" color="#009688" size={50} />
+              <View style={styles.child}>
+                <Text
+                  style={{
+                    color: "#777777",
+                    fontSize: 20,
+                    marginHorizontal: wp("5%"),
+                  }}
+                >
+                  {this.state.email}
+                </Text>
+              </View>
             </View>
           </View>
-          <Text
-            style={{
-              color: "#777777",
-              fontSize: 15,
-              marginLeft: wp("25%"),
-              marginTop: hp("5%"),
-            }}
-          >
-            Email:
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              marginLeft: wp("25%"),
-              marginTop: hp("2%"),
-            }}
-          >
-            <Icon name="mail" color="#009688" size={50} />
-            <View style={styles.child}>
-              <Text
-                style={{
-                  color: "#777777",
-                  fontSize: 20,
-                  marginHorizontal: wp("5%"),
-                }}
-              >
-                {this.state.email}
-              </Text>
-            </View>
-          </View>
-        </SafeAreaView>
 
-        <SafeAreaView style={styles.container1}>
-          <TouchableOpacity
-            style={styles.appButtonContainer}
-            onPress={() => this.props.navigation.navigate("EditProfilePage")}
-          >
-            <Text style={styles.appButtonText}>Edit Profile</Text>
-          </TouchableOpacity>
+          <View style={styles.child}>
+            <TouchableOpacity
+              style={styles.appButtonContainer}
+              onPress={() => this.props.navigation.navigate("EditProfilePage")}
+            >
+              <Text style={styles.appButtonText}>Edit Profile</Text>
+            </TouchableOpacity>
+          </View>
         </SafeAreaView>
       </View>
     );

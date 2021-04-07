@@ -27,7 +27,6 @@ const BoxFolderComponent = props => {
         </View>
         <View style={styles.itemCountContainer}>
           <Text style={styles.itemsText}>
-            Items:
             {props.numItems}
           </Text>
         </View>

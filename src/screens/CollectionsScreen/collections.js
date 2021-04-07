@@ -48,20 +48,22 @@ const collections = (props) => {
   
   else {
   return (
-    <FlatList
-      data={countList}
-      renderItem={({ item }) => (
-            <BoxFolderComponent
-              boxType={1}
-              title={item.name}
-              numItems={item.count}
-              style={{ backgroundColor: colors.objects[item.colorNum] }}
-              addPageNavigate={() => { props.navigation.navigate("AddItemScreen") }}
-              itemsNavigate={() => { props.navigation.navigate("ItemsScreen") }}
-            />
-      )}
-      numColumns={2}
-    />
+    <View style={styles.container}>
+      <FlatList
+        data={countList}
+        renderItem={({ item }) => (
+              <BoxFolderComponent
+                boxType={1}
+                title={item.name}
+                numItems={item.count}
+                style={{ backgroundColor: colors.objects[item.colorNum] }}
+                addPageNavigate={() => { props.navigation.navigate("AddItemScreen") }}
+                itemsNavigate={() => { props.navigation.navigate("ItemsScreen") }}
+              />
+        )}
+        numColumns={2}
+      />
+    </View>
   );
 }  
 };

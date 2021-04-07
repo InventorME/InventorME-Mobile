@@ -19,7 +19,7 @@ const BoxFolderComponent = props => {
           <TouchableOpacity
             onPress={props.addPageNavigate}
           >
-            <AntDesign name='pluscircle' size={30} color={colors.icon}  />
+            <AntDesign name='pluscircle' size={30} color={colors.icon} style={{marginLeft: "80%"}} />
           </TouchableOpacity>
         </View>
         <View style={styles.boxText1}>

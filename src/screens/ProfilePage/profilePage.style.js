@@ -14,6 +14,7 @@ export default StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "center",
     marginTop: hp("2%"),
+    color: colors.text
   },
   arrow: {
     alignItems: "flex-start",
@@ -84,6 +85,7 @@ export default StyleSheet.create({
   container2: {
     flex: 2,
     marginTop: hp("10%"),
+    color: colors.text,
     backgroundColor: colors.background,
   },
 });

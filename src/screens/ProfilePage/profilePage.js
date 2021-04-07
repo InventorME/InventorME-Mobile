@@ -122,7 +122,6 @@ class ProfilePageNav extends Component {
               <View style={styles.child}>
                 <Text
                   style={{
-                    color: colors.objectsText,
                     fontSize: 20,
                     marginHorizontal: wp("5%"),
                   }}
@@ -153,7 +152,6 @@ class ProfilePageNav extends Component {
               <View style={styles.child}>
                 <Text
                   style={{
-                    color: colors.objectsText,
                     fontSize: 20,
                     marginHorizontal: wp("5%"),
                   }}

@@ -15,6 +15,7 @@ const Items = (props) => {
                 title = {item.itemName}
               />
         )}
+        keyExtractor = {(item, index) => item.itemName}
       />
     );
 }

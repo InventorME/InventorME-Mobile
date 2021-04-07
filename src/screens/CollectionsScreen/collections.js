@@ -62,6 +62,7 @@ const collections = (props) => {
               />
         )}
         numColumns={2}
+        keyExtractor = {(item, index) => item.name}
       />
     </View>
   );

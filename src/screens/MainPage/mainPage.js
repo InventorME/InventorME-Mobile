@@ -6,7 +6,7 @@ import scanItem from "../scanItemScreen/scanItem";
 import archived from "../ArchivedScreen/archived";
 import UpperTab from "../../Components/UpperTab";
 import collections from "../CollectionsScreen/collections"
-import items from "../ItemsScreen/Items";
+import recent from "../RecentScreen/recent";
 import profilePageNav from "../ProfilePage/profilePage";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { colors } from '../../util/colors';
@@ -68,7 +68,7 @@ const mainNav = (props) => {
           title : "Recent"
         }}
         name="Recent"
-        component={items}
+        component={recent}
         />
       {/* <Drawer.Screen
         options={{

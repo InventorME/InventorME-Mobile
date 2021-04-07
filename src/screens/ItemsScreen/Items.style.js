@@ -3,13 +3,15 @@ import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
     container : {
-        flex : 1,
+        //flex : 1,
+        height : "40%",
         backgroundColor : colors.background,
         alignItems : 'flex-start',
         justifyContent : 'flex-start'
     },
     boxRow : {
-        flex : .2,
+        //flex : .2,
+        //height : "20%",
         flexDirection : 'row',
         flexWrap : 'wrap',
     },

@@ -1,7 +1,5 @@
 import React, {useContext} from "react";
-import { View, Text } from "react-native";
 import { renderContext } from "../MainPage/mainPage";
-import styles from "./archived.style";
 import Items from "../ItemsScreen/Items";
 
 const archived = ({navigation}) => {

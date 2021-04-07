@@ -11,13 +11,9 @@ const Items = (props) => {
       <FlatList
         data = {itemsToRender}
         renderItem = {({item}) => (
-          <View style={styles.container}>
-            <View style = {styles.boxRow}>
               <BoxFolderComponent
                 title = {item.itemName}
               />
-            </View>
-          </View>
         )}
       />
     );

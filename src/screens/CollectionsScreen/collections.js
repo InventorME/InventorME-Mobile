@@ -51,8 +51,6 @@ const collections = (props) => {
     <FlatList
       data={countList}
       renderItem={({ item }) => (
-        <View style={styles.container}>
-          <View style={styles.boxFolder}>
             <BoxFolderComponent
               boxType={1}
               title={item.name}
@@ -61,8 +59,6 @@ const collections = (props) => {
               addPageNavigate={() => { props.navigation.navigate("AddItemScreen") }}
               itemsNavigate={() => { props.navigation.navigate("ItemsScreen") }}
             />
-          </View>
-        </View>
       )}
       numColumns={2}
     />

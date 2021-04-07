@@ -35,10 +35,10 @@ export default StyleSheet.create({
         height:70,
         width: 50,
       },
-      ColTextInput:{
+      TextInput:{
         borderWidth:0.5,
         borderColor: colors.text,
-        borderRadius:25,
+        borderRadius: 8,
         paddingHorizontal:16,
         padding: 8,
         margin: 10,
@@ -46,10 +46,10 @@ export default StyleSheet.create({
         backgroundColor: colors.background,
         color: colors.text
       },
-      TextInput:{
+      TextInput1:{
         borderWidth:1,
         borderColor: colors.text,
-        borderRadius:25,
+        borderRadius: 8,
         paddingHorizontal:16,
         color: colors.text,
         padding: 8,

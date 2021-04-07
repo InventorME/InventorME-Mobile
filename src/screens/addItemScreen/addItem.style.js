@@ -33,7 +33,7 @@ export default StyleSheet.create({
   TextInput: {
     borderWidth: 1,
     borderColor: colors.label,
-    borderRadius: 1,
+    borderRadius: 8,
     paddingHorizontal: wp("2.5%"),
     padding: 8,
     margin: wp("5%"),
@@ -43,7 +43,7 @@ export default StyleSheet.create({
   TextInput1: {
     borderWidth: 1,
     borderColor: colors.label,
-    borderRadius: 1,
+    borderRadius: 8,
     paddingHorizontal: wp("2.5%"),
     padding: 8,
     margin: wp("5%"),

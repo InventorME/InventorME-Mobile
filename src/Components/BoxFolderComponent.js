@@ -40,7 +40,7 @@ const BoxFolderComponent = props => {
         style = {{...styles.Box2, ...props.style, height : boxHeight / 5}}
       >
         <View style = {styles.boxText2}>
-          <Text style = {styles.textStyle2}>{props.title}</Text>
+          <Text style = {styles.textStyle2} numberOfLines = {1}>{props.title}</Text>
         </View>
       </TouchableOpacity>
     );

@@ -12,7 +12,8 @@ function colorGenerator(){
             label: '#ffffff',
             icon: '#f2f7ff',
             objects: ['#ffb5b9', '#b3b5ff', '#47ff72', '#aebffc', '#b3b5ff', '#b3b5ff', '#47ff72', '#aebffc'],
-            objectsText: '#ffffff'
+            objectsText: '#ffffff',
+            fill: '#404040'
         }
         return color;
     }
@@ -27,7 +28,8 @@ function colorGenerator(){
             label: '#000000',
             icon: '#36244f',
             objects: ['#ffb5b9', '#b3b5ff', '#47ff72', '#aebffc', '#b3b5ff', '#b3b5ff', '#47ff72', '#aebffc'],
-            objectsText: '#ffffff'
+            objectsText: '#ffffff',
+            fill: '#e6e6e6'
         }
         return color;
     }

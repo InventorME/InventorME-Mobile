@@ -1,20 +1,24 @@
 import React from "react";
 import ProgressCircle from 'react-native-progress-circle';
-import { View, Text } from "react-native";;
+import { View, Text } from "react-native";
+import { colors } from '../util/colors';
  
 const ProgCircle = (props) =>  {
     
     return(
+        <View style={{alignItems: 'center',
+        justifyContent: 'center', width: '100%'}}>
         <ProgressCircle
             percent={props.percent}
-            radius={90}
-            borderWidth={8}
-            color="#3399FF"
-            shadowColor="#999"
-            bgColor="#fff"
+            radius={80}
+            borderWidth={12}
+            color={props.color}
+            shadowColor={colors.fill}
+            bgColor={colors.background}
         >
-            <Text style={{ fontSize: 18 }}>{props.text}</Text>
+            <Text style={{ fontSize: 30, color: colors.label }}>{props.text}</Text>
         </ProgressCircle>
+        </View>
     );
    
 

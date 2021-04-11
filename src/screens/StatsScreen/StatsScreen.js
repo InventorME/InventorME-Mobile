@@ -2,21 +2,15 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { View, Text, FlatList } from "react-native";
 import ProgCircle from '../../Components/ProgCircle';
-import styles from "../../screens/CollectionsScreen/collections.style";
+import ProgressCircle from 'react-native-progress-circle';
+import styles from "../../screens/StatsScreen/StatsScreen.style";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 import { Database } from '../../util/Database';
 import { colors } from '../../util/colors';
+import { ScrollView } from "react-native-gesture-handler";
 
 
 class StatsScreen extends Component {
-  // const [name, setName] = useState('');
-  // const [category, setCategory] = useState('');
-  // const [location, setLocation] = useState('');
-  // const [notes, setNotes] = useState('');
-  // const [tags, setTags] = useState('');
-
-
-
 
   constructor(props) {
     super(props)
@@ -99,70 +93,76 @@ class StatsScreen extends Component {
     if(!this.state.loading){
     return (
       //{this.state.loading ?
-      <View>
+      
+      <ScrollView>
+        <View style={styles.container}>
         
           
-        <View >
+        <View style={styles.stat}>
           <ProgCircle
             percent={percentage}
             text={`$${Math.round(this.state.currentWorth / this.state.allLength) * 100}`}
+            color={colors.objects[0]}
+
 
           />
-          <Text > {'Net Worth '}</Text>
+          <Text style={styles.label}> {'Net Worth '}</Text>
         </View>
-        <View >
+        <View style={styles.stat}>
           <ProgCircle
             percent={(this.state.depreciation - this.state.currentWorth) / 100}
             text={`$${(this.state.depreciation - this.state.currentWorth)}`}
-
+            color={colors.objects[1]}
           />
-          <Text > {'Depreciation'} </Text>
+          <Text style={styles.label}> {'Depreciation'} </Text>
         </View>
-            
 
-
-        <View >
+        <View style={styles.stat}>
           <ProgCircle
            percent={(this.state.archiveLength / this.state.allLength) * 100}
            text={`${this.state.archiveLength}`}
-
+           color={colors.objects[2]}
           />
-          <Text>{'Archived Items'} </Text>
+          <Text style={styles.label}>{'Archived Items'} </Text>
         </View>
 
-        <View >
+        <View style={styles.stat} >
           <ProgCircle
               percent={100}
               text={`${this.state.allLength}`}
+              color={colors.objects[3]}
           />
-          <Text > {'# All Items'} </Text>
+          <Text style={styles.label}> {'# All Items'} </Text>
         </View>
-        <View>
+        <View style={styles.stat}>
           <ProgCircle
             percent={percentage}
             text={`$${this.state.depreciation}`}
-
+            color={colors.objects[4]}
           />
-          <Text > {'Money Invested'} </Text>
+          <Text style={styles.label}> {'Money Invested'} </Text>
         </View>
 
-        <View >
+        <View style={styles.stat}>
           <ProgCircle
             percent={this.state.soldLength}
             text={`${this.state.Lost * 100}%`}
+            color={colors.objects[5]}
           />
-          <Text> {'% Money Lost'} </Text>
+          <Text style={styles.label}> {'% Money Lost'} </Text>
         </View>
 
-        <View>
+        <View style={styles.stat}>
           <ProgCircle
             percent={this.state.Lost * 100}
             text={`$${this.state.Costper}/Mo`}
-
+            color={colors.objects[6]}
           />
-          <Text> {'Monthly Recurring Cost'} </Text>
+          <Text style={styles.label}> {'Monthly Recurring Cost'} </Text>
         </View>
-      </View> 
+        </View>
+      </ScrollView> 
+      
     )}else{
       return(
         <Text>Loading...</Text>

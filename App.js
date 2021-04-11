@@ -15,6 +15,7 @@ import Amplify from 'aws-amplify';
 import config from './src/config.json';
 import EditItemScreen from "./src/screens/EditItemScreen/EditItem";
 import {colors} from "./src/util/colors";
+import StatsScreen from "./src/screens/StatsScreen/StatsScreen";
 
 Amplify.configure({
   Auth: {
@@ -66,6 +67,13 @@ function myStack() {
           <Stack.Screen
             name="AddItemScreen"
             component={addItemScreen}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="StatsScreen"
+            component={StatsScreen}
             options={{
               headerShown: false
             }}

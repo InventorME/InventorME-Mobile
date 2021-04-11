@@ -12,6 +12,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { colors } from '../../util/colors';
 import { Database } from "../../util/Database";
 import { useRoute } from '@react-navigation/native';
+import StatsScreen from "../StatsScreen/StatsScreen";
 
 export const renderContext = React.createContext();
 
@@ -70,13 +71,13 @@ const mainNav = (props) => {
         name="Recent"
         component={items}
         />
-      {/* <Drawer.Screen
+      { <Drawer.Screen
         options={{
                   title : "Stats"
               }}
-        name="Settings"
-        // component={stats}
-      /> */}
+        name="StatsScreen"
+         component={StatsScreen}
+      /> }
       <Drawer.Screen
         options={{
                   title : "Profile"

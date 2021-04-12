@@ -5,7 +5,14 @@ import BoxFolderComponent from "../../Components/BoxFolderComponent";
 
 const Items = (props) => {
 
-  const itemsToRender = props.itemsToRender;
+  let itemsToRender = [];
+
+  if (props.hasOwnProperty("itemsToRender")) {
+    itemsToRender = props.itemsToRender;
+  }
+  else {
+    itemsToRender = props.route.params.itemsToRender;
+  }
 
     return (
       <FlatList

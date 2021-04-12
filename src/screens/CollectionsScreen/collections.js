@@ -1,11 +1,10 @@
-import React, { useState, useContext, Component } from "react";
+import React, { useContext } from "react";
 import { View, Text, FlatList } from "react-native";
 import styles from "./collections.style";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 import { renderContext } from "../MainPage/mainPage";
 import { colors } from '../../util/colors';
-import addItemScreen from '../addItemScreen/addItem';
-import EditProfilePage from "../EditProfilePage/editProfilePage";
+import Items from "../ItemsScreen/Items";
 
 const collections = (props) => {
 
@@ -22,11 +21,20 @@ const collections = (props) => {
     }
 
     for (let i = 0; i < categoriesList.length; i++) {
-      let object = { name: categoriesList[i], count: 0, key: categoriesList[i], colorNum: 0 };
+      let itemsToRender = [];
+      let object = {}
+      
+      if (categoriesList[i] == "") {
+        object = { name: "Miscellaneous", count : 0, itemsToRender: itemsToRender, key: "Miscellaneous", colorNum: 0 };
+      }
+      else {
+        object = { name: categoriesList[i], count: 0, itemsToRender: itemsToRender, key: categoriesList[i], colorNum: 0 };
+      }
 
       for (let j = 0; j < data.items.length; j++) {
         if (data.items[j].itemCategory == categoriesList[i]) {
           object.count += 1;
+          object.itemsToRender.push(data.items[j]);
         }
       }
       object.colorNum = (i%7);
@@ -34,9 +42,6 @@ const collections = (props) => {
       countList.push(object);
     }
   }
-
-  // console.log(countList);
-  
   
   if (data == null) {
     return (
@@ -58,7 +63,7 @@ const collections = (props) => {
                 numItems={item.count}
                 style={{ backgroundColor: colors.objects[item.colorNum] }}
                 addPageNavigate={() => { props.navigation.navigate("AddItemScreen") }}
-                itemsNavigate={() => { props.navigation.navigate("ItemsScreen") }}
+                itemsNavigate={() => { props.navigation.navigate("ItemsScreen", {itemsToRender : item.itemsToRender})}}
               />
         )}
         numColumns={2}

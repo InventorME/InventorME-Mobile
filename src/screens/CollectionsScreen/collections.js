@@ -22,7 +22,14 @@ const collections = (props) => {
 
     for (let i = 0; i < categoriesList.length; i++) {
       let itemsToRender = [];
-      let object = { name: categoriesList[i], count: 0, itemsToRender: itemsToRender, key: categoriesList[i], colorNum: 0 };
+      let object = {}
+      
+      if (categoriesList[i] == "") {
+        object = { name: "Miscellaneous", count : 0, itemsToRender: itemsToRender, key: "Miscellaneous", colorNum: 0 };
+      }
+      else {
+        object = { name: categoriesList[i], count: 0, itemsToRender: itemsToRender, key: categoriesList[i], colorNum: 0 };
+      }
 
       for (let j = 0; j < data.items.length; j++) {
         if (data.items[j].itemCategory == categoriesList[i]) {

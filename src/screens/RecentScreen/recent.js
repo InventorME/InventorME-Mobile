@@ -23,8 +23,6 @@ const recent = () => {
     }
   }
 
-  console.log(recentItems);
-
   return (
     <Items itemsToRender = {recentItems}/>
   );

@@ -65,7 +65,7 @@ const mainNav = (props) => {
       />
       <Drawer.Screen
         options={{
-          title : "Recent"
+          title : "Items"
         }}
         name="Recent"
         component={recent}

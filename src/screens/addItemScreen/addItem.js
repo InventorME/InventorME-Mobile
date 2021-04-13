@@ -47,7 +47,7 @@ const addItemScreen = (props) => {
   async function poster() {
     try {
       const item = await db.post(POSTitemFORMAT);
-      console.log(item);
+      // console.log(item);
     } catch (error) {
       console.log(error);
     }
@@ -142,10 +142,7 @@ const addItemScreen = (props) => {
           <TouchableOpacity
             style={styles.appButtonContainer}
             onPress={() => {
-              {
-                console.log("I am pressed Cancel");
-              }
-              props.navigation.goBack();
+              props.navigation.navigate("MainPage");
             }}
           >
             <Text style={styles.appButtonText}>Cancel</Text>
@@ -154,9 +151,6 @@ const addItemScreen = (props) => {
           <TouchableOpacity
             style={styles.appButtonContainer}
             onPress={() => {
-              {
-                console.log("I am pressed Save");
-              }
               poster();
               props.navigation.goBack();
             }}
@@ -167,9 +161,6 @@ const addItemScreen = (props) => {
           <TouchableOpacity
             style={styles.appButtonContainer}
             onPress={() => {
-              {
-                console.log("I am pressed Edit");
-              }
               props.navigation.navigate("EditItemScreen");
             }}
           >
@@ -179,9 +170,8 @@ const addItemScreen = (props) => {
           <TouchableOpacity
             style={styles.appButtonContainer}
             onPress={() => {
-              {
-                console.log("I am pressed Add");
-              }
+              poster();
+              props.navigation.navigate("addItemScreen");
             }}
           >
             <Text style={styles.appButtonText}>Add Item</Text>

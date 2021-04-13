@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView,TouchableWithoutFeedback, Keyboard  } from "react-native";
+import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import styles from "./EditItem.style";
-import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
-import { Image } from 'react-native'
 import { Database } from '../../util/Database';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Avatar } from "react-native-paper";
 import { colors } from '../../util/colors';
 
 
@@ -51,233 +50,241 @@ const EditItemScreen = (props) => {
     itemTags: `"${tags}"`,
     itemArchived: '0',
     itemFolder: "null"
-}
+  }
 
-//   async function putter(){
-//     try{
-//         const item = await db.post(POSTitemFORMAT);
-//         console.log(item);
-//     } catch(error){
-//         console.log(error);
-//     }
-// }
+  //   async function putter(){
+  //     try{
+  //         const item = await db.post(POSTitemFORMAT);
+  //         console.log(item);
+  //     } catch(error){
+  //         console.log(error);
+  //     }
+  // }
 
   return (
-<ScrollView contentContainerStyle={styles.Page}>
-    <KeyboardAwareScrollView 
-        resetScrollToCoords = {{x : 0, y : 0}}
-        contentContainerStyle = {styles.Page}
-        scrollEnabled = {true}  
-      >
-        <TouchableWithoutFeedback onPress = {Keyboard.dismiss}>
-          
-    <View style={styles.page}>
-      
-      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-        <View style={styles.columnView}>
-          <View style={styles.child}>
-            <Text style={{ color: colors.label }}>Name:</Text>
-            <TextInput
-              style={styles.ColTextInput}
-              placeholder='Name'
-              onChangeText={(text) => { setName(text) }}
-              value={name}
-            />
+    <ScrollView>
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.Page}
+        scrollEnabled={true}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+
+            <TouchableOpacity
+              style={styles.buttonCancel}
+              onPress={() => { props.navigation.goBack() }}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+
+            <View style={styles.child1}>
+              <Text style={styles.label}>Name:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Name'
+                onChangeText={(text) => { setName(text) }}
+                value={name}
+              />
+            </View>
+            <View style={styles.image}>
+              <Avatar.Image
+
+                source={{
+                  uri: "https://api.adorable.io/avatars/285/10@adorable.png",
+                }}
+                size={140}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Collection:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Collection'
+                onChangeText={(text) => { setCategory(text) }}
+                value={category}
+              />
+            </View>
+
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Serial Number:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Serial Number'
+                onChangeText={(text) => { setSerialNum(text) }}
+                value={serialNum}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Purchase Amount:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Purchase Amount'
+                onChangeText={(text) => { setPurchaseAmt(text) }}
+                value={purchaseAmt}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Worth:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Worth'
+                onChangeText={(text) => { setWorth(text) }}
+                value={worth}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Receipt Photo:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Receipt Photo'
+                onChangeText={(text) => { setReceiptPhoto(text) }}
+                value={receiptPhoto}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Item Manual URL:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Item Manual'
+                onChangeText={(text) => { setItemManualUrl(text) }}
+                value={itemManualUrl}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Sell Date:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Sell Date'
+                onChangeText={(text) => { setSellDate(text) }}
+                value={sellDate}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Buy Date:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Buy Date'
+                onChangeText={(text) => { setBuyDate(text) }}
+                value={buyDate}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Sell Amount:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Sell Amount'
+                onChangeText={(text) => { setSellAmt(text) }}
+                value={sellAmt}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Recurring Payment:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Recurring Payment'
+                onChangeText={(text) => { setRecurrPayAmt(text) }}
+                value={recurrPayAmt}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Shopping Url:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Shopping Url'
+                onChangeText={(text) => { setEbayUrl(text) }}
+                value={EbayUrl}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Archived:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Archived'
+                onChangeText={(text) => { setArchived(text) }}
+                value={archived}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Folder:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Folder'
+                onChangeText={(text) => { setFolder(text) }}
+                value={folder}
+              />
+            </View>
+
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Location:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Location'
+                onChangeText={(text) => { setLocation(text) }}
+                value={location}
+              />
+            </View>
+
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Notes:</Text>
+              <TextInput
+                style={styles.notesInput}
+                placeholder='Notes'
+                maxLength='200'
+                multiline={true}
+                onChangeText={(text) => { setNotes(text) }}
+                value={notes}
+              />
+            </View>
+
+            <View style={styles.child}>
+              <Text style={styles.label}>Tags:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Tags'
+                onChangeText={(text) => { setTags(text) }}
+                value={tags}
+              />
+            </View>
+
+
+
+            <View style={styles.buttonContainer}>
+
+              {/* <TouchableOpacity
+            style={styles.button}
+            onPress={() => { props.navigation.goBack() }}
+          >
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity> */}
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => { poster(); props.navigation.goBack() }}
+              >
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
+
+
           </View>
 
-          <View style={styles.child}>
-            <Text style={{ color: colors.label }}>Collection:</Text>
-            <TextInput
-              style={styles.ColTextInput}
-              placeholder='Collection'
-              onChangeText={(text) => { setCategory(text) }}
-              value={category}
-            />
-          </View>
-
-        </View>
-
-        <View>
-          <Text>Right</Text>
-        </View>
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Serial Number:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Serial Number'
-          onChangeText={(text) => { setSerialNum(text) }}
-          value={serialNum}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Purchase Amount:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Purchase Amount'
-          onChangeText={(text) => { setPurchaseAmt(text) }}
-          value={purchaseAmt}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Worth:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Worth'
-          onChangeText={(text) => { setWorth(text) }}
-          value={worth}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Receipt Photo:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Receipt Photo'
-          onChangeText={(text) => { setReceiptPhoto(text) }}
-          value={receiptPhoto}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Item Manual URL:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Item Manual'
-          onChangeText={(text) => { setItemManualUrl(text) }}
-          value={itemManualUrl}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Sell Date:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Sell Date'
-          onChangeText={(text) => { setSellDate(text) }}
-          value={sellDate}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Buy Date:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Buy Date'
-          onChangeText={(text) => { setBuyDate(text) }}
-          value={buyDate}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Sell Amount:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Sell Amount'
-          onChangeText={(text) => { setSellAmt(text) }}
-          value={sellAmt}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Recurring Payment:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Recurring Payment'
-          onChangeText={(text) => { setRecurrPayAmt(text) }}
-          value={recurrPayAmt}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Shopping Url:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Shopping Url'
-          onChangeText={(text) => { setEbayUrl(text) }}
-          value={EbayUrl}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Archived:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Archived'
-          onChangeText={(text) => { setArchived(text) }}
-          value={archived}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Folder:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Folder'
-          onChangeText={(text) => { setFolder(text) }}
-          value={folder}
-        />
-      </View>
-
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Location:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Location'
-          onChangeText={(text) => { setLocation(text) }}
-          value={location}
-        />
-      </View>
-      
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Notes:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Notes'
-          onChangeText={(text) => { setNotes(text) }}
-          value={notes}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Tags:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Tags'
-          onChangeText={(text) => { setTags(text) }}
-          value={tags}
-        />
-      </View>
-      
-
-
-      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-
-        <TouchableOpacity
-          style={styles.appButtonContainer}
-          onPress={() => { { console.log("I am pressed Cancel") };props.navigation.goBack() }}
-        >
-          <Text style={styles.appButtonText}>Cancel</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.appButtonContainer}
-          onPress={() => { { console.log("I am pressed Save")};poster();props.navigation.goBack() }}
-        >
-          <Text style={styles.appButtonText}>Save</Text>
-        </TouchableOpacity>
-      </View>
-
-
-    </View>
-    
-    </TouchableWithoutFeedback>
-    </KeyboardAwareScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
     </ScrollView>
 
   );

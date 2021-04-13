@@ -1,6 +1,5 @@
 import React from "react";
 import { View, FlatList } from "react-native";
-import styles from "./Items.style";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 
 const Items = (props) => {

@@ -1,11 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-unused-state */
-/* eslint-disable react/sort-comp */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable vars-on-top */
-/* eslint-disable no-var */
-/* eslint-disable prefer-template */
-/* eslint-disable lines-between-class-members */
 import React, { Component } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import {

@@ -244,7 +244,7 @@ const EditItemScreen = (props) => {
               <TextInput
                 style={styles.notesInput}
                 placeholder='Notes'
-                maxLength='200'
+                maxLength={200}
                 multiline={true}
                 onChangeText={(text) => { setNotes(text) }}
                 value={notes}
@@ -264,13 +264,6 @@ const EditItemScreen = (props) => {
 
 
             <View style={styles.buttonContainer}>
-
-              {/* <TouchableOpacity
-            style={styles.button}
-            onPress={() => { props.navigation.goBack() }}
-          >
-            <Text style={styles.buttonText}>Cancel</Text>
-          </TouchableOpacity> */}
 
               <TouchableOpacity
                 style={styles.button}

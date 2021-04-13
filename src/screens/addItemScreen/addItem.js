@@ -3,12 +3,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-lone-blocks */
 import React, { useState } from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Avatar } from "react-native-paper";
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./addItem.style";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { Database } from "../../util/Database";
@@ -17,8 +14,10 @@ import { colors } from "../../util/colors";
 const addItemScreen = (props) => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
+  const [folder, setFolder] = useState('');
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
+  const [worth, setWorth] = useState('');
   const [tags, setTags] = useState("");
   const db = new Database();
 
@@ -47,138 +46,149 @@ const addItemScreen = (props) => {
   async function poster() {
     try {
       const item = await db.post(POSTitemFORMAT);
-      // console.log(item);
+      console.log(item);
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <View style={styles.Page}>
-      <SafeAreaView style={styles.container}>
-        <View style={{ flexDirection: "row" }}>
-          <View style={{ flexDirection: "column" }}>
-            <View style={styles.child}>
-              <Text style={{ color: colors.label }}>Name:</Text>
-              <TextInput
-                style={styles.TextInput}
-                placeholder="Name"
-                onChangeText={(text) => {
-                  setName(text);
-                }}
-                value={name}
-              />
-            </View>
+    <ScrollView>
+         {/* <KeyboardAwareScrollView 
+       resetScrollToCoords={{ x: 0, y: 0 }}
+      scrollEnabled={true}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>  */}
+      <View style={styles.container}>
 
-            <View style={styles.child}>
-              <Text style={{ color: colors.label }}>Collection:</Text>
-              <TextInput
-                style={styles.TextInput}
-                placeholder="Collection"
-                onChangeText={(text) => {
-                  setCategory(text);
-                }}
-                value={category}
-              />
-            </View>
-          </View>
+        <TouchableOpacity
+          style={styles.buttonCancel}
+          onPress={() => { props.navigation.goBack() }}
+        >
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableOpacity>
 
-          <View>
-            <Avatar.Image
-              style={{
-                justifyContent: "space-evenly",
-                marginTop: wp("14%"),
-              }}
-              source={{
-                uri: "https://api.adorable.io/avatars/285/10@adorable.png",
-              }}
-              size={140}
-            />
-          </View>
-        </View>
-      </SafeAreaView>
-
-      <View style={styles.child}>
-        <View style={{ marginTop: wp("8%") }}>
-          <Text style={{ color: colors.label }}>Location:</Text>
+        <View style={styles.child1}>
+          <Text style={styles.label}>Name:</Text>
           <TextInput
-            style={styles.TextInput1}
-            placeholder="Location"
-            onChangeText={(text) => {
-              setLocation(text);
+            style={styles.textInput}
+            placeholder='Name'
+            onChangeText={(text) => { setName(text) }}
+            value={name}
+          />
+        </View>
+
+        <View style={styles.image}>
+          <Avatar.Image
+
+            source={{
+              uri: "https://api.adorable.io/avatars/285/10@adorable.png",
             }}
+            size={140}
+          />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Collection:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder='Collection'
+            onChangeText={(text) => { setCategory(text) }}
+            value={category}
+          />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Worth:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder='Worth'
+            onChangeText={(text) => { setWorth(text) }}
+            value={worth}
+          />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Folder:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder='Folder'
+            onChangeText={(text) => { setFolder(text) }}
+            value={folder}
+          />
+        </View>
+
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Location:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder='Location'
+            onChangeText={(text) => { setLocation(text) }}
             value={location}
           />
-          <Text style={{ color: colors.label }}>Notes:</Text>
+        </View>
+
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Notes:</Text>
           <TextInput
-            style={styles.TextInput1}
-            placeholder="Notes"
-            onChangeText={(text) => {
-              setNotes(text);
-            }}
+            style={styles.notesInput}
+            placeholder='Notes'
+            maxLength={200}
+            multiline={true}
+            onChangeText={(text) => { setNotes(text) }}
             value={notes}
           />
+        </View>
 
-          <Text style={{ color: colors.label }}>Tags:</Text>
+        <View style={styles.child}>
+          <Text style={styles.label}>Tags:</Text>
           <TextInput
-            style={styles.TextInput1}
-            placeholder="Tags"
-            onChangeText={(text) => {
-              setTags(text);
-            }}
+            style={styles.textInput}
+            placeholder='Tags'
+            onChangeText={(text) => { setTags(text) }}
             value={tags}
           />
         </View>
-      </View>
 
-      <SafeAreaView style={styles.container}>
-        <View
-          style={{
-            flexDirection: "row",
-            paddingTop: hp("10%"),
-            alignContent: "center",
-          }}
-        >
-          <TouchableOpacity
-            style={styles.appButtonContainer}
-            onPress={() => {
-              props.navigation.navigate("MainPage");
-            }}
-          >
-            <Text style={styles.appButtonText}>Cancel</Text>
-          </TouchableOpacity>
+
+
+        <View style={styles.buttonContainer}>
 
           <TouchableOpacity
-            style={styles.appButtonContainer}
+            style={styles.button}
             onPress={() => {
               poster();
               props.navigation.goBack();
             }}
           >
-            <Text style={styles.appButtonText}>Save</Text>
+            <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.appButtonContainer}
+            style={styles.button}
             onPress={() => {
               props.navigation.navigate("EditItemScreen");
             }}
           >
-            <Text style={styles.appButtonText}>Edit Item</Text>
+            <Text style={styles.buttonText}>Edit Item</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.appButtonContainer}
+            style={styles.button}
             onPress={() => {
               poster();
               props.navigation.navigate("addItemScreen");
             }}
           >
-            <Text style={styles.appButtonText}>Add Item</Text>
+            <Text style={styles.buttonText}>Add Item</Text>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
-    </View>
+
+      </View>
+         {/* </TouchableWithoutFeedback>
+       </KeyboardAwareScrollView> */}
+     </ScrollView >
   );
 };
 

@@ -4,7 +4,7 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable lines-between-class-members */
 import React, { Component } from "react";
-import { View, Image, SafeAreaView, AppState } from "react-native";
+import { View, Image, SafeAreaView, AppState, ScrollView } from "react-native";
 import { Avatar, Text } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
@@ -64,114 +64,116 @@ class ProfilePageNav extends Component {
 
   render() {
     return (
-      <View style={styles.Page}>
-        <View style={styles.signOutBtn}>
-          <TouchableOpacity
-            style={styles.appButtonContainer}
-            onPress={this.signOut}
-          >
-            <Text style={styles.appButtonText}>Sign Out</Text>
-          </TouchableOpacity>
-        </View>
-
-        <SafeAreaView style={styles.container1}>
-          <View>
-            <Avatar.Image
-              style={{ alignSelf: "center" }}
-              source={{
-                uri: "https://api.adorable.io/avatars/285/10@adorable.png",
-              }}
-              size={180}
-            />
-            <View style={styles.child}>
-              <View>
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    color: colors.text,
-                    fontSize: 25,
-                    marginTop: hp("2%"),
-                    marginLeft: wp("7%"),
-                  }}
-                >
-                  {this.state.name} {this.state.family_name}
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.child}>
-            <Text
-              style={{
-                color: colors.label,
-                fontSize: 15,
-                marginLeft: wp("10%"),
-                marginTop: hp("2%"),
-              }}
-            >
-              Phone Number:
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                marginLeft: wp("10%"),
-                marginTop: hp("2%"),
-              }}
-            >
-              <Icon name="phone" color={colors.icon} size={50} />
-              <View style={styles.child}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    marginHorizontal: wp("5%"),
-                  }}
-                >
-                  {this.state.phone_number}
-                </Text>
-              </View>
-            </View>
-            <Text
-              style={{
-                color: colors.label,
-                fontSize: 15,
-                marginLeft: wp("10%"),
-                marginTop: hp("5%"),
-              }}
-            >
-              Email:
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                marginLeft: wp("10%"),
-                marginTop: hp("2%"),
-                marginBottom: hp("4%"),
-              }}
-            >
-              <Icon name="mail" color={colors.icon} size={50} />
-              <View style={styles.child}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    marginHorizontal: wp("5%"),
-                  }}
-                >
-                  {this.state.email}
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.child}>
+      <ScrollView>
+        <View style={styles.Page}>
+          <View style={styles.signOutBtn}>
             <TouchableOpacity
               style={styles.appButtonContainer}
-              onPress={() => this.props.navigation.navigate("EditProfilePage")}
+              onPress={this.signOut}
             >
-              <Text style={styles.appButtonText}>Edit Profile</Text>
+              <Text style={styles.appButtonText}>Sign Out</Text>
             </TouchableOpacity>
           </View>
-        </SafeAreaView>
-      </View>
+
+          <SafeAreaView style={styles.container1}>
+            <View>
+              <Avatar.Image
+                style={{ alignSelf: "center" }}
+                source={{
+                  uri: "https://api.adorable.io/avatars/285/10@adorable.png",
+                }}
+                size={180}
+              />
+              <View style={styles.child}>
+                <View>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      color: colors.text,
+                      fontSize: 25,
+                      marginTop: hp("2%"),
+                      marginLeft: wp("7%"),
+                    }}
+                  >
+                    {this.state.name} {this.state.family_name}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.child}>
+              <Text
+                style={{
+                  color: colors.label,
+                  fontSize: 15,
+                  marginLeft: wp("10%"),
+                  marginTop: hp("2%"),
+                }}
+              >
+                Phone Number:
+            </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginLeft: wp("10%"),
+                  marginTop: hp("2%"),
+                }}
+              >
+                <Icon name="phone" color={colors.icon} size={50} />
+                <View style={styles.child}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      marginHorizontal: wp("5%"),
+                    }}
+                  >
+                    {this.state.phone_number}
+                  </Text>
+                </View>
+              </View>
+              <Text
+                style={{
+                  color: colors.label,
+                  fontSize: 15,
+                  marginLeft: wp("10%"),
+                  marginTop: hp("5%"),
+                }}
+              >
+                Email:
+            </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginLeft: wp("10%"),
+                  marginTop: hp("2%"),
+                  marginBottom: hp("4%"),
+                }}
+              >
+                <Icon name="mail" color={colors.icon} size={50} />
+                <View style={styles.child}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      marginHorizontal: wp("5%"),
+                    }}
+                  >
+                    {this.state.email}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.child}>
+              <TouchableOpacity
+                style={styles.appButtonContainer}
+                onPress={() => this.props.navigation.navigate("EditProfilePage")}
+              >
+                <Text style={styles.appButtonText}>Edit Profile</Text>
+              </TouchableOpacity>
+            </View>
+          </SafeAreaView>
+        </View>
+      </ScrollView>
     );
   }
 }

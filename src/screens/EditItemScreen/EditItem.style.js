@@ -1,14 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { color } from 'react-native-reanimated';
 import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
-  Page: {
-    flex: 1,
-    alignItems: 'stretch',
-    backgroundColor: colors.background,
-    color: colors.text
-  },
+
   child: {
     width: "80%",
     marginLeft: "10%",

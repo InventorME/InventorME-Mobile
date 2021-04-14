@@ -107,7 +107,7 @@ const MainPageNav = () => {
       setData(await db.get());
     }
     catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 

@@ -46,7 +46,7 @@ const addItemScreen = (props) => {
   async function poster() {
     try {
       const item = await db.post(POSTitemFORMAT);
-      console.log(item);
+      // console.log(item);
     } catch (error) {
       console.log(error);
     }

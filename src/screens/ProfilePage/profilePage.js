@@ -15,9 +15,6 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { Auth } from "aws-amplify";
-import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { color } from "react-native-reanimated";
 import styles from "./profilePage.style";
 import { colors } from "../../util/colors";
 
@@ -35,9 +32,7 @@ class ProfilePageNav extends Component {
     this.signOut = this.signOut.bind(this);
   }
   async componentDidMount() {
-    // this.focused = navigation.addListener('focus', () => {
-    //   console.log('focused');
-    // });
+
     try {
       const data = await Auth.currentUserInfo();
       // console.log('userInfo data:', data);
@@ -46,7 +41,7 @@ class ProfilePageNav extends Component {
       this.setState({ email: data.attributes.email });
       this.setState({ phone_number: data.attributes.phone_number });
     } catch (error) {
-      console.log("could not find user :(", error);
+      // console.log("could not find user :(", error);
       alert("Error: No user found, please sign in again");
       this.props.navigation.navigate("HomeScreen");
     }
@@ -55,10 +50,10 @@ class ProfilePageNav extends Component {
   async signOut() {
     try {
       await Auth.signOut();
-      console.log("User Signed Out");
+      // console.log("User Signed Out");
       this.props.navigation.navigate("HomeScreen");
     } catch (error) {
-      console.log("user sign out error");
+      // console.log("user sign out error");
     }
   }
 

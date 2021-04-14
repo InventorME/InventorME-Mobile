@@ -43,7 +43,7 @@ const CreateAccountScreen = (props) => {
       props.navigation.navigate("HomeScreen");
     } catch (error) {
       createAlert("Error", "There was an error creating your account. Please try again.");
-      console.log('create user error: ', error);
+      // console.log('create user error: ', error);
     }
   };
 
@@ -108,7 +108,6 @@ const CreateAccountScreen = (props) => {
     }else if(!phoneCheck(phone_number)){
       createAlert("Create Account Error", "Phone Number Must Be At Least 9 Numbers Long");
     } else if (!emailCheck(email)) {
-      console.log("here", emailCheck(email))
       createAlert("Create Account Error", "Email must be in the correct format 'Example@Example.Example'");
     }
     else {

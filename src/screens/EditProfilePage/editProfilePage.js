@@ -41,7 +41,7 @@ class EditProfilePage extends Component {
       this.setState({ phone_number: data.attributes.phone_number });
       this.phoneOnChange(this.state.phone_number);
     } catch (error) {
-      console.log("could not find user :(", error);
+      // console.log("could not find user :(", error);
       alert("Error: No user found, please sign in again");
       this.props.navigation.navigate("HomeScreen");
     }
@@ -94,7 +94,7 @@ class EditProfilePage extends Component {
       await Auth.updateUserAttributes(user, attributes);
       this.props.navigation.goBack();
     } catch (error) {
-      console.log("error saving user", error);
+      this.createAlert("Saving Error", "Please Try Again Later");
     }
   }
 

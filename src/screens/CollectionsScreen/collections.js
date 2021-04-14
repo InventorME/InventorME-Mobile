@@ -4,7 +4,6 @@ import styles from "./collections.style";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 import { renderContext } from "../MainPage/mainPage";
 import { colors } from '../../util/colors';
-import Items from "../ItemsScreen/Items";
 
 const collections = (props) => {
 

@@ -1,15 +1,8 @@
-/* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable import/no-duplicates */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-unused-state */
-/* eslint-disable lines-between-class-members */
 import React, { Component } from "react";
-import { View, Image, SafeAreaView, AppState, ScrollView } from "react-native";
+import { View, SafeAreaView, AppState, ScrollView } from "react-native";
 import { Avatar, Text } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { FontAwesome } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { Appearance } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,

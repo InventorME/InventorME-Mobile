@@ -56,9 +56,11 @@ const addItemScreen = (props) => {
       setEmail(data.attributes.email);
       const item = await db.post(POSTitemFORMAT);
       // console.log(item);
+      clear();
     } catch (error) {
       console.log(error);
     }
+    
   }
 
   return (
@@ -168,7 +170,7 @@ const addItemScreen = (props) => {
             style={styles.button}
             onPress={() => {
               poster();
-              props.navigation.goBack();
+              props.navigation.navigate("Collections");
             }}
           >
             <Text style={styles.buttonText}>Save</Text>
@@ -180,17 +182,16 @@ const addItemScreen = (props) => {
               props.navigation.navigate("EditItemScreen");
             }}
           >
-            <Text style={styles.buttonText}>Edit Item</Text>
+            <Text style={styles.buttonText}>Add Info</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
               poster();
-              props.navigation.navigate("addItemScreen");
             }}
           >
-            <Text style={styles.buttonText}>Add Item</Text>
+            <Text style={styles.buttonText}>New Item</Text>
           </TouchableOpacity>
         </View>
 

@@ -5,12 +5,14 @@ import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { Database } from '../../util/Database';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Avatar } from "react-native-paper";
+import { Auth } from 'aws-amplify';
 import { colors } from '../../util/colors';
 
 
 const EditItemScreen = (props) => {
 
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [category, setCategory] = useState('');
   const [location, setLocation] = useState('');
   const [notes, setNotes] = useState('');
@@ -30,7 +32,7 @@ const EditItemScreen = (props) => {
   const db = new Database();
 
   var PUTitemFORMAT = {
-    userEmail: "'lukelmiller@icloud.com'",
+    userEmail: `"${email}"`,
     itemID: "9",
     itemCategory: `"${category}"`,
     itemName: `"${name}"`,
@@ -52,14 +54,16 @@ const EditItemScreen = (props) => {
     itemFolder: "null"
   }
 
-  //   async function putter(){
-  //     try{
-  //         const item = await db.post(POSTitemFORMAT);
-  //         console.log(item);
-  //     } catch(error){
-  //         console.log(error);
-  //     }
-  // }
+  async function poster() {
+    try {
+      const data = await Auth.currentUserInfo();
+      setEmail(data.attributes.email);
+      const item = await db.post(PUTitemFORMAT);
+      // console.log(item);
+    } catch (error) {
+      // console.log(error);
+    }
+  }
 
   return (
     <ScrollView>

@@ -1,7 +1,3 @@
-/* eslint-disable prefer-const */
-/* eslint-disable import/order */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable no-lone-blocks */
 import React, { useState } from "react";
 import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Avatar } from "react-native-paper";
@@ -9,7 +5,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import styles from "./addItem.style";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { Database } from "../../util/Database";
-import { colors } from "../../util/colors";
+import { Auth } from 'aws-amplify';
+
 
 const addItemScreen = (props) => {
   const [name, setName] = useState("");
@@ -17,12 +14,13 @@ const addItemScreen = (props) => {
   const [folder, setFolder] = useState('');
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
-  const [worth, setWorth] = useState('');
+  const [worth, setWorth] = useState("");
   const [tags, setTags] = useState("");
+  const [email, setEmail] = useState("");
   const db = new Database();
 
   let POSTitemFORMAT = {
-    userEmail: "'lukelmiller@icloud.com'",
+    userEmail: `"${email}"`,
     itemCategory: `"${category}"`,
     itemName: `"${name}"`,
     itemPhotoURL: "null",
@@ -42,9 +40,20 @@ const addItemScreen = (props) => {
     itemArchived: "0",
     itemFolder: "null",
   };
-
+  const clear = () =>{
+    setName("");
+    setCategory("");
+    setFolder("");
+    setLocation("");
+    setNotes("");
+    setWorth("");
+    setTags("");
+    
+  }
   async function poster() {
     try {
+      const data = await Auth.currentUserInfo();
+      setEmail(data.attributes.email);
       const item = await db.post(POSTitemFORMAT);
       // console.log(item);
     } catch (error) {
@@ -62,7 +71,7 @@ const addItemScreen = (props) => {
 
         <TouchableOpacity
           style={styles.buttonCancel}
-          onPress={() => { props.navigation.goBack() }}
+          onPress={() => { clear(); props.navigation.navigate("Collections"); }}
         >
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>

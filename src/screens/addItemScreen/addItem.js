@@ -12,12 +12,12 @@ import { Auth } from 'aws-amplify';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 
-
 const addItemScreen = (props) => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
-  const [folder, setFolder] = useState('');
+  const [folder, setFolder] = useState("");
   const [location, setLocation] = useState("");
+  const [photoUrl, setPhotoUrl] = useState('');
   const [notes, setNotes] = useState("");
   const [worth, setWorth] = useState("");
   const [tags, setTags] = useState("");
@@ -25,7 +25,9 @@ const addItemScreen = (props) => {
   const [image, setImage] = useState("");
   const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
+  const [imageType, setImageType] = useState("image/jpg");
   const db = new Database();
+  const photo = new Photo();
 
   let POSTitemFORMAT = {
     userEmail: `"${email}"`,
@@ -35,7 +37,7 @@ const addItemScreen = (props) => {
     itemSerialNum: "null",
     itemPurchaseAmount: "null",
     itemWorth: "null",
-    itemReceiptPhotoURL: "null",
+    itemReceiptPhotoUrl: "null",
     itemManualURL: "null",
     itemSellDate: "null",
     itemBuyDate: "null",
@@ -48,6 +50,7 @@ const addItemScreen = (props) => {
     itemArchived: "0",
     itemFolder: "null",
   };
+
   const clear = () => {
     setName("");
     setCategory("");
@@ -56,20 +59,9 @@ const addItemScreen = (props) => {
     setNotes("");
     setWorth("");
     setTags("");
+    setPhotoUrl("");
+    setImage("");
     setImageTaken(false);
-
-  }
-  async function poster() {
-    try {
-      const data = await Auth.currentUserInfo();
-      setEmail(data.attributes.email);
-      const item = await db.post(POSTitemFORMAT);
-      // console.log(item);
-      clear();
-    } catch (error) {
-      console.log(error);
-    }
-
   }
 
   const takePhoto = async () => {
@@ -96,7 +88,39 @@ const addItemScreen = (props) => {
       }
 
     }
-  };
+  }
+
+
+  const uploadImage = async () => {
+    try {
+      const pName = await photo.generateNewItemName("jpg");
+
+      // ******BUG HERE********
+      // NOT SURE THAT photoUrl is getting SET
+
+      setPhotoUrl(String(pName));
+      // console.log("photoUrl:", photoUrl);
+      // await photo.uploadFile(image, photoUrl, imageType);
+      await photo.uploadFile(image, pName, imageType);
+    } catch (error) {
+      console.log("upload error", error);
+    }
+  }
+
+  async function poster() {
+    try {
+      const data = await Auth.currentUserInfo();
+      if (imageTaken) {
+        await uploadImage();
+      }
+      setEmail(data.attributes.email);
+      const item = await db.post(POSTitemFORMAT);
+      clear();
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 
   return (
     <ScrollView>
@@ -126,8 +150,8 @@ const addItemScreen = (props) => {
           : <View style={styles.uploadContainer}>
             <TouchableOpacity
               style={styles.uploadButton}
-               onPress={takePhoto}
-              >
+              onPress={takePhoto}
+            >
               <Ionicons name="camera-outline" size={75} color={colors.label} />
             </TouchableOpacity>
           </View>}

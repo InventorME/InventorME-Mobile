@@ -8593,7 +8593,7 @@ expo-font@~8.4.0:
 
 expo-image-picker@~9.2.0:
   version "9.2.1"
-  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-9.2.1.tgz#113a46bfc8ef9bf675e8700b1bf7b8472f4de516"
+  resolved "https://registry.npmjs.org/expo-image-picker/-/expo-image-picker-9.2.1.tgz"
   integrity sha512-IPrBY7+zgxUUZqjtLVfj+PTKMm6lmI48Z9b8BKJhY/gF49g/cDZwWN0mrg+3G3a3ug5TtIr+pektsNWp1V+T1g==
   dependencies:
     expo-permissions "~10.0.0"

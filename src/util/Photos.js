@@ -41,9 +41,6 @@ export class Photo {
     };
     async uploadFile(file, fileName, type) {
         try {
-            console.log("here");
-            // const b64 = await this.encodeImage(file);
-            //  console.log(file);
             var dirt = "data:" + type + ";base64,"
             const clean = file.replace(dirt, "");
             await this.post(fileName, clean, type);
@@ -55,6 +52,20 @@ export class Photo {
         try{
             const data = await Auth.currentUserInfo();
             var url = data.attributes.email;
+            url += "."+type;
+            return Promise.resolve(url);
+        }
+        catch(error){
+            return Promise.reject(error);
+        }
+    }
+    async generateNewItemName(type){
+        try{
+            console.log("generating");
+            const data = await Auth.currentUserInfo();
+            var url = data.attributes.email;
+            var now = new Date();
+            url += now;
             url += "."+type;
             return Promise.resolve(url);
         }

@@ -4,18 +4,19 @@ import styles from "./EditItem.style";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from "react-native-paper";
 import { Auth } from 'aws-amplify';
 import { Database } from "../../util/Database";
 import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
 
-
 const EditItemScreen = (props) => {
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [category, setCategory] = useState('');
+  const [photoURL, setPhotoURL] = useState('');
   const [location, setLocation] = useState('');
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState('');
@@ -23,16 +24,20 @@ const EditItemScreen = (props) => {
   const [purchaseAmt, setPurchaseAmt] = useState('');
   const [worth, setWorth] = useState('');
   const [receiptPhoto, setReceiptPhoto] = useState('');
-  const [itemManualUrl, setItemManualUrl] = useState('');
+  const [itemManualURL, setItemManualURL] = useState('');
   const [sellDate, setSellDate] = useState('');
   const [buyDate, setBuyDate] = useState('');
   const [sellAmt, setSellAmt] = useState('');
   const [recurrPayAmt, setRecurrPayAmt] = useState('');
-  const [EbayUrl, setEbayUrl] = useState('');
+  const [ebayURL, setEbayURL] = useState('');
   const [archived, setArchived] = useState('');
   const [folder, setFolder] = useState('');
+  const [image, setImage] = useState("");
+  const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
+  const [imageType, setImageType] = useState("image/jpg");
   const db = new Database();
+  const photo = new Photo();
 
   var PUTitemFORMAT = {
     userEmail: `"${email}"`,
@@ -57,14 +62,58 @@ const EditItemScreen = (props) => {
     itemFolder: "null"
   }
 
+
+  const takePhoto = async () => {
+    const {
+      status: cameraPerm
+    } = await Permissions.askAsync(Permissions.CAMERA);
+
+    const {
+      status: cameraRollPerm
+    } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+    // only if user allows permission to camera AND camera roll
+    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+      let pickerResult = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+        quality: 0.2
+      });
+
+      if (!pickerResult.cancelled) {
+        setImage(pickerResult.base64);
+        setImageTaken(true);
+      }
+    }
+  }
+
+  const uploadImage = async () => {
+    try {
+      const pName = await photo.generateNewItemName("jpg");
+
+      // ******BUG HERE********
+      // NOT SURE THAT photoUrl is getting SET
+
+      setPhotoURL(pName);
+      // console.log(photoURL);
+      await photo.uploadFile(image, pName, imageType);
+    } catch (error) {
+      console.log("upload error", error);
+    }
+  }
+
   async function poster() {
     try {
       const data = await Auth.currentUserInfo();
+      if (imageTaken) {
+        await uploadImage();
+      }
       setEmail(data.attributes.email);
-      const item = await db.post(PUTitemFORMAT);
+      // const item = await db.post(PUTitemFORMAT);
       // console.log(item);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   }
 
@@ -97,8 +146,8 @@ const EditItemScreen = (props) => {
               : <View style={styles.uploadContainer}>
                 <TouchableOpacity
                   style={styles.uploadButton}
-                  // onPress={this.pickImage}
-                  >
+                  onPress={takePhoto}
+                >
                   <Ionicons name="camera-outline" size={75} color={colors.label} />
                 </TouchableOpacity>
               </View>}
@@ -159,8 +208,8 @@ const EditItemScreen = (props) => {
               <TextInput
                 style={styles.textInput}
                 placeholder='Item Manual'
-                onChangeText={(text) => { setItemManualUrl(text) }}
-                value={itemManualUrl}
+                onChangeText={(text) => { setItemManualURL(text) }}
+                value={itemManualURL}
               />
             </View>
 
@@ -205,12 +254,12 @@ const EditItemScreen = (props) => {
             </View>
 
             <View style={styles.child}>
-              <Text style={styles.label}>Shopping Url:</Text>
+              <Text style={styles.label}>Shopping URL:</Text>
               <TextInput
                 style={styles.textInput}
-                placeholder='Shopping Url'
-                onChangeText={(text) => { setEbayUrl(text) }}
-                value={EbayUrl}
+                placeholder='Shopping URL'
+                onChangeText={(text) => { setEbayURL(text) }}
+                value={ebayURL}
               />
             </View>
 

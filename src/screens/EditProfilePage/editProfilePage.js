@@ -11,10 +11,16 @@ import {
   AppState,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
 import styles from "./editProfilePage.style";
 import { colors } from "../../util/colors";
+import { Photo } from "../../util/Photos";
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
+
+
+
 
 class EditProfilePage extends Component {
   constructor(props) {
@@ -25,6 +31,11 @@ class EditProfilePage extends Component {
       email: "",
       phone_number: "",
       phoneFormat: "",
+      photo: "",
+      photoType: "image/jpg",
+      imageLoaded: false,
+      photoName: "",
+      newPhoto: false
     };
     this.validateUser = this.validateUser.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
@@ -83,13 +94,53 @@ class EditProfilePage extends Component {
     this.setState({ phoneFormat: format });
   };
 
+  pickImage = async () => {
+    const {
+      status: cameraRollPerm
+    } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+    // only if user allows permission to camera roll
+    if (cameraRollPerm === 'granted') {
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        base64: true,
+        aspect: [4, 3],
+        quality: 0.2,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images
+
+      });
+      if (!pickerResult.cancelled) {
+        this.setState({ newPhoto: true });
+        this.setState({ photo: pickerResult.base64 });
+        // this.setState({ photoType: pickerResult.type });
+        // console.log(this.state.photo);
+      }
+      // this.uploadImageAsync(pickerResult.uri);
+    } else {
+      this.createAlert("No Photo Access", "Please Go Into Phone Settings & Grant App Access To Photos");
+    }
+  };
+
+  async uploadImage() {
+    try {
+      const photos = new Photo();
+      const pName = await photos.generateProfilePicName("jpg");
+      await photos.uploadFile(this.state.photo, pName, this.state.photoType)
+    } catch (error) {
+      console.log("upload error", error);
+    }
+  }
+
   async saveChanges() {
     const attributes = {
       name: this.state.name,
       phone_number: this.state.phone_number,
-      family_name: this.state.family_name,
+      family_name: this.state.family_name
     };
     try {
+      if (this.state.newPhoto) {
+        this.uploadImage();
+      }
       const user = await Auth.currentAuthenticatedUser();
       await Auth.updateUserAttributes(user, attributes);
       this.props.navigation.goBack();
@@ -137,21 +188,21 @@ class EditProfilePage extends Component {
               <View style={styles.deleteBtn}>
                 <TouchableOpacity
                   style={styles.deleteButtonContainer}
-                  // onPress={}
+                // onPress={}
                 >
                   <Text style={styles.deleteButtonText}>Delete Account</Text>
                 </TouchableOpacity>
               </View>
             </View>
             <View style={styles.container}>
-              <View style={styles.logo}>
-                <Image
-                  source={{
-                    uri: "https://api.adorable.io/avatars/285/10@adorable.png",
-                  }}
-                  size={160}
-                />
-              </View>
+              
+
+              <TouchableOpacity
+                style={styles.uploadButton}
+                onPress={this.pickImage}
+              >
+                <MaterialCommunityIcons name="cloud-upload-outline" size={100} color={colors.label} />
+              </TouchableOpacity>
 
               <View style={styles.child}>
                 <Text style={{ color: colors.label }}>First Name:</Text>

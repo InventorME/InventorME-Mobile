@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+import { Auth } from 'aws-amplify';
 
 var urly = "https://9zulviqkd0.execute-api.us-east-2.amazonaws.com/v1/imager";
 
@@ -40,12 +41,25 @@ export class Photo {
     };
     async uploadFile(file, fileName, type) {
         try {
-            const b64 = await this.encodeImage(file);
+            console.log("here");
+            // const b64 = await this.encodeImage(file);
+            //  console.log(file);
             var dirt = "data:" + type + ";base64,"
-            const clean = b64.replace(dirt, "");
+            const clean = file.replace(dirt, "");
             await this.post(fileName, clean, type);
         } catch (error) {
-            console.log(error);
+            console.log("upload error",error);
+        }
+    }
+    async generateProfilePicName(type){
+        try{
+            const data = await Auth.currentUserInfo();
+            var url = data.attributes.email;
+            url += "."+type;
+            return Promise.resolve(url);
+        }
+        catch(error){
+            return Promise.reject(error);
         }
     }
 

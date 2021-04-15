@@ -4,8 +4,13 @@ import { Avatar } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./addItem.style";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
 import { Database } from "../../util/Database";
+import { colors } from "../../util/colors";
+import { Photo } from "../../util/Photos";
 import { Auth } from 'aws-amplify';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 
 
 const addItemScreen = (props) => {
@@ -17,6 +22,9 @@ const addItemScreen = (props) => {
   const [worth, setWorth] = useState("");
   const [tags, setTags] = useState("");
   const [email, setEmail] = useState("");
+  const [image, setImage] = useState("");
+  const [imageTaken, setImageTaken] = useState(false);
+  const [imageState, setImageState] = useState(false);
   const db = new Database();
 
   let POSTitemFORMAT = {
@@ -40,7 +48,7 @@ const addItemScreen = (props) => {
     itemArchived: "0",
     itemFolder: "null",
   };
-  const clear = () =>{
+  const clear = () => {
     setName("");
     setCategory("");
     setFolder("");
@@ -48,7 +56,8 @@ const addItemScreen = (props) => {
     setNotes("");
     setWorth("");
     setTags("");
-    
+    setImageTaken(false);
+
   }
   async function poster() {
     try {
@@ -60,12 +69,38 @@ const addItemScreen = (props) => {
     } catch (error) {
       console.log(error);
     }
-    
+
   }
+
+  const takePhoto = async () => {
+    const {
+      status: cameraPerm
+    } = await Permissions.askAsync(Permissions.CAMERA);
+
+    const {
+      status: cameraRollPerm
+    } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+    // only if user allows permission to camera AND camera roll
+    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+      let pickerResult = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+        quality: 0.2
+      });
+
+      if (!pickerResult.cancelled) {
+        setImage(pickerResult.base64);
+        setImageTaken(true);
+      }
+
+    }
+  };
 
   return (
     <ScrollView>
-         {/* <KeyboardAwareScrollView 
+      {/* <KeyboardAwareScrollView 
        resetScrollToCoords={{ x: 0, y: 0 }}
       scrollEnabled={true}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>  */}
@@ -87,16 +122,16 @@ const addItemScreen = (props) => {
             value={name}
           />
         </View>
+        {imageState ? ""
+          : <View style={styles.uploadContainer}>
+            <TouchableOpacity
+              style={styles.uploadButton}
+               onPress={takePhoto}
+              >
+              <Ionicons name="camera-outline" size={75} color={colors.label} />
+            </TouchableOpacity>
+          </View>}
 
-        <View style={styles.image}>
-          <Avatar.Image
-
-            source={{
-              uri: "https://api.adorable.io/avatars/285/10@adorable.png",
-            }}
-            size={140}
-          />
-        </View>
 
         <View style={styles.child}>
           <Text style={styles.label}>Collection:</Text>
@@ -196,9 +231,9 @@ const addItemScreen = (props) => {
         </View>
 
       </View>
-         {/* </TouchableWithoutFeedback>
+      {/* </TouchableWithoutFeedback>
        </KeyboardAwareScrollView> */}
-     </ScrollView >
+    </ScrollView >
   );
 };
 

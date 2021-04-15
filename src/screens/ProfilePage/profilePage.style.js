@@ -6,9 +6,14 @@ import {
 import { colors } from "../../util/colors";
 
 export default StyleSheet.create({
+  Pager:{
+    backgroundColor: colors.background
+  },
   Page: {
     flex: 1,
     alignItems: "stretch",
+    backgroundColor: colors.background,
+
   },
   child: {
     alignItems: "flex-start",

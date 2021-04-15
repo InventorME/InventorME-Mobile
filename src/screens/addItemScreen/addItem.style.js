@@ -24,11 +24,22 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5
   },
-  image: {
+  uploadContainer:{
     position: 'absolute',
     alignSelf: "flex-end",
-    marginRight: '10%',
-    marginTop: "12%"
+    marginRight: '25%',
+    marginTop: "12%",
+    justifyContent: 'center', 
+    alignItems: 'center'
+
+  },
+  uploadButton: {
+    
+    borderRadius: 200,
+    padding: 18,
+    borderWidth: 5,
+    borderColor: colors.icon
+   
   },
   textInput: {
     borderWidth: 0.5,

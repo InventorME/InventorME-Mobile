@@ -67,6 +67,20 @@ export default StyleSheet.create({
     marginTop: "15%",
     marginLeft: "10%"
   },
+  uploadContainer:{
+    position: 'absolute',
+    alignSelf: "flex-end",
+    marginRight: '25%',
+    marginTop: "12%",
+    justifyContent: 'center', 
+    alignItems: 'center'
+  },
+  uploadButton: {
+    borderRadius: 200,
+    padding: 18,
+    borderWidth: 5,
+    borderColor: colors.icon
+  },
   buttonText: {
     fontSize: 18,
     color: colors.buttonText,

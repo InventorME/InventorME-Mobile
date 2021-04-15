@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, SafeAreaView, AppState, ScrollView } from "react-native";
+import { View, SafeAreaView, AppState, ScrollView, Image } from "react-native";
 import { Avatar, Text } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -10,6 +10,7 @@ import {
 import { Auth } from "aws-amplify";
 import styles from "./profilePage.style";
 import { colors } from "../../util/colors";
+import { Photo } from "../../util/Photos";
 
 class ProfilePageNav extends Component {
   constructor(props) {
@@ -21,6 +22,9 @@ class ProfilePageNav extends Component {
       name: "",
       family_name: "",
       appState: AppState.currentState,
+      profilePic: "",
+      photoType: "",
+      imageLoaded: false
     };
     this.signOut = this.signOut.bind(this);
   }
@@ -38,6 +42,15 @@ class ProfilePageNav extends Component {
       alert("Error: No user found, please sign in again");
       this.props.navigation.navigate("HomeScreen");
     }
+    try{
+      const photos = new Photo();
+      const profilePic = await photos.get("lukelmiller@icloud.com.jpg");
+      this.setState({ profilePic: profilePic });
+      this.setState({ photoType: "image/jpg"});
+      this.setState({imageLoaded: true});
+    } catch(error){
+      console.log(error);
+    }
   }
 
   async signOut() {
@@ -52,7 +65,7 @@ class ProfilePageNav extends Component {
 
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={styles.Pager}>
         <View style={styles.Page}>
           <View style={styles.signOutBtn}>
             <TouchableOpacity
@@ -65,13 +78,10 @@ class ProfilePageNav extends Component {
 
           <SafeAreaView style={styles.container1}>
             <View>
-              <Avatar.Image
-                style={{ alignSelf: "center" }}
-                source={{
-                  uri: "https://api.adorable.io/avatars/285/10@adorable.png",
-                }}
-                size={180}
-              />
+            {this.state.imageLoaded ? <Avatar.Image style={{ alignSelf: "center" }}
+                source={{uri: `data:${this.state.photoType};base64,${this.state.profilePic}`}} size={180}/> : 
+                <Avatar.Image style={{ alignSelf: "center" }}
+                source={{ uri: "https://api.adorable.io/avatars/285/10@adorable.png", }} size={180}/>}
               <View style={styles.child}>
                 <View>
                   <Text
@@ -113,6 +123,7 @@ class ProfilePageNav extends Component {
                     style={{
                       fontSize: 20,
                       marginHorizontal: wp("5%"),
+                      color: colors.text
                     }}
                   >
                     {this.state.phone_number}
@@ -143,6 +154,7 @@ class ProfilePageNav extends Component {
                     style={{
                       fontSize: 20,
                       marginHorizontal: wp("5%"),
+                      color: colors.text
                     }}
                   >
                     {this.state.email}

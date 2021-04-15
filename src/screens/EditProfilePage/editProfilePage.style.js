@@ -37,11 +37,6 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.background,
   },
-
-  Image: {
-    height: 70,
-    width: 50,
-  },
   TextInput: {
     borderWidth: 1,
     borderColor: colors.text,
@@ -68,7 +63,6 @@ export default StyleSheet.create({
     paddingHorizontal: 12,
   },
   deleteButtonContainer: {
-    elevation: 8,
     backgroundColor: "#e01f0d",
     borderRadius: 10,
     paddingVertical: 10,
@@ -81,6 +75,14 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     textTransform: "uppercase",
+  },
+  uploadButton:{
+    borderRadius: 140,
+    padding: 35,
+    borderWidth: 8,
+    borderColor: colors.icon,
+    marginTop: "-25%",
+    marginBottom: "5%"
   },
   appButtonText: {
     fontSize: 18,

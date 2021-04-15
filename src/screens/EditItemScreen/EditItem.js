@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import styles from "./EditItem.style";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
-import { Database } from '../../util/Database';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Ionicons } from "@expo/vector-icons";
 import { Avatar } from "react-native-paper";
 import { Auth } from 'aws-amplify';
-import { colors } from '../../util/colors';
+import { Database } from "../../util/Database";
+import { colors } from "../../util/colors";
+import { Photo } from "../../util/Photos";
 
 
 const EditItemScreen = (props) => {
@@ -29,6 +31,7 @@ const EditItemScreen = (props) => {
   const [EbayUrl, setEbayUrl] = useState('');
   const [archived, setArchived] = useState('');
   const [folder, setFolder] = useState('');
+  const [imageState, setImageState] = useState(false);
   const db = new Database();
 
   var PUTitemFORMAT = {
@@ -90,15 +93,15 @@ const EditItemScreen = (props) => {
                 value={name}
               />
             </View>
-            <View style={styles.image}>
-              <Avatar.Image
-
-                source={{
-                  uri: "https://api.adorable.io/avatars/285/10@adorable.png",
-                }}
-                size={140}
-              />
-            </View>
+            {imageState ? ""
+              : <View style={styles.uploadContainer}>
+                <TouchableOpacity
+                  style={styles.uploadButton}
+                  // onPress={this.pickImage}
+                  >
+                  <Ionicons name="camera-outline" size={75} color={colors.label} />
+                </TouchableOpacity>
+              </View>}
 
             <View style={styles.child}>
               <Text style={styles.label}>Collection:</Text>

@@ -23,7 +23,12 @@ const ScanItem = () => {
     setScanned(true);
     upc = data;
     console.log(data);
-    console.log("########################HandleBarCodeScanned##########################");
+    await getInfo();
+    while(loading){
+      console.log("Loading");
+    }
+    setLoading(false);
+    console.log("##################################################");
     if(!loading){
       // If statement to determine wheter the item was succes or not
       // If succes then alert Item found else alert not found
@@ -72,14 +77,17 @@ const ScanItem = () => {
   // console.log(params);
 
   // make the http GET request to Rainforest API
-    axios.get('https://api.rainforestapi.com/request', { params })
+  const getInfo= async () =>{
+    setLoading(true);
+      await axios.get('https://api.rainforestapi.com/request', { params })
       .then(response => {
         info =JSON.stringify(response.data, 0, 2);
         console.log(info)
       }).catch(error => {
         // catch and print the error
-        console.log(`This is the Error ${error}`);
+        console.log(error);
       })
+  }
 
   return (
     <View style={styles.container}>
@@ -87,7 +95,7 @@ const ScanItem = () => {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && loading?<ActivityIndicator size="large" color="#00ff00" />:undefined}
+      {scanned && loading?<ActivityIndicator size="large" />:undefined}
       {scanned && !loading && <Button title="Tap to Scan Again" onPress={() => setScanned(false)} />}
     </View>
   );

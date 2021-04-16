@@ -8,6 +8,7 @@ import UpperTab from "../../Components/UpperTab";
 import collections from "../CollectionsScreen/collections"
 import recent from "../RecentScreen/recent";
 import profilePageNav from "../ProfilePage/profilePage";
+import Folder from "../FolderScreen/Folder";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { colors } from '../../util/colors';
 import { Database } from "../../util/Database";
@@ -49,13 +50,13 @@ const mainNav = (props) => {
         name="Collections"
         component={collections}
       />
-      {/* <Drawer.Screen
+      <Drawer.Screen
         options={{
           title : "Folders"
         }}
-        name="Date"
-        // component={date}
-      /> */}
+        name="Folders"
+        component={Folder}
+      />
       <Drawer.Screen
         options={{
           title : "Archived"

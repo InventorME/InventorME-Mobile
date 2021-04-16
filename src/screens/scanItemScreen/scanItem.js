@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { Text, View, StyleSheet, Button, Alert  } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import styles from "./scanItem.style";
 
 let upc ='';
+let info='';
 
 const ScanItem = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -20,7 +21,25 @@ const ScanItem = () => {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     upc = data;
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    Alert.alert('Item Scanned',`Bar code with type ${type} and data ${data} has been scanned!`,
+    [
+      {
+          text:'Cancel' ,
+          onPress:()=>{
+            console.log("###########CANCEL######################");
+          },
+      },
+      {
+        text:'Add Item' ,
+        onPress:()=>{
+          console.log("###########CANCEL######################");
+        },
+      },
+    ],
+    {
+      calcelable:false,
+    },
+    );
   };
 
   if (hasPermission === null) {
@@ -47,11 +66,16 @@ const ScanItem = () => {
     .then(response => {
 
       // print the JSON response from Rainforest API
-      // console.log(JSON.stringify(response.data, 0, 2));
+      // if(upc.request_info.succes ==="False"){
+      //   console.log("####HELLO#####")
+      // };
+      info =JSON.stringify(response.data);
+      console.log(info);
+      console.log(JSON.stringify(response.data, 0, 2));
 
     }).catch(error => {
       // catch and print the error
-      // console.log(error);
+      console.log(error);
     })
 
   return (

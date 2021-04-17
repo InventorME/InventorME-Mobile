@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
 import { AppearanceProvider } from 'react-native-appearance';
+import Amplify from 'aws-amplify';
 import HomeScreen from "./src/screens/LogInScreen/LogIn";
 import MainPageNav from "./src/screens/MainPage/mainPage";
 import CreateAccountScreen from "./src/screens/CreateAccountScreen/CreateAccount";
@@ -11,7 +12,6 @@ import ProfilePageNav from "./src/screens/ProfilePage/profilePage";
 import addItemScreen from './src/screens/addItemScreen/addItem';
 import EditProfilePage from "./src/screens/EditProfilePage/editProfilePage";
 import Items from "./src/screens/ItemsScreen/Items";
-import Amplify from 'aws-amplify';
 import config from './src/config.json';
 import EditItemScreen from "./src/screens/EditItemScreen/EditItem";
 import {colors} from "./src/util/colors";
@@ -71,12 +71,12 @@ function myStack() {
             }}
           />
           <Stack.Screen
-          name="EditItemScreen"
-          component={EditItemScreen}
-          options = {{
+            name="EditItemScreen"
+            component={EditItemScreen}
+            options={{
             headerShown : false
           }}
-        />
+          />
           <Stack.Screen
             name="EditProfilePage"
             component={EditProfilePage}

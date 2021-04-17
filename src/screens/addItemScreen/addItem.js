@@ -87,6 +87,10 @@ const addItemScreen = (props) => {
         setImageTaken(true);
       }
 
+    } else{
+      const title = "No Photo Access";
+      const msg =  "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
+      alert(title, msg, [{ text: "OK" }], { cancelable: false });
     }
   }
 

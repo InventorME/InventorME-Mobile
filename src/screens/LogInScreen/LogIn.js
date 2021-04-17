@@ -22,7 +22,7 @@ class HomeScreen extends Component{
       this.props.navigation.navigate("MainPage");
     }
     catch(error){
-      console.log('could not find user :(', error);
+      // console.log('could not find user :(', error);
     }
   }
 

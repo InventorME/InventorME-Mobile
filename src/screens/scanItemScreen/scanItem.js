@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import styles from "./scanItem.style";
-import { param } from 'jquery';
 
 let upc ='';
 
@@ -41,18 +40,18 @@ const ScanItem = () => {
     gtin: upc,
     device: "mobile"
   }
-  console.log(params);
+  // console.log(params);
 
   // make the http GET request to Rainforest API
   axios.get('https://api.rainforestapi.com/request', { params })
     .then(response => {
 
       // print the JSON response from Rainforest API
-      console.log(JSON.stringify(response.data, 0, 2));
+      // console.log(JSON.stringify(response.data, 0, 2));
 
     }).catch(error => {
       // catch and print the error
-      console.log(error);
+      // console.log(error);
     })
 
   return (

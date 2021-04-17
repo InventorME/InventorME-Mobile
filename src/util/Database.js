@@ -10,7 +10,7 @@ export class Database{
             var email = data.attributes.email;
         }
         catch{
-            console.log('could not find user :(', error);
+            // console.log('could not find user :(', error);
         }
         let queryURL = url + "?userEmail='" + email +"'";
         return new Promise((resolve, reject)=>{
@@ -61,7 +61,7 @@ export class Database{
             var email = data.attributes.email;
         }
         catch{
-            console.log('could not find user :(', error);
+            // console.log('could not find user :(', error);
         }
         return new Promise((resolve, reject)=>{
             var deleteData = {

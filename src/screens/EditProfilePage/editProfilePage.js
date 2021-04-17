@@ -1,23 +1,42 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { Text, View, Image, ScrollView, Alert, TouchableWithoutFeedback, Keyboard, AppState } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  ScrollView,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+  AppState,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Auth } from "aws-amplify";
 import styles from "./editProfilePage.style";
-import { Auth } from 'aws-amplify';
-import { colors } from '../../util/colors';
+import { colors } from "../../util/colors";
+import { Photo } from "../../util/Photos";
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
+
+
+
 
 class EditProfilePage extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      family_name: '',
-      email: '',
-      phone_number: '',
-      phoneFormat: ''
-    }
+      name: "",
+      family_name: "",
+      email: "",
+      phone_number: "",
+      phoneFormat: "",
+      photo: "",
+      photoType: "image/jpg",
+      imageLoaded: false,
+      photoName: "",
+      newPhoto: false
+    };
     this.validateUser = this.validateUser.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
     this.nameOnChange = this.nameOnChange.bind(this);
@@ -32,75 +51,114 @@ class EditProfilePage extends Component {
       this.setState({ email: data.attributes.email });
       this.setState({ phone_number: data.attributes.phone_number });
       this.phoneOnChange(this.state.phone_number);
-
-    }
-    catch (error) {
-      console.log('could not find user :(', error);
+    } catch (error) {
+      // console.log("could not find user :(", error);
       alert("Error: No user found, please sign in again");
       this.props.navigation.navigate("HomeScreen");
     }
   }
 
   createAlert(title, msg) {
-    Alert.alert(
-      title,
-      msg,
-      [{ text: "OK" }], { cancelable: false })
+    Alert.alert(title, msg, [{ text: "OK" }], { cancelable: false });
   }
 
   phoneCheck(num) {
-    var regex = /^(\+1\d{3}\d{3}\d{4}$)/g
+    var regex = /^(\+1\d{3}\d{3}\d{4}$)/g;
     return regex.test(num);
-  };
+  }
 
   nameOnChange = (event) => {
     this.setState({ name: event });
-  }
+  };
   lastNameOnChange = (event) => {
     this.setState({ family_name: event });
-  }
+  };
   phoneOnChange = (event) => {
-    var cleaned = ('' + event).replace(/\D/g, '');
-    cleaned = '+' + cleaned;
-    cleaned = cleaned.substring(0,12);
-    this.setState({ phone_number: cleaned }); 
-    var format = '';
-    if(cleaned.length < 6)
-      format = '+1 (' + cleaned.substring(2,5);
-    else if(cleaned.length < 9)
-      format = '+1 (' + cleaned.substring(2,5) + ') ' + cleaned.substring(5,8);
+    var cleaned = ("" + event).replace(/\D/g, "");
+    cleaned = "+" + cleaned;
+    cleaned = cleaned.substring(0, 12);
+    this.setState({ phone_number: cleaned });
+    var format = "";
+    if (cleaned.length < 6) format = "+1 (" + cleaned.substring(2, 5);
+    else if (cleaned.length < 9)
+      format =
+        "+1 (" + cleaned.substring(2, 5) + ") " + cleaned.substring(5, 8);
     else
-      format = '+1 (' + cleaned.substring(2,5) + ') ' + cleaned.substring(5,8) + '-' + cleaned.substring(8,12);
-    this.setState({ phoneFormat: format});
-  }
-  
+      format =
+        "+1 (" +
+        cleaned.substring(2, 5) +
+        ") " +
+        cleaned.substring(5, 8) +
+        "-" +
+        cleaned.substring(8, 12);
+    this.setState({ phoneFormat: format });
+  };
 
+  pickImage = async () => {
+    const {
+      status: cameraRollPerm
+    } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+    // only if user allows permission to camera roll
+    if (cameraRollPerm === 'granted') {
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        base64: true,
+        aspect: [4, 3],
+        quality: 0.2,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images
+
+      });
+      if (!pickerResult.cancelled) {
+        this.setState({ newPhoto: true });
+        this.setState({ photo: pickerResult.base64 });
+        // this.setState({ photoType: pickerResult.type });
+        // console.log(this.state.photo);
+      }
+      // this.uploadImageAsync(pickerResult.uri);
+    } else {
+      this.createAlert("No Photo Access", "Please Go Into Phone Settings & Grant App Access To Photos");
+    }
+  };
+
+  async uploadImage() {
+    try {
+      const photos = new Photo();
+      const pName = await photos.generateProfilePicName("jpg");
+      await photos.uploadFile(this.state.photo, pName, this.state.photoType)
+    } catch (error) {
+      console.log("upload error", error);
+    }
+  }
 
   async saveChanges() {
     const attributes = {
-      'name': this.state.name,
-      'phone_number': this.state.phone_number,
-      'family_name': this.state.family_name
-    }
+      name: this.state.name,
+      phone_number: this.state.phone_number,
+      family_name: this.state.family_name
+    };
     try {
+      if (this.state.newPhoto) {
+        this.uploadImage();
+      }
       const user = await Auth.currentAuthenticatedUser();
       await Auth.updateUserAttributes(user, attributes);
       this.props.navigation.goBack();
     } catch (error) {
-      console.log("error saving user", error);
+      this.createAlert("Saving Error", "Please Try Again Later");
     }
   }
-
-
-
 
   validateUser() {
     if (this.state.name === "") {
       this.createAlert("Saving Error", "Please Type First Name");
     } else if (this.state.family_name === "") {
       this.createAlert("Saving Error", "Please Type Last Name");
-    }else if(!this.phoneCheck(this.state.phone_number)){
-        this.createAlert("Saving Error", "Phone Number Must Be At Least 9 Numbers Long");
+    } else if (!this.phoneCheck(this.state.phone_number)) {
+      this.createAlert(
+        "Saving Error",
+        "Phone Number Must Be At Least 9 Numbers Long"
+      );
     } else {
       this.saveChanges();
     }
@@ -116,14 +174,16 @@ class EditProfilePage extends Component {
           <ScrollView contentContainerStyle={styles.Page}>
             <View style={{ flexDirection: "row" }}>
               <View style={styles.arrow}>
-
                 <TouchableOpacity
                   style={styles.arrowButtonContainer}
                   onPress={() => this.props.navigation.goBack()}
                 >
-                  <FontAwesome name='arrow-left' color={colors.icon} size={45} />
+                  <FontAwesome
+                    name="arrow-left"
+                    color={colors.icon}
+                    size={45}
+                  />
                 </TouchableOpacity>
-
               </View>
               <View style={styles.deleteBtn}>
                 <TouchableOpacity
@@ -135,20 +195,20 @@ class EditProfilePage extends Component {
               </View>
             </View>
             <View style={styles.container}>
+              
 
-
-              <View style={styles.logo}>
-                <Image source={{
-                  uri: 'https://api.adorable.io/avatars/285/10@adorable.png',
-                }}
-                />
-              </View>
+              <TouchableOpacity
+                style={styles.uploadButton}
+                onPress={this.pickImage}
+              >
+                <MaterialCommunityIcons name="cloud-upload-outline" size={100} color={colors.label} />
+              </TouchableOpacity>
 
               <View style={styles.child}>
                 <Text style={{ color: colors.label }}>First Name:</Text>
                 <TextInput
                   style={styles.TextInput}
-                  placeholder='First Name'
+                  placeholder="First Name"
                   onChangeText={this.nameOnChange}
                   value={this.state.name}
                 />
@@ -158,7 +218,7 @@ class EditProfilePage extends Component {
                 <Text style={{ color: colors.label }}>Last Name:</Text>
                 <TextInput
                   style={styles.TextInput}
-                  placeholder='Last Name'
+                  placeholder="Last Name"
                   onChangeText={this.lastNameOnChange}
                   value={this.state.family_name}
                 />
@@ -169,7 +229,7 @@ class EditProfilePage extends Component {
                 <TextInput
                   type="number"
                   style={styles.TextInput}
-                  placeholder='Phone Number'
+                  placeholder="Phone Number"
                   onChangeText={this.phoneOnChange}
                   value={this.state.phoneFormat}
                 />
@@ -183,14 +243,12 @@ class EditProfilePage extends Component {
                   <Text style={styles.appButtonText}>Save</Text>
                 </TouchableOpacity>
               </View>
-
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
     );
   }
-
 }
 
 export default EditProfilePage;

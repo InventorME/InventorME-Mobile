@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import { Text, View, Image, Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import styles from "./LogIn.style";
 import { Auth } from 'aws-amplify';
+import styles from "./LogIn.style";
 
 class HomeScreen extends Component{
 
@@ -14,6 +14,7 @@ class HomeScreen extends Component{
     this.emailOnChange = this.emailOnChange.bind(this);
     this.passwordOnChange = this.passwordOnChange.bind(this);
   }
+
   async componentDidMount() {
     
     try{

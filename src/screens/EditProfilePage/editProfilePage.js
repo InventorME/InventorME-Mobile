@@ -13,11 +13,11 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import styles from "./editProfilePage.style";
 import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
-import * as Permissions from 'expo-permissions';
-import * as ImagePicker from 'expo-image-picker';
 
 
 
@@ -42,6 +42,7 @@ class EditProfilePage extends Component {
     this.nameOnChange = this.nameOnChange.bind(this);
     this.phoneOnChange = this.phoneOnChange.bind(this);
   }
+
   async componentDidMount() {
     try {
       const data = await Auth.currentUserInfo();
@@ -63,34 +64,36 @@ class EditProfilePage extends Component {
   }
 
   phoneCheck(num) {
-    var regex = /^(\+1\d{3}\d{3}\d{4}$)/g;
+    const regex = /^(\+1\d{3}\d{3}\d{4}$)/g;
     return regex.test(num);
   }
 
   nameOnChange = (event) => {
     this.setState({ name: event });
   };
+
   lastNameOnChange = (event) => {
     this.setState({ family_name: event });
   };
+
   phoneOnChange = (event) => {
-    var cleaned = ("" + event).replace(/\D/g, "");
-    cleaned = "+" + cleaned;
+    let cleaned = (`${  event}`).replace(/\D/g, "");
+    cleaned = `+${  cleaned}`;
     cleaned = cleaned.substring(0, 12);
     this.setState({ phone_number: cleaned });
-    var format = "";
-    if (cleaned.length < 6) format = "+1 (" + cleaned.substring(2, 5);
+    let format = "";
+    if (cleaned.length < 6) format = `+1 (${  cleaned.substring(2, 5)}`;
     else if (cleaned.length < 9)
       format =
-        "+1 (" + cleaned.substring(2, 5) + ") " + cleaned.substring(5, 8);
+        `+1 (${  cleaned.substring(2, 5)  }) ${  cleaned.substring(5, 8)}`;
     else
       format =
-        "+1 (" +
-        cleaned.substring(2, 5) +
-        ") " +
-        cleaned.substring(5, 8) +
-        "-" +
-        cleaned.substring(8, 12);
+        `+1 (${ 
+        cleaned.substring(2, 5) 
+        }) ${ 
+        cleaned.substring(5, 8) 
+        }-${ 
+        cleaned.substring(8, 12)}`;
     this.setState({ phoneFormat: format });
   };
 
@@ -101,7 +104,7 @@ class EditProfilePage extends Component {
 
     // only if user allows permission to camera roll
     if (cameraRollPerm === 'granted') {
-      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      const pickerResult = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         base64: true,
         aspect: [4, 3],
@@ -163,6 +166,7 @@ class EditProfilePage extends Component {
       this.saveChanges();
     }
   }
+
   render() {
     return (
       <KeyboardAwareScrollView

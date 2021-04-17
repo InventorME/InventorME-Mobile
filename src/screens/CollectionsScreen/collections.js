@@ -8,8 +8,8 @@ import { colors } from '../../util/colors';
 const collections = (props) => {
 
   const data = useContext(renderContext);
-  let categoriesList = [];
-  let countList = [];
+  const categoriesList = [];
+  const countList = [];
  
 
   if (data != null) {
@@ -20,14 +20,14 @@ const collections = (props) => {
     }
 
     for (let i = 0; i < categoriesList.length; i++) {
-      let itemsToRender = [];
+      const itemsToRender = [];
       let object = {}
       
       if (categoriesList[i] == "") {
-        object = { name: "Miscellaneous", count : 0, itemsToRender: itemsToRender, key: "Miscellaneous", colorNum: 0 };
+        object = { name: "Miscellaneous", count : 0, itemsToRender, key: "Miscellaneous", colorNum: 0 };
       }
       else {
-        object = { name: categoriesList[i], count: 0, itemsToRender: itemsToRender, key: categoriesList[i], colorNum: 0 };
+        object = { name: categoriesList[i], count: 0, itemsToRender, key: categoriesList[i], colorNum: 0 };
       }
 
       for (let j = 0; j < data.items.length; j++) {
@@ -50,27 +50,27 @@ const collections = (props) => {
     );
   }
   
-  else {
+  
   return (
     <View style={styles.container}>
       <FlatList
         data={countList}
         renderItem={({ item }) => (
-              <BoxFolderComponent
-                boxType={1}
-                title={item.name}
-                numItems={item.count}
-                style={{ backgroundColor: colors.objects[item.colorNum] }}
-                addPageNavigate={() => { props.navigation.navigate("AddItemScreen") }}
-                itemsNavigate={() => { props.navigation.navigate("ItemsScreen", {itemsToRender : item.itemsToRender})}}
-              />
+          <BoxFolderComponent
+            boxType={1}
+            title={item.name}
+            numItems={item.count}
+            style={{ backgroundColor: colors.objects[item.colorNum] }}
+            addPageNavigate={() => { props.navigation.navigate("AddItemScreen") }}
+            itemsNavigate={() => { props.navigation.navigate("ItemsScreen", {itemsToRender : item.itemsToRender})}}
+          />
         )}
         numColumns={2}
-        keyExtractor = {(item, index) => item.name}
+        keyExtractor={(item, index) => item.name}
       />
     </View>
   );
-}  
+  
 };
 
 export default collections;

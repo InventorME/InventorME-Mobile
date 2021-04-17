@@ -903,7 +903,7 @@ const ScanItem = (props) => {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     upc = data;
-    if(!info.request_info.success){
+    if(info.request_info.success){
     Alert.alert('Item Found',' ',
         [
           {
@@ -916,7 +916,15 @@ const ScanItem = (props) => {
           {
             text:'Add Item' ,
             onPress:()=>{
-              props.navigation.navigate("AddItemScreen");
+              const description=info.product.description;
+              const title=info.product.title;
+              const category= info.product.categories[0].name;
+              const price= info.product.buybox_winner.price.value;
+              console.log(description);
+              console.log(title);
+              console.log(category);
+              console.log(price);
+              props.navigation.navigate("AddItemScreen",{description,title,category,price});
             },
           },
         ],

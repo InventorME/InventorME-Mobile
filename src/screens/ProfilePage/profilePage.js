@@ -40,7 +40,7 @@ class ProfilePageNav extends Component {
     } catch (error) {
       // console.log("could not find user :(", error);
       alert("Error: No user found, please sign in again");
-      this.props.navigation.navigate("HomeScreen");
+      this.tion.navigate("HomeScreen");
     }
     try{
       const photos = new Photo();
@@ -57,7 +57,7 @@ class ProfilePageNav extends Component {
     try {
       await Auth.signOut();
       // console.log("User Signed Out");
-      this.props.navigation.navigate("HomeScreen");
+      this.tion.navigate("HomeScreen");
     } catch (error) {
       // console.log("user sign out error");
     }
@@ -166,7 +166,7 @@ class ProfilePageNav extends Component {
             <View style={styles.child}>
               <TouchableOpacity
                 style={styles.appButtonContainer}
-                onPress={() => this.props.navigation.navigate("EditProfilePage")}
+                onPress={() => this.tion.navigate("EditProfilePage")}
               >
                 <Text style={styles.appButtonText}>Edit Profile</Text>
               </TouchableOpacity>

@@ -2,18 +2,20 @@ import React, { useState } from "react";
 import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Avatar } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import styles from "./addItem.style";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { Database } from "../../util/Database";
-import { colors } from "../../util/colors";
-import { Photo } from "../../util/Photos";
 import { Auth } from 'aws-amplify';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+import { Database } from "../../util/Database";
+import { colors } from "../../util/colors";
+import { Photo } from "../../util/Photos";
+import styles from "./addItem.style";
 
 const addItemScreen = (props) => {
-  const [name, setName] = useState("");
+  console.log('#####################################################');
+  console.log(JSON.stringify(props.route.params.title));
+  const [name, setName] = useState(JSON.stringify(props.route.params.title));
   const [category, setCategory] = useState("");
   const [folder, setFolder] = useState("");
   const [location, setLocation] = useState("");
@@ -29,7 +31,7 @@ const addItemScreen = (props) => {
   const db = new Database();
   const photo = new Photo();
 
-  let POSTitemFORMAT = {
+  const POSTitemFORMAT = {
     userEmail: `"${email}"`,
     itemCategory: `"${category}"`,
     itemName: `"${name}"`,
@@ -75,7 +77,7 @@ const addItemScreen = (props) => {
 
     // only if user allows permission to camera AND camera roll
     if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
-      let pickerResult = await ImagePicker.launchCameraAsync({
+      const pickerResult = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
         base64: true,
@@ -138,7 +140,9 @@ const addItemScreen = (props) => {
         </TouchableOpacity>
 
         <View style={styles.child1}>
-          <Text style={styles.label}>Name:</Text>
+          <Text style={styles.label}>
+            Name:
+          </Text>
           <TextInput
             style={styles.textInput}
             placeholder='Name'
@@ -147,14 +151,16 @@ const addItemScreen = (props) => {
           />
         </View>
         {imageState ? ""
-          : <View style={styles.uploadContainer}>
-            <TouchableOpacity
-              style={styles.uploadButton}
-              onPress={takePhoto}
-            >
-              <Ionicons name="camera-outline" size={75} color={colors.label} />
-            </TouchableOpacity>
-          </View>}
+          : (
+            <View style={styles.uploadContainer}>
+              <TouchableOpacity
+                style={styles.uploadButton}
+                onPress={takePhoto}
+              >
+                <Ionicons name="camera-outline" size={75} color={colors.label} />
+              </TouchableOpacity>
+            </View>
+)}
 
 
         <View style={styles.child}>
@@ -205,7 +211,7 @@ const addItemScreen = (props) => {
             style={styles.notesInput}
             placeholder='Notes'
             maxLength={200}
-            multiline={true}
+            multiline
             onChangeText={(text) => { setNotes(text) }}
             value={notes}
           />
@@ -257,7 +263,7 @@ const addItemScreen = (props) => {
       </View>
       {/* </TouchableWithoutFeedback>
        </KeyboardAwareScrollView> */}
-    </ScrollView >
+    </ScrollView>
   );
 };
 

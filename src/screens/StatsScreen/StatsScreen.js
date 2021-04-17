@@ -144,7 +144,7 @@ class StatsScreen extends Component {
         </View>
         <View style={styles.stat}>
           <ProgCircle
-            percent={this.state.soldLength}
+            percent={(this.state.soldLength/this.state.allLength)*100}
             text={`${this.state.soldLength}`}
             color={colors.objects[5]}
           />

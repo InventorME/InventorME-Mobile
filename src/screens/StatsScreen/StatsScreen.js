@@ -142,12 +142,20 @@ class StatsScreen extends Component {
           />
           <Text style={styles.label}> {'Money Invested'} </Text>
         </View>
+        <View style={styles.stat}>
+          <ProgCircle
+            percent={this.state.soldLength}
+            text={`${this.state.soldLength}`}
+            color={colors.objects[5]}
+          />
+          <Text style={styles.label}> {'Items Sold'} </Text>
+        </View>
 
         <View style={styles.stat}>
           <ProgCircle
             percent={this.state.soldLength}
             text={`${this.state.Lost * 100}%`}
-            color={colors.objects[5]}
+            color={colors.objects[6]}
           />
           <Text style={styles.label}> {'% Money Lost'} </Text>
         </View>
@@ -156,7 +164,7 @@ class StatsScreen extends Component {
           <ProgCircle
             percent={this.state.Lost * 100}
             text={`$${this.state.Costper}/Mo`}
-            color={colors.objects[6]}
+            color={colors.objects[7]}
           />
           <Text style={styles.label}> {'Monthly Recurring Cost'} </Text>
         </View>

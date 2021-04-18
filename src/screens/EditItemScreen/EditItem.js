@@ -40,17 +40,16 @@ const EditItemScreen = (props) => {
   const photo = new Photo();
 
   useEffect(() => {
+    console.log("useEffect is running");
     (async () => {
-      // const { status } = await BarCodeScanner.requestPermissionsAsync();
-      // setHasPermission(status === 'granted');
       if(photoURL != ""){
         try {
           console.log("photoURL:", photoURL);
           const itemPhoto = await photo.get(photoURL);
-          console.log("itemPhoto:",itemPhoto);
+          // console.log("itemPhoto:",itemPhoto);
           setImage(itemPhoto);
           setImageState(true);
-          console.log("image found");
+          console.log("image found", imageState);
         } catch {
           console.log("photo not found");
         }
@@ -145,11 +144,11 @@ const EditItemScreen = (props) => {
 
   return (
     <ScrollView>
-      {/* <KeyboardAwareScrollView
+      <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
         scrollEnabled={true}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
 
         <TouchableOpacity
@@ -167,7 +166,13 @@ const EditItemScreen = (props) => {
             value={name} />
         </View>
 
-        {imageState ? <Text>{imageState}</Text>
+        {imageState ? <View style={styles.uploadContainer}>
+            <TouchableOpacity
+              style={styles.uploadButton}
+              onPress={takePhoto}>
+              <Avatar.Image source={{uri: `data:${this.state.imageType};base64,${this.state.image}`}} size={90}/>
+            </TouchableOpacity>
+          </View>
           : <View style={styles.uploadContainer}>
             <TouchableOpacity
               style={styles.uploadButton}
@@ -332,8 +337,8 @@ const EditItemScreen = (props) => {
 
       </View>
 
-      {/* </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView> */}
+      </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
     </ScrollView>
 
   );

@@ -28,6 +28,7 @@
     "async-storage": "^0.1.0",
     "aws-amplify": "^3.3.26",
     "aws-amplify-react-native": "^4.3.2",
+    "dateformat": "^3.0.3",
     "eslint": "^7.18.0",
     "eslint-config-handlebarlabs": "0.0.6",
     "expo": "~40.0.0",

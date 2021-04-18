@@ -128,10 +128,10 @@ const addItemScreen = (props) => {
 
   return (
     <ScrollView>
-      {/* <KeyboardAwareScrollView 
+      <KeyboardAwareScrollView 
        resetScrollToCoords={{ x: 0, y: 0 }}
       scrollEnabled={true}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>  */}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
       <View style={styles.container}>
 
         <TouchableOpacity
@@ -259,8 +259,8 @@ const addItemScreen = (props) => {
         </View>
 
       </View>
-      {/* </TouchableWithoutFeedback>
-       </KeyboardAwareScrollView> */}
+      </TouchableWithoutFeedback>
+       </KeyboardAwareScrollView>
     </ScrollView >
   );
 };

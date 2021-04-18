@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native";
 import styles from "./EditItem.style";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -11,6 +11,7 @@ import { Auth } from 'aws-amplify';
 import { Database } from "../../util/Database";
 import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
+import DatePicker from 'react-native-datepicker';
 
 const EditItemScreen = (props) => {
   const [name, setName] = useState('');
@@ -36,6 +37,7 @@ const EditItemScreen = (props) => {
   const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
   const [imageType, setImageType] = useState("image/jpg");
+  const [date,setDate] = useState("17-04-2021")
   const db = new Database();
   const photo = new Photo();
 
@@ -212,6 +214,35 @@ const EditItemScreen = (props) => {
                 value={itemManualURL}
               />
             </View>
+            <View>
+            <Text style={styles.label}>Sell Date:</Text>
+            <DatePicker
+          style={CalStyles.datePickerStyle}
+          date={date} // Initial date from state
+          mode="date" // The enum of date, datetime and time
+          placeholder="select date"
+          format="DD-MM-YYYY"
+          minDate="01-01-2016"
+          maxDate="01-01-2019"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+            },
+          }}
+          onDateChange={(date) => {
+            setDate(date);
+          }}
+        />
+            </View>
 
             <View style={styles.child}>
               <Text style={styles.label}>Sell Date:</Text>
@@ -340,3 +371,23 @@ const EditItemScreen = (props) => {
 }
 
 export default EditItemScreen;
+
+
+const CalStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    padding: 20,
+  },
+  datePickerStyle: {
+    width: 200,
+    marginTop: 20,
+  },
+});

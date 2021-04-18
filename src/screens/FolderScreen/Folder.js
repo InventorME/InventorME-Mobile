@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
+import styles from "./Folder.style";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { renderContext } from "../MainPage/mainPage";
 import { colors } from '../../util/colors';
 import { List } from "react-native-paper";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Folder = () => {
     const [expanded, setExpanded] = useState(true);
@@ -18,10 +20,15 @@ const Folder = () => {
             foldersList.push(data.items[i].itemFolder);
         }
     }
+    var color = 0;
+    const getColors = () => {
+        color++;
+        return colors.objects[color % 8];
+    }
 
     for (let i = 0; i < foldersList.length; i++) {
         let itemsToRender = [];
-        let object = { name : foldersList[i], itemsToRender : itemsToRender, key : foldersList[i]};
+        let object = { name: foldersList[i], itemsToRender: itemsToRender, key: foldersList[i] };
 
         for (let j = 0; j < data.items.length; j++) {
             if (data.items[j].itemFolder == foldersList[i]) {
@@ -34,21 +41,26 @@ const Folder = () => {
 
     return (
         <FlatList
-            data = {renderList}
-            renderItem = {({item}) => (
+            style={styles.constainer}
+            data={renderList}
+            renderItem={({ item }) => (
                 <List.Accordion
-                    title = {item.name}
-                    left = {props => <List.Icon {...props} icon = "folder" />}
+                    title={item.name}
+                    left={props => <List.Icon {...props} icon="folder" color={getColors()} />}
+                    style={styles.folder}
+                    titleStyle={styles.title}
                 >
                     <FlatList
-                        data = {item.itemsToRender}
-                        renderItem = {({item}) => (
+                        data={item.itemsToRender}
+                        renderItem={({ item }) => (
                             <TouchableOpacity>
-                                <List.Item title = {item.itemName} />
+                                <List.Item title={item.itemName} titleStyle={styles.title} />
+
                             </TouchableOpacity>
                         )}
-                        keyExtractor = {(item, index) => item.itemName}
-                    />         
+                        style={styles.item}
+                        keyExtractor={(item, index) => item.itemName}
+                    />
                 </List.Accordion>
             )}
         />

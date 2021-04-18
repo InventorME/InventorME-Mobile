@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Alert } from 'react-native';
+import { Text, View, StyleSheet, Button, Alert, ActivityIndicator} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import styles from "./scanItem.style";
 
@@ -11,6 +11,7 @@ let info = '';
 const ScanItem = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
@@ -20,11 +21,11 @@ const ScanItem = (props) => {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     upc = data;
     console.log("data", data);
-    getter();
+    await getter();
     if(info.request_info.success){
       Alert.alert('Item Found',' ',
           [
@@ -97,6 +98,7 @@ const ScanItem = (props) => {
 
 
   const getter = async () => {
+    setLoading(true);
     const queryURL = `${"https://api.rainforestapi.com/request" + "?api_key="}${  params.api_key  }&type=product&amazon_domain=amazon.com&gtin=${  upc}`;
     
      axios.get(queryURL)
@@ -106,6 +108,7 @@ const ScanItem = (props) => {
     }).catch(error => {
       console.log(error);
     })
+    setLoading(false);
   }
 
   return (
@@ -114,6 +117,7 @@ const ScanItem = (props) => {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
+      {scanned && loading?<ActivityIndicator size="large" />:undefined}
       {scanned && <Button title="Tap to Scan Again" onPress={() => setScanned(false)} />}
     </View>
   );

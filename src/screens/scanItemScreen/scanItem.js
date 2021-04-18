@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Alert, ActivityIndicator} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import styles from "./scanItem.style";
+import { colors } from '../../util/colors';
 
 const axios = require('axios');
 
@@ -37,7 +38,7 @@ const ScanItem = (props) => {
               text:'Cancel' ,
               onPress:()=>{
                 console.log("###########CANCEL######################");
-                console.log(`Info ${ info.request_info.success }`);
+                setScanned(false);
               },
             },
             {
@@ -125,8 +126,8 @@ const ScanItem = (props) => {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && loading?<ActivityIndicator size="large" />:undefined}
-      {scanned && <Button title="Tap to Scan Again" onPress={() => setScanned(false)} />}
+      {scanned && loading&& <ActivityIndicator size="large" color={colors.accent} /> }
+      {scanned && loading&& <Text style={styles.text}>Please Wait</Text>}
     </View>
   );
 }

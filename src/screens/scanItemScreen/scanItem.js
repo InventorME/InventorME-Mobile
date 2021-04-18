@@ -25,7 +25,10 @@ const ScanItem = (props) => {
     setScanned(true);
     upc = data;
     console.log("data", data);
-    await getter();
+    getter();
+    while(loading){
+      console.log("loading");
+    }
     if(info.request_info.success){
       Alert.alert('Item Found',' ',
           [

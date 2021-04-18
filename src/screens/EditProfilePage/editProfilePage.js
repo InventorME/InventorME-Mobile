@@ -168,39 +168,32 @@ class EditProfilePage extends Component {
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
-        scrollEnabled={false}
-      >
+        scrollEnabled={false}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView contentContainerStyle={styles.Page}>
             <View style={{ flexDirection: "row" }}>
               <View style={styles.arrow}>
                 <TouchableOpacity
                   style={styles.arrowButtonContainer}
-                  onPress={() => this.props.navigation.goBack()}
-                >
+                  onPress={() => this.props.navigation.goBack()}>
                   <FontAwesome
                     name="arrow-left"
                     color={colors.icon}
-                    size={45}
-                  />
+                    size={45}/>
                 </TouchableOpacity>
               </View>
               <View style={styles.deleteBtn}>
                 <TouchableOpacity
-                  style={styles.deleteButtonContainer}
-                // onPress={}
-                >
+                  style={styles.deleteButtonContainer}>
                   <Text style={styles.deleteButtonText}>Delete Account</Text>
                 </TouchableOpacity>
               </View>
             </View>
             <View style={styles.container}>
-              
 
               <TouchableOpacity
                 style={styles.uploadButton}
-                onPress={this.pickImage}
-              >
+                onPress={this.pickImage}>
                 <MaterialCommunityIcons name="cloud-upload-outline" size={100} color={colors.label} />
               </TouchableOpacity>
 
@@ -210,8 +203,7 @@ class EditProfilePage extends Component {
                   style={styles.TextInput}
                   placeholder="First Name"
                   onChangeText={this.nameOnChange}
-                  value={this.state.name}
-                />
+                  value={this.state.name}/>
               </View>
 
               <View style={styles.child}>
@@ -220,8 +212,7 @@ class EditProfilePage extends Component {
                   style={styles.TextInput}
                   placeholder="Last Name"
                   onChangeText={this.lastNameOnChange}
-                  value={this.state.family_name}
-                />
+                  value={this.state.family_name}/>
               </View>
 
               <View style={styles.child}>
@@ -231,15 +222,13 @@ class EditProfilePage extends Component {
                   style={styles.TextInput}
                   placeholder="Phone Number"
                   onChangeText={this.phoneOnChange}
-                  value={this.state.phoneFormat}
-                />
+                  value={this.state.phoneFormat}/>
               </View>
 
               <View style={styles.logo}>
                 <TouchableOpacity
                   style={styles.appButtonContainer}
-                  onPress={this.validateUser}
-                >
+                  onPress={this.validateUser}>
                   <Text style={styles.appButtonText}>Save</Text>
                 </TouchableOpacity>
               </View>

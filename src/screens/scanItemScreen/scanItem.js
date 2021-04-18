@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, Alert } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import styles from "./scanItem.style";
-const fetch = require('node-fetch');
+
 const axios = require('axios');
 
 let upc = '';
+let info = '';
 
-const ScanItem = () => {
+const ScanItem = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -23,8 +24,58 @@ const ScanItem = () => {
     setScanned(true);
     upc = data;
     console.log("data", data);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     getter();
+    if(info.request_info.success){
+      Alert.alert('Item Found',' ',
+          [
+            {
+              text:'Cancel' ,
+              onPress:()=>{
+                console.log("###########CANCEL######################");
+                console.log(`Info ${ info.request_info.success }`);
+              },
+            },
+            {
+              text:'Add Item' ,
+              onPress:()=>{
+                const description=info.product.description;
+                const title=info.product.title;
+                const category= info.product.categories[0].name;
+                const price= info.product.buybox_winner.price.value;
+                console.log(description);
+                console.log(title);
+                console.log(category);
+                console.log(price);
+                props.navigation.navigate("AddItemScreen",{description,title,category,price});
+              },
+            },
+          ],
+          {
+            calcelable:false,
+          },
+        );
+      }else{
+        Alert.alert('The Item Was not found ',' ',
+          [
+            {
+              text:'Retry' ,
+              onPress:()=>{
+                console.log("###########CANCEL######################");
+                console.log(`Info ${ info.request_info.success }`);
+              },
+            },
+            {
+              text:'Add Item Manually' ,
+              onPress:()=>{
+                props.navigation.navigate("addItem");
+              },
+            },
+          ],  
+          {
+            cancelable:false,
+          }
+        );    
+      }  
   };
 
   if (hasPermission === null) {
@@ -46,7 +97,7 @@ const ScanItem = () => {
 
 
   const getter = async () => {
-    let queryURL = "https://api.rainforestapi.com/request" + "?api_key=" + params.api_key + "&type=product&amazon_domain=amazon.com&gtin=" + upc;
+    const queryURL = `${"https://api.rainforestapi.com/request" + "?api_key="}${  params.api_key  }&type=product&amazon_domain=amazon.com&gtin=${  upc}`;
     
      axios.get(queryURL)
     .then(response => {

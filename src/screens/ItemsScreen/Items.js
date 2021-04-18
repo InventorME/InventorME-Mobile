@@ -19,7 +19,8 @@ const Items = (props) => {
         renderItem = {({item}) => (
               <BoxFolderComponent
                 title = {item.itemName}
-                
+                itemsNavigate={() => {props.navigation.navigate("EditItemScreen", { itemCreated:false})}}
+
               />
         )}
         keyExtractor = {(item, index) => item.itemName}

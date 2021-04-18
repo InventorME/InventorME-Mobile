@@ -15,26 +15,26 @@ import { set } from "react-native-reanimated";
 
 const EditItemScreen = (props) => {
   
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [category, setCategory] = useState('');
-  const [photoURL, setPhotoURL] = useState('');
-  const [location, setLocation] = useState('');
-  const [notes, setNotes] = useState('');
-  const [tags, setTags] = useState('');
-  const [serialNum, setSerialNum] = useState('');
-  const [purchaseAmt, setPurchaseAmt] = useState('');
-  const [worth, setWorth] = useState('');
-  const [receiptPhoto, setReceiptPhoto] = useState('');
-  const [itemManualURL, setItemManualURL] = useState('');
-  const [sellDate, setSellDate] = useState('');
-  const [buyDate, setBuyDate] = useState('');
-  const [sellAmt, setSellAmt] = useState('');
-  const [recurrPayAmt, setRecurrPayAmt] = useState('');
-  const [ebayURL, setEbayURL] = useState('');
-  const [archived, setArchived] = useState('');
-  const [folder, setFolder] = useState('');
-  const [image, setImage] = useState("");
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [photoURL, setPhotoURL] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [notes, setNotes] = useState(null);
+  const [tags, setTags] = useState(null);
+  const [serialNum, setSerialNum] = useState(null);
+  const [purchaseAmt, setPurchaseAmt] = useState(null);
+  const [worth, setWorth] = useState(null);
+  const [receiptPhoto, setReceiptPhoto] = useState(null);
+  const [itemManualURL, setItemManualURL] = useState(null);
+  const [sellDate, setSellDate] = useState(null);
+  const [buyDate, setBuyDate] = useState(null);
+  const [sellAmt, setSellAmt] = useState(null);
+  const [recurrPayAmt, setRecurrPayAmt] = useState(null);
+  const [ebayURL, setEbayURL] = useState(null);
+  const [archived, setArchived] = useState('0');
+  const [folder, setFolder] = useState(null);
+  const [image, setImage] = useState(null);
   const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
   const [imageType, setImageType] = useState("image/jpg");
@@ -47,27 +47,48 @@ const EditItemScreen = (props) => {
     setPurchaseAmt(JSON.stringify(props.route.params.price))
     setCreateItem(false);
   }  
+  const POSTitemFORMAT = {
+    userEmail: `"${email}"`,
+    itemCategory: `"${category}"`,
+    itemName: `"${name}"`,
+    itemPhotoURL: `"${[photoURL]}"`,
+    itemSerialNum: `"${serialNum}"`,
+    itemPurchaseAmount: `"${purchaseAmt}"`,
+    itemWorth: `"${worth}"`,
+    itemReceiptPhotoURL: `"${receiptPhoto}"`,
+    itemManualURL: `"${itemManualURL}"`,
+    itemSellDate: `"${sellDate}"`,
+    itemBuyDate: `"${buyDate}"`,
+    itemLocation: `"${location}"`,
+    itemNotes: `"${notes}"`,
+    itemSellAmount: `"${sellAmt}"`,
+    itemRecurringPaymentAmount: `${recurrPayAmt}`,
+    itemEbayURL: `${ebayURL}`,
+    itemTags: `"${tags}"`,
+    itemArchived: `${archived}`,
+    itemFolder: "null"
+  }
 
   const PUTitemFORMAT = {
     userEmail: `"${email}"`,
     itemID: "9",
     itemCategory: `"${category}"`,
     itemName: `"${name}"`,
-    itemPhotoURL: "null",
-    itemSerialNum: "null",
-    itemPurchaseAmount: "null",
-    itemWorth: "null",
-    itemReceiptPhotoURL: "null",
-    itemManualURL: "null",
-    itemSellDate: "null",
-    itemBuyDate: "null",
+    itemPhotoURL: `"${[photoURL]}"`,
+    itemSerialNum: `"${serialNum}"`,
+    itemPurchaseAmount: `"${purchaseAmt}"`,
+    itemWorth: `"${worth}"`,
+    itemReceiptPhotoURL: `"${receiptPhoto}"`,
+    itemManualURL: `"${itemManualURL}"`,
+    itemSellDate: `"${sellDate}"`,
+    itemBuyDate: `"${buyDate}"`,
     itemLocation: `"${location}"`,
     itemNotes: `"${notes}"`,
-    itemSellAmount: "null",
-    itemRecurringPaymentAmount: "null",
-    itemEbayURL: "null",
+    itemSellAmount: `"${sellAmt}"`,
+    itemRecurringPaymentAmount: `${recurrPayAmt}`,
+    itemEbayURL: `${ebayURL}`,
     itemTags: `"${tags}"`,
-    itemArchived: '0',
+    itemArchived: `${archived}`,
     itemFolder: "null"
   }
 

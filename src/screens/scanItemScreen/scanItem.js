@@ -6,12 +6,12 @@ import styles from "./scanItem.style";
 const axios = require('axios');
 
 let upc = '';
-let info = '';
 
 const ScanItem = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [info, setInfo]=useState("")
 
 
   useEffect(() => {
@@ -26,9 +26,6 @@ const ScanItem = (props) => {
     upc = data;
     console.log("data", data);
     getter();
-    while(loading){
-      console.log("loading");
-    }
     if(info.request_info.success){
       Alert.alert('Item Found',' ',
           [
@@ -107,7 +104,7 @@ const ScanItem = (props) => {
      axios.get(queryURL)
     .then(response => {
       // print the JSON response from Rainforest API
-      console.log(JSON.stringify(response.data, 0,2));
+      setInfo(JSON.stringify(response.data, 0,2));
     }).catch(error => {
       console.log(error);
     })

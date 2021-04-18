@@ -40,12 +40,14 @@ const EditItemScreen = (props) => {
   const [imageType, setImageType] = useState("image/jpg");
   const db = new Database();
   const photo = new Photo();
-
-  if(props.route.params.itemCreated){
+  const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
+  if(createItem){
     setName(JSON.stringify(props.route.params.title));
     setCategory(JSON.stringify(props.route.params.category))
     setPurchaseAmt(JSON.stringify(props.route.params.price))
+    setCreateItem(false);
   }  
+
   const PUTitemFORMAT = {
     userEmail: `"${email}"`,
     itemID: "9",

@@ -238,7 +238,7 @@ const addItemScreen = (props) => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              props.navigation.navigate("EditItemScreen");
+              props.navigation.navigate("EditItemScreen",itemCreated = false);
             }}
           >
             <Text style={styles.buttonText}>Add Info</Text>

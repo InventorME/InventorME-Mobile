@@ -19,6 +19,7 @@ const Items = (props) => {
         renderItem = {({item}) => (
               <BoxFolderComponent
                 title = {item.itemName}
+                
               />
         )}
         keyExtractor = {(item, index) => item.itemName}

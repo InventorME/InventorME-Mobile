@@ -6,12 +6,13 @@ import styles from "./scanItem.style";
 const axios = require('axios');
 
 let upc = '';
+let info;
 
 const ScanItem = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [info, setInfo]=useState("")
+  // const [info, setInfo]=useState()
 
 
   useEffect(() => {
@@ -21,11 +22,14 @@ const ScanItem = (props) => {
     })();
   }, []);
 
+
   const handleBarCodeScanned = async ({ type, data }) => {
+    console.log("getter called")
     setScanned(true);
     upc = data;
     console.log("data", data);
-    getter();
+    await getter();
+    console.log(info.request_info.success);
     if(info.request_info.success){
       Alert.alert('Item Found',' ',
           [
@@ -101,10 +105,12 @@ const ScanItem = (props) => {
     setLoading(true);
     const queryURL = `${"https://api.rainforestapi.com/request" + "?api_key="}${  params.api_key  }&type=product&amazon_domain=amazon.com&gtin=${  upc}`;
     
-     axios.get(queryURL)
+     await axios.get(queryURL)
     .then(response => {
       // print the JSON response from Rainforest API
-      setInfo(JSON.stringify(response.data, 0,2));
+      //console.log(response.data,0,2);
+      info = response.data,0,2;
+      console.log(JSON.stringify(info));
     }).catch(error => {
       console.log(error);
     })

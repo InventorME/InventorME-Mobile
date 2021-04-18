@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
-import styles from "./EditItem.style";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,11 +7,14 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from "react-native-paper";
 import { Auth } from 'aws-amplify';
+import styles from "./EditItem.style";
 import { Database } from "../../util/Database";
 import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
+import { set } from "react-native-reanimated";
 
 const EditItemScreen = (props) => {
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [category, setCategory] = useState('');
@@ -39,7 +41,12 @@ const EditItemScreen = (props) => {
   const db = new Database();
   const photo = new Photo();
 
-  var PUTitemFORMAT = {
+  if(props.route.params.itemCreated){
+    setName(JSON.stringify(props.route.params.title));
+    setCategory(JSON.stringify(props.route.params.category))
+    setPurchaseAmt(JSON.stringify(props.route.params.price))
+  }  
+  const PUTitemFORMAT = {
     userEmail: `"${email}"`,
     itemID: "9",
     itemCategory: `"${category}"`,
@@ -74,7 +81,7 @@ const EditItemScreen = (props) => {
 
     // only if user allows permission to camera AND camera roll
     if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
-      let pickerResult = await ImagePicker.launchCameraAsync({
+      const pickerResult = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
         base64: true,
@@ -122,7 +129,8 @@ const EditItemScreen = (props) => {
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
-        scrollEnabled={true}>
+        scrollEnabled
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
 
@@ -143,14 +151,16 @@ const EditItemScreen = (props) => {
               />
             </View>
             {imageState ? ""
-              : <View style={styles.uploadContainer}>
-                <TouchableOpacity
-                  style={styles.uploadButton}
-                  onPress={takePhoto}
-                >
-                  <Ionicons name="camera-outline" size={75} color={colors.label} />
-                </TouchableOpacity>
-              </View>}
+              : (
+                <View style={styles.uploadContainer}>
+                  <TouchableOpacity
+                    style={styles.uploadButton}
+                    onPress={takePhoto}
+                  >
+                    <Ionicons name="camera-outline" size={75} color={colors.label} />
+                  </TouchableOpacity>
+                </View>
+)}
 
             <View style={styles.child}>
               <Text style={styles.label}>Collection:</Text>
@@ -301,7 +311,7 @@ const EditItemScreen = (props) => {
                 style={styles.notesInput}
                 placeholder='Notes'
                 maxLength={200}
-                multiline={true}
+                multiline
                 onChangeText={(text) => { setNotes(text) }}
                 value={notes}
               />

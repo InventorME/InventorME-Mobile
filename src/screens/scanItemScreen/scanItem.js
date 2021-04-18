@@ -47,11 +47,13 @@ const ScanItem = (props) => {
                 const title=info.product.title;
                 const category= info.product.categories[0].name;
                 const price= info.product.buybox_winner.price.value;
+                const itemCreated=true;
                 console.log(description);
                 console.log(title);
                 console.log(category);
                 console.log(price);
-                props.navigation.navigate("AddItemScreen",{description,title,category,price});
+                //send image
+                props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated});
               },
             },
           ],
@@ -110,7 +112,7 @@ const ScanItem = (props) => {
       // print the JSON response from Rainforest API
       //console.log(response.data,0,2);
       info = response.data,0,2;
-      console.log(JSON.stringify(info));
+      // console.log(JSON.stringify(info));
     }).catch(error => {
       console.log(error);
     })

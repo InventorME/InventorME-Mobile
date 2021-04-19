@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-equals-spacing */
 /* eslint-disable no-use-before-define */
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { Ionicons,MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
 import { colors } from '../util/colors';
 import { Database } from "../util/Database";
+import { renderContext } from "../screens/MainPage/mainPage";
 
 
 
@@ -14,21 +15,10 @@ const UpperTab = (props) => {
   const [showSearchBar,setshowSearchBar]=useState(false);
   const [search,setSearch]=useState("");
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
+  const data = useContext(renderContext);
 
 
   let searchedList = [];
- 
-  const db = new Database();
-
-  async function getter() {
-    try {
-      setData(await db.get());
-    }
-    catch (error) {
-      // console.log(error);
-    }
-  }
 
   
   const searchForData =()=>{
@@ -42,21 +32,20 @@ const UpperTab = (props) => {
         } 
       } 
     }
+    console.log(data);
   }
   const searching=(text)=>{
-    console.log(text)
+    console.log(text);
     setSearch(text);
   }
   const submitData=()=>{
-    setLoading(true);
-    getter();
     searchForData();
-    setLoading(false);
     setshowSearchBar(false);
     setSearch("");
     const finalSearch=searchedList;
     searchedList=[];
     console.log(finalSearch);
+    setLoading(false);
     props.itemsNavigate(finalSearch);
   }
     return (
@@ -75,6 +64,7 @@ const UpperTab = (props) => {
           <TouchableOpacity
             onPress={() => {
               setshowSearchBar(!showSearchBar);
+              setLoading(true);
                 }}
           >
             {showSearchBar? (
@@ -85,12 +75,11 @@ const UpperTab = (props) => {
                   onSubmitEditing={submitData}
                   value={search}
                   icon={()=> loading?
-                    <ActivityIndicator size="small" />
+                    <MaterialCommunityIcons name='book-search' size="small" color="black" />
                     :
                     <MaterialCommunityIcons name='magnify' size="small" />
                   }
                 />
-                {loading?<ActivityIndicator size="small" />:undefined}
               </View>
           ) 
             :<MaterialCommunityIcons name='magnify' size={30} color={colors.icon} />}

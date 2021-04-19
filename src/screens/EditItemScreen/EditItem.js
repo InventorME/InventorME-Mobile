@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -56,34 +56,46 @@ const EditItemScreen = (props) => {
   }, [email])
 
   if(createItem){
-    setName(JSON.stringify(props.route.params.title));
-    setCategory(JSON.stringify(props.route.params.category));
-    setPurchaseAmt(JSON.stringify(props.route.params.price));
+    setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ''));
+    setCategory(JSON.stringify(props.route.params.category).replace(/['"]+/g, ''));
+    setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
+    setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
+    setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
     setScannedItem(true);
     console.log(scannedItem);
     setCreateItem(false);
     
   }  
+  const quotes = (value) =>{
+    if(!value || value === "null" || value.length < 1){
+      return null;
+    }
+    if(!isNaN(value)){
+      return value;
+    }
+    return "'" + value + "'";
+  };
+
   const POSTitemFORMAT = {
-    userEmail: `"${email}"`,
-    itemCategory: `"${category}"`,
-    itemName: `"${name}"`,
-    itemPhotoURL: "null",
-    itemSerialNum: "null",
-    itemPurchaseAmount: "null",
-    itemWorth: "null",
-    itemReceiptPhotoURL: "null",
-    itemManualURL: "null",
-    itemSellDate: "null",
-    itemBuyDate: "null",
-    itemLocation: `"${location}"`,
-    itemNotes: `"${notes}"`,
-    itemSellAmount: "null",
-    itemRecurringPaymentAmount: "null",
-    itemEbayURL: "null",
-    itemTags: `"${tags}"`,
-    itemArchived: `${archived}`,
-    itemFolder: "null"
+    userEmail: quotes(email),
+    itemCategory: quotes(category),
+    itemName: quotes(name),
+    itemPhotoURL: quotes(photoURL),
+    itemSerialNum: quotes(serialNum),
+    itemPurchaseAmount: quotes(purchaseAmt),
+    itemWorth: quotes(worth),
+    itemReceiptPhotoURL: quotes(receiptPhoto),
+    itemManualURL: quotes(itemManualURL),
+    itemSellDate: quotes(sellDate),
+    itemBuyDate: quotes(buyDate),
+    itemLocation: quotes(location),
+    itemNotes: quotes(notes),
+    itemSellAmount: quotes(sellAmt),
+    itemRecurringPaymentAmount: quotes(recurrPayAmt),
+    itemEbayURL: quotes(ebayURL),
+    itemTags: quotes(tags),
+    itemArchived: quotes(archived),
+    itemFolder: quotes(folder)
   }
 
   const PUTitemFORMAT = {
@@ -108,52 +120,28 @@ const EditItemScreen = (props) => {
     itemArchived: `${archived}`,
     itemFolder: "null"
   }
-  const checkVariable = () => {
-    if(photoURL.length() == 0){
-      setPhotoURL(null)
-    }
-    if(serialNum.length() == 0){
-      setSerialNum(null);
-    }
-    if(purchaseAmt.length() == 0){
-      setPurchaseAmt(null);
-    } 
-    if(worth.length() == 0){
-      setWorth(null);
-    } 
-    if(receiptPhoto.length() == 0){
-      setReceiptPhoto(null);
-    }  
-    if(itemManualURL.length() == 0){
-      setItemManualURL(null);
-    }  
-    if(sellDate.length() == 0){
-      setSellDate(null);
-    }     
-    if(buyDate.length() == 0){
-      setBuyDate(null);
-    } 
-    if(location.length() == 0){
-      setLocation(null);
-    }   
-    if(notes.length() == 0){
-      setNotes(null);
-    }   
-    if(sellAmt.length() == 0){
-      setSellDate(null);
-    }  
-    if(recurrPayAmt.length() == 0){
-      setRecurrPayAmt(null);
-    }  
-    if(ebayURL.length() == 0){
-      setEbayURL(null);
-    }  
-    if(tags.length() == 0){
-      setTags(null);
-    }  
-    
+  const validateNonNullData= (name, category) =>{
+    let goodValid = true;
+    if(name === "null" || name === ''){
+      console.log(name);
+      Alert.alert("Error: Please Type and Item Name");
+      goodValid = false;
+      return goodValid;
 
-  };
+    }
+    if (category === "null" || category === ''){
+      console.log(category);
+      Alert.alert("Error: Please Type and Item Collection");
+      goodValid = false;
+      return goodValid;
+    }
+    if(goodValid){
+      console.log("I came inside this one name: " + name + " cat: " + category );
+      props.navigation.goBack()
+    }
+  }
+
+
 
 
   const takePhoto = async () => {
@@ -430,11 +418,11 @@ const EditItemScreen = (props) => {
 
 
             <View style={styles.buttonContainer}>
-
+                
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => {scannedItem ? poster() : putter(); props.navigation.goBack() }}
-              >
+                onPress={() => {validateNonNullData(name,category); scannedItem ? poster() : putter(); }}>
+              
                 <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>
             </View>

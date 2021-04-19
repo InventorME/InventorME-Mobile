@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, TouchableOpacity } from "react-native";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 
 const Items = (props) => {
@@ -13,19 +13,24 @@ const Items = (props) => {
     itemsToRender = props.route.params.itemsToRender;
   }
 
-    return (
-      <FlatList
-        data = {itemsToRender}
-        renderItem = {({item}) => (
-              <BoxFolderComponent
-                title = {item.itemName}
-                itemsNavigate={() => {props.navigation.navigate("EditItemScreen", { itemCreated:false})}}
+  return (
 
-              />
-        )}
-        keyExtractor = {(item, index) => item.itemName}
-      />
-    );
+    <FlatList
+
+      data={itemsToRender}
+      renderItem={({ item }) => (
+          <BoxFolderComponent
+            title={item.itemName}
+            
+            />
+
+      )}
+      keyExtractor={(item, index) => item.itemName}
+
+    />
+
+
+  );
 }
 
 export default Items;

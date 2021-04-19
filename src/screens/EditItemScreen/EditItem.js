@@ -14,6 +14,8 @@ import { Photo } from "../../util/Photos";
 import { set } from "react-native-reanimated";
 
 const EditItemScreen = (props) => {
+
+  let item;
   
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,6 +68,27 @@ const EditItemScreen = (props) => {
     setCreateItem(false);
     
   }  
+  if(!createItem){
+    setName(props.route.params.item.itemName);
+    setEmail(props.route.params.item.userEmail);
+    setCategory(props.route.params.item.itemCategory);
+    setPhotoURL(props.route.params.item.itemPhotoURL);
+    setLocation(props.route.params.item.itemLocation);
+    setNotes(props.route.params.item.itemNotes);
+    setTags(props.route.params.item.itemTags);
+    setSerialNum(props.route.params.item.itemSerialNum);
+    setPurchaseAmt(props.route.params.item.itemPurchaseAmount);
+    setWorth(props.route.params.item.itemWorth);
+    setReceiptPhoto(props.route.params.item.itemReceiptPhotoURL);
+    setItemManualURL(props.route.params.item.itemManualURL);
+    setSellDate(props.route.params.item.itemSellDate);
+    setBuyDate(props.route.params.item.itemBuyDate);
+    setSellAmt(props.route.params.item.itemSellDate);
+    setRecurrPayAmt(props.route.params.item.itemRecurringPaymentAmount);
+    setEbayURL(props.route.params.item.itemEbayURL);
+    setArchived(props.route.params.item.itemArchived);
+    setFolder(props.route.params.item.itemFolder);
+  }
   const quotes = (value) =>{
     if(!value || value === "null" || value.length < 1){
       return null;

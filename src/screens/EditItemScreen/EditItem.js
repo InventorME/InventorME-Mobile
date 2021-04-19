@@ -15,55 +15,59 @@ import { set } from "react-native-reanimated";
 
 const EditItemScreen = (props) => {
   
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [photoURL, setPhotoURL] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [notes, setNotes] = useState(null);
-  const [tags, setTags] = useState(null);
-  const [serialNum, setSerialNum] = useState(null);
-  const [purchaseAmt, setPurchaseAmt] = useState(null);
-  const [worth, setWorth] = useState(null);
-  const [receiptPhoto, setReceiptPhoto] = useState(null);
-  const [itemManualURL, setItemManualURL] = useState(null);
-  const [sellDate, setSellDate] = useState(null);
-  const [buyDate, setBuyDate] = useState(null);
-  const [sellAmt, setSellAmt] = useState(null);
-  const [recurrPayAmt, setRecurrPayAmt] = useState(null);
-  const [ebayURL, setEbayURL] = useState(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [category, setCategory] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
+  const [location, setLocation] = useState("");
+  const [notes, setNotes] = useState("");
+  const [tags, setTags] = useState("");
+  const [serialNum, setSerialNum] = useState("");
+  const [purchaseAmt, setPurchaseAmt] = useState("");
+  const [worth, setWorth] = useState("");
+  const [receiptPhoto, setReceiptPhoto] = useState("");
+  const [itemManualURL, setItemManualURL] = useState("");
+  const [sellDate, setSellDate] = useState("");
+  const [buyDate, setBuyDate] = useState("");
+  const [sellAmt, setSellAmt] = useState("");
+  const [recurrPayAmt, setRecurrPayAmt] = useState("");
+  const [ebayURL, setEbayURL] = useState("");
   const [archived, setArchived] = useState('0');
-  const [folder, setFolder] = useState(null);
-  const [image, setImage] = useState(null);
+  const [folder, setFolder] = useState("");
+  const [image, setImage] = useState("");
   const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
   const [imageType, setImageType] = useState("image/jpg");
   const db = new Database();
   const photo = new Photo();
   const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
+  const [scannedItem, setScannedItem] = useState(false);
   if(createItem){
     setName(JSON.stringify(props.route.params.title));
-    setCategory(JSON.stringify(props.route.params.category))
-    setPurchaseAmt(JSON.stringify(props.route.params.price))
+    setCategory(JSON.stringify(props.route.params.category));
+    setPurchaseAmt(JSON.stringify(props.route.params.price));
+    setScannedItem(true);
+    console.log(scannedItem);
     setCreateItem(false);
+    
   }  
   const POSTitemFORMAT = {
     userEmail: `"${email}"`,
     itemCategory: `"${category}"`,
     itemName: `"${name}"`,
-    itemPhotoURL: `"${[photoURL]}"`,
-    itemSerialNum: `"${serialNum}"`,
-    itemPurchaseAmount: `"${purchaseAmt}"`,
-    itemWorth: `"${worth}"`,
-    itemReceiptPhotoURL: `"${receiptPhoto}"`,
-    itemManualURL: `"${itemManualURL}"`,
-    itemSellDate: `"${sellDate}"`,
-    itemBuyDate: `"${buyDate}"`,
+    itemPhotoURL: "null",
+    itemSerialNum: "null",
+    itemPurchaseAmount: "null",
+    itemWorth: "null",
+    itemReceiptPhotoUrl: "null",
+    itemManualURL: "null",
+    itemSellDate: "null",
+    itemBuyDate: "null",
     itemLocation: `"${location}"`,
     itemNotes: `"${notes}"`,
-    itemSellAmount: `"${sellAmt}"`,
-    itemRecurringPaymentAmount: `${recurrPayAmt}`,
-    itemEbayURL: `${ebayURL}`,
+    itemSellAmount: "null",
+    itemRecurringPaymentAmount: "null",
+    itemEbayURL: "null",
     itemTags: `"${tags}"`,
     itemArchived: `${archived}`,
     itemFolder: "null"
@@ -91,6 +95,52 @@ const EditItemScreen = (props) => {
     itemArchived: `${archived}`,
     itemFolder: "null"
   }
+  const checkVariable = () => {
+    if(photoURL.length() == 0){
+      setPhotoURL(null)
+    }
+    if(serialNum.length() == 0){
+      setSerialNum(null);
+    }
+    if(purchaseAmt.length() == 0){
+      setPurchaseAmt(null);
+    } 
+    if(worth.length() == 0){
+      setWorth(null);
+    } 
+    if(receiptPhoto.length() == 0){
+      setReceiptPhoto(null);
+    }  
+    if(itemManualURL.length() == 0){
+      setItemManualURL(null);
+    }  
+    if(sellDate.length() == 0){
+      setSellDate(null);
+    }     
+    if(buyDate.length() == 0){
+      setBuyDate(null);
+    } 
+    if(location.length() == 0){
+      setLocation(null);
+    }   
+    if(notes.length() == 0){
+      setNotes(null);
+    }   
+    if(sellAmt.length() == 0){
+      setSellDate(null);
+    }  
+    if(recurrPayAmt.length() == 0){
+      setRecurrPayAmt(null);
+    }  
+    if(ebayURL.length() == 0){
+      setEbayURL(null);
+    }  
+    if(tags.length() == 0){
+      setTags(null);
+    }  
+    
+
+  };
 
 
   const takePhoto = async () => {
@@ -134,6 +184,22 @@ const EditItemScreen = (props) => {
   }
 
   async function poster() {
+    try {
+      const data = await Auth.currentUserInfo();
+      if (imageTaken) {
+        await uploadImage();
+      }
+      setEmail(data.attributes.email);
+      const item = await db.post(POSTitemFORMAT);
+      console.log("Posted to database")
+      console.log(POSTitemFORMAT);
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  async function putter() {
     try {
       const data = await Auth.currentUserInfo();
       if (imageTaken) {
@@ -356,7 +422,7 @@ const EditItemScreen = (props) => {
 
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => { poster(); props.navigation.goBack() }}
+                onPress={() => {scannedItem ? poster() : putter(); props.navigation.goBack() }}
               >
                 <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>

@@ -43,7 +43,7 @@ const EditItemScreen = (props) => {
   const db = new Database();
   const photo = new Photo();
   const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
-  const [scannedItem, setScannedItem] = useState(props.route.params.scannedItem);
+  const [scannedItem, setScannedItem] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -56,55 +56,45 @@ const EditItemScreen = (props) => {
         console.log('could not find user :(', error);
       }
     })();
-    console.log("end");
   }, [email])
 
   //console.log(props.route.params);
   console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
   
   if(createItem){
-    console.log("1")
-    if(scannedItem){
-      console.log("2")
+    
     setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ''));
     setCategory(JSON.stringify(props.route.params.category).replace(/['"]+/g, ''));
     setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
     setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
     setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
-    console.log(scannedItem);
+    setCreateItem(false);
+    setScannedItem(true);
     
-    
-  }  else{
-    console.log("3")
-    setName(props.route.params.name);
-    setCategory(props.route.params.category);
-    setNotes(props.route.params.notes);
-    setFolder(props.route.params.folder);
-
-  }
+  
 }
- else{
-   console.log("4")
-    setName(props.route.params.itemName);
-    setEmail(props.route.params.userEmail);
-    setCategory(props.route.params.itemCategory);
-    setPhotoURL(props.route.params.itemPhotoURL);
-    setLocation(props.route.params.itemLocation);
-    setNotes(props.route.params.itemNotes);
-    setTags(props.route.params.itemTags);
-    setSerialNum(props.route.params.itemSerialNum);
-    setPurchaseAmt(props.route.params.itemPurchaseAmount);
-    setWorth(props.route.params.itemWorth);
-    setReceiptPhoto(props.route.params.itemReceiptPhotoURL);
-    setItemManualURL(props.route.params.itemManualURL);
-    setSellDate(props.route.params.itemSellDate);
-    setBuyDate(props.route.params.itemBuyDate);
-    setSellAmt(props.route.params.itemSellDate);
-    setRecurrPayAmt(props.route.params.itemRecurringPaymentAmount);
-    setEbayURL(props.route.params.itemEbayURL);
-    setArchived(props.route.params.itemArchived);
-    setFolder(props.route.params.itemFolder);
-  }
+//  else{
+//    console.log("4")
+//     setName(props.route.params.itemName);
+//     setEmail(props.route.params.userEmail);
+//     setCategory(props.route.params.itemCategory);
+//     setPhotoURL(props.route.params.itemPhotoURL);
+//     setLocation(props.route.params.itemLocation);
+//     setNotes(props.route.params.itemNotes);
+//     setTags(props.route.params.itemTags);
+//     setSerialNum(props.route.params.itemSerialNum);
+//     setPurchaseAmt(props.route.params.itemPurchaseAmount);
+//     setWorth(props.route.params.itemWorth);
+//     setReceiptPhoto(props.route.params.itemReceiptPhotoURL);
+//     setItemManualURL(props.route.params.itemManualURL);
+//     setSellDate(props.route.params.itemSellDate);
+//     setBuyDate(props.route.params.itemBuyDate);
+//     setSellAmt(props.route.params.itemSellDate);
+//     setRecurrPayAmt(props.route.params.itemRecurringPaymentAmount);
+//     setEbayURL(props.route.params.itemEbayURL);
+//     setArchived(props.route.params.itemArchived);
+//     setFolder(props.route.params.itemFolder);
+//   }
 
   const quotes = (value) =>{
     if(!value || value === "null" || value.length < 1){

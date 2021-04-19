@@ -1,23 +1,26 @@
 /* eslint-disable react/jsx-equals-spacing */
 /* eslint-disable no-use-before-define */
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
 import { colors } from '../util/colors';
 
 
+
 const UpperTab = props => {
   const [showSearchBar,setshowSearchBar]=useState(false);
   const [search,setSearch]=useState("");
-
+  const [loading, setLoading] = useState(false);
+  
+  
 
   const searching=(text)=>{
     setSearch(text);
   }
   const submitData=()=>{
-    console.log(`DOOONEEE${search}` );
+    setLoading(true);
   }
     return (
       <View style={styles.container}>
@@ -44,7 +47,13 @@ const UpperTab = props => {
                   onChangeText={(text)=>searching(text)} 
                   onSubmitEditing={submitData}
                   value={search}
+                  icon={()=> loading?
+                    <ActivityIndicator size="small" />
+                    :
+                    <MaterialCommunityIcons name='magnify' size="small" />
+                  }
                 />
+                {loading?<ActivityIndicator size="small" />:undefined}
               </View>
           ) 
             :<MaterialCommunityIcons name='magnify' size={30} color={colors.icon} />}

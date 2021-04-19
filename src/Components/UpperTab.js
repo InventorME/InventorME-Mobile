@@ -1,12 +1,14 @@
 /* eslint-disable react/jsx-equals-spacing */
 /* eslint-disable no-use-before-define */
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Searchbar } from "react-native-paper";
 import { colors } from '../util/colors';
 
 const UpperTab = props => {
+  const [showSearchBar,setshowSearchBar]=useState(false);
     return (
       <View style={styles.container}>
         <View style={styles.buttonLeftStyle}>
@@ -17,22 +19,37 @@ const UpperTab = props => {
           </TouchableOpacity>
         </View>
         <View style={{alignItems:'center'}}>
-          <Text style={styles.textStyle}>{props.title}</Text>
+          {!showSearchBar?<Text style={styles.textStyle}>{props.title}</Text>:undefined}
         </View>
         <View style={styles.buttonRightStyle}>
           <TouchableOpacity
-            onPress={props.profileNav}
+            onPress={() => {
+              setshowSearchBar(true);
+                }}
           >
-            <MaterialCommunityIcons name='magnify' size={30} color={colors.icon} />
+            {showSearchBar?<View style={styles.Searchbar}><Searchbar style={styles.search} /></View> :<MaterialCommunityIcons name='magnify' size={30} color={colors.icon} />}
+            
           </TouchableOpacity>
         </View>
       </View>
     );
 }
 const styles = StyleSheet.create({
+    Searchbar : {
+      flexDirection:'row',
+      justifyContent:'flex-end',
+      alignItems:'flex-end',
+    },
+    search : {
+      flexDirection:'row',
+      justifyContent:'flex-end',
+      alignItems:'flex-end',
+      maxWidth:'90%',
+      margin:'2%',
+      },
     container : {
-        //flex:.1,
-        height : "10%",
+        // flex:.1,
+        height : "13%",
         backgroundColor : colors.theme,
         flexDirection:'row',
         justifyContent:'space-between',

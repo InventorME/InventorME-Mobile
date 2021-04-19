@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Avatar } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -16,7 +16,7 @@ const addItemScreen = (props) => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [folder, setFolder] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(null);
   const [photoUrl, setPhotoUrl] = useState('');
   const [notes, setNotes] = useState("");
   const [worth, setWorth] = useState("");
@@ -29,6 +29,19 @@ const addItemScreen = (props) => {
   const db = new Database();
   const photo = new Photo();
 
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await Auth.currentUserInfo();
+        setEmail(data.attributes.email);
+      }
+      catch {
+        console.log('could not find user :(', error);
+      }
+    })();
+  }, [email]);
+
   let POSTitemFORMAT = {
     userEmail: `"${email}"`,
     itemCategory: `"${category}"`,
@@ -37,7 +50,7 @@ const addItemScreen = (props) => {
     itemSerialNum: "null",
     itemPurchaseAmount: "null",
     itemWorth: "null",
-    itemReceiptPhotoUrl: "null",
+    itemReceiptPhotoURL: "null",
     itemManualURL: "null",
     itemSellDate: "null",
     itemBuyDate: "null",
@@ -109,11 +122,10 @@ const addItemScreen = (props) => {
 
   async function poster() {
     try {
-      const data = await Auth.currentUserInfo();
+      console.log("POSTitemFORMAT", POSTitemFORMAT)
       if (imageTaken) {
         await uploadImage();
       }
-      setEmail(data.attributes.email);
       const item = await db.post(POSTitemFORMAT);
       clear();
     } catch (error) {
@@ -238,7 +250,7 @@ const addItemScreen = (props) => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              props.navigation.navigate("EditItemScreen",itemCreated = false);
+              props.navigation.navigate("EditItemScreen", itemCreated = false);
             }}
           >
             <Text style={styles.buttonText}>Add Info</Text>

@@ -59,7 +59,7 @@ const EditItemScreen = (props) => {
     itemSerialNum: "null",
     itemPurchaseAmount: "null",
     itemWorth: "null",
-    itemReceiptPhotoUrl: "null",
+    itemReceiptPhotoURL: "null",
     itemManualURL: "null",
     itemSellDate: "null",
     itemBuyDate: "null",

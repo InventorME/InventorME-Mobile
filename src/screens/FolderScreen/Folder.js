@@ -6,7 +6,7 @@ import { colors } from '../../util/colors';
 import { List } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 
-const Folder = () => {
+const Folder = ({navigation}) => {
     const [expanded, setExpanded] = useState(true);
 
     const handlePress = () => setExpanded(!expanded);
@@ -53,13 +53,12 @@ const Folder = () => {
                     <FlatList
                         data={item.itemsToRender}
                         renderItem={({ item }) => (
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress = {() => {navigation.navigate("EditItemScreen", {details : {item}})}}>
                                 <List.Item title={item.itemName} titleStyle={styles.title} />
-
                             </TouchableOpacity>
                         )}
                         style={styles.item}
-                        keyExtractor={(item, index) => item.itemName}
+                        keyExtractor={(item, index) => item.itemID}
                     />
                 </List.Accordion>
             )}

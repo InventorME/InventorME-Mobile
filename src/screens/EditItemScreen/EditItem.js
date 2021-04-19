@@ -43,11 +43,12 @@ const EditItemScreen = (props) => {
   const db = new Database();
   const photo = new Photo();
   const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
-  const [scannedItem, setScannedItem] = useState(false);
+  const [scannedItem, setScannedItem] = useState(props.route.params.scannedItem);
 
   useEffect(() => {
     (async () => {
       try {
+        console.log("enter");
         const data = await Auth.currentUserInfo();
         setEmail(data.attributes.email);
       }
@@ -55,45 +56,63 @@ const EditItemScreen = (props) => {
         console.log('could not find user :(', error);
       }
     })();
+    console.log("end");
   }, [email])
 
+  //console.log(props.route.params);
+  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+  
   if(createItem){
+    console.log("1")
+    if(scannedItem){
+      console.log("2")
     setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ''));
     setCategory(JSON.stringify(props.route.params.category).replace(/['"]+/g, ''));
     setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
     setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
     setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
-    setScannedItem(true);
     console.log(scannedItem);
-    setCreateItem(false);
     
-  }  
-  if(!createItem){
-    setName(props.route.params.item.itemName);
-    setEmail(props.route.params.item.userEmail);
-    setCategory(props.route.params.item.itemCategory);
-    setPhotoURL(props.route.params.item.itemPhotoURL);
-    setLocation(props.route.params.item.itemLocation);
-    setNotes(props.route.params.item.itemNotes);
-    setTags(props.route.params.item.itemTags);
-    setSerialNum(props.route.params.item.itemSerialNum);
-    setPurchaseAmt(props.route.params.item.itemPurchaseAmount);
-    setWorth(props.route.params.item.itemWorth);
-    setReceiptPhoto(props.route.params.item.itemReceiptPhotoURL);
-    setItemManualURL(props.route.params.item.itemManualURL);
-    setSellDate(props.route.params.item.itemSellDate);
-    setBuyDate(props.route.params.item.itemBuyDate);
-    setSellAmt(props.route.params.item.itemSellDate);
-    setRecurrPayAmt(props.route.params.item.itemRecurringPaymentAmount);
-    setEbayURL(props.route.params.item.itemEbayURL);
-    setArchived(props.route.params.item.itemArchived);
-    setFolder(props.route.params.item.itemFolder);
+    
+  }  else{
+    console.log("3")
+    setName(props.route.params.name);
+    setCategory(props.route.params.category);
+    setNotes(props.route.params.notes);
+    setFolder(props.route.params.folder);
+
   }
+}
+ else{
+   console.log("4")
+    setName(props.route.params.itemName);
+    setEmail(props.route.params.userEmail);
+    setCategory(props.route.params.itemCategory);
+    setPhotoURL(props.route.params.itemPhotoURL);
+    setLocation(props.route.params.itemLocation);
+    setNotes(props.route.params.itemNotes);
+    setTags(props.route.params.itemTags);
+    setSerialNum(props.route.params.itemSerialNum);
+    setPurchaseAmt(props.route.params.itemPurchaseAmount);
+    setWorth(props.route.params.itemWorth);
+    setReceiptPhoto(props.route.params.itemReceiptPhotoURL);
+    setItemManualURL(props.route.params.itemManualURL);
+    setSellDate(props.route.params.itemSellDate);
+    setBuyDate(props.route.params.itemBuyDate);
+    setSellAmt(props.route.params.itemSellDate);
+    setRecurrPayAmt(props.route.params.itemRecurringPaymentAmount);
+    setEbayURL(props.route.params.itemEbayURL);
+    setArchived(props.route.params.itemArchived);
+    setFolder(props.route.params.itemFolder);
+  }
+
   const quotes = (value) =>{
     if(!value || value === "null" || value.length < 1){
+      
       return null;
     }
     if(!isNaN(value)){
+      
       return value;
     }
     return "'" + value + "'";
@@ -144,6 +163,7 @@ const EditItemScreen = (props) => {
     itemFolder: "null"
   }
   const validateNonNullData= (name, category) =>{
+    console.log("8")
     let goodValid = true;
     if(name === "null" || name === ''){
       console.log(name);
@@ -160,6 +180,7 @@ const EditItemScreen = (props) => {
     }
     if(goodValid){
       console.log("I came inside this one name: " + name + " cat: " + category );
+      scannedItem ? poster() : putter();
       props.navigation.goBack()
     }
   }
@@ -444,7 +465,7 @@ const EditItemScreen = (props) => {
                 
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => {validateNonNullData(name,category); scannedItem ? poster() : putter(); }}>
+                onPress={() => {validateNonNullData(name,category);}}>
               
                 <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>

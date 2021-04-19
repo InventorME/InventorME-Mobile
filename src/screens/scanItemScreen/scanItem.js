@@ -50,12 +50,13 @@ const ScanItem = (props) => {
                 const price= info.product.buybox_winner.price.value;
                 const serialNumber = info.request_parameters.gtin;
                 const itemCreated=true;
+                const scannedItem = true;
                 console.log(description);
                 console.log(title);
                 console.log(category);
                 console.log(price);
                 // send image
-                props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated,serialNumber});
+                props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated,serialNumber,scannedItem});
               },
             },
           ],
@@ -69,6 +70,7 @@ const ScanItem = (props) => {
             {
               text:'Retry' ,
               onPress:()=>{
+                
                 console.log("###########CANCEL######################");
                 console.log(`Info ${ info.request_info.success }`);
               },
@@ -76,7 +78,9 @@ const ScanItem = (props) => {
             {
               text:'Add Item Manually' ,
               onPress:()=>{
-                props.navigation.navigate("addItem");
+                const itemCreated = false;
+                const scannedItem = false;
+                props.navigation.navigate("addItem",scannedItem);
               },
             },
           ],  

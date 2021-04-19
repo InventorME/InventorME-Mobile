@@ -32,7 +32,7 @@ const ScanItem = (props) => {
     await getter();
     console.log(info.request_info.success);
     if(info.request_info.success){
-      Alert.alert('Item Found',' ',
+      Alert.alert(`${info.product.title} \n Do you want to add this item?`,' ',
           [
             {
               text:'Cancel' ,
@@ -42,7 +42,7 @@ const ScanItem = (props) => {
               },
             },
             {
-              text:'Add Item' ,
+              text:'Yes' ,
               onPress:()=>{
                 const description=info.product.description;
                 const title=info.product.title;
@@ -53,7 +53,7 @@ const ScanItem = (props) => {
                 console.log(title);
                 console.log(category);
                 console.log(price);
-                //send image
+                // send image
                 props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated});
               },
             },
@@ -111,7 +111,7 @@ const ScanItem = (props) => {
      await axios.get(queryURL)
     .then(response => {
       // print the JSON response from Rainforest API
-      //console.log(response.data,0,2);
+      // console.log(response.data,0,2);
       info = response.data,0,2;
       // console.log(JSON.stringify(info));
     }).catch(error => {

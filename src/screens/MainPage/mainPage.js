@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useRoute } from '@react-navigation/native';
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
 import archived from "../ArchivedScreen/archived";
@@ -8,10 +10,8 @@ import UpperTab from "../../Components/UpperTab";
 import collections from "../CollectionsScreen/collections"
 import recent from "../RecentScreen/recent";
 import profilePageNav from "../ProfilePage/profilePage";
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { colors } from '../../util/colors';
 import { Database } from "../../util/Database";
-import { useRoute } from '@react-navigation/native';
 import StatsScreen from "../StatsScreen/StatsScreen";
 
 export const renderContext = React.createContext();
@@ -30,6 +30,7 @@ const mainNav = (props) => {
                       title={scene.descriptor.options.title}
                       nav={() => {scene.descriptor.navigation.toggleDrawer()}}
                       profileNav={()=>{props.navigation.navigate("ProfilePage")}}
+                      itemsNavigate={(items) => { props.navigation.navigate("ItemsScreen", {itemsToRender:items})}}
                     />
                           );
               },
@@ -70,14 +71,14 @@ const mainNav = (props) => {
         }}
         name="Recent"
         component={recent}
-        />
-      { <Drawer.Screen
+      />
+      <Drawer.Screen
         options={{
                   title : "Stats"
               }}
         name="StatsScreen"
-         component={StatsScreen}
-      /> }
+        component={StatsScreen}
+      />
       <Drawer.Screen
         options={{
                   title : "Profile"

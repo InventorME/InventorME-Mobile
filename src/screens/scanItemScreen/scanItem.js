@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import styles from "./scanItem.style";
-import { param } from 'jquery';
+const fetch = require('node-fetch');
+const axios = require('axios');
 
-let upc ='';
+let upc = '';
 
 const ScanItem = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  
+
 
   useEffect(() => {
     (async () => {
@@ -21,7 +22,9 @@ const ScanItem = () => {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     upc = data;
+    console.log("data", data);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    getter();
   };
 
   if (hasPermission === null) {
@@ -31,29 +34,28 @@ const ScanItem = () => {
     return <Text>No access to camera</Text>;
   }
 
-  const axios = require('axios');
 
   // set up the request parameters
   const params = {
-    api_key: "199AB6BB6E824802A325E881BDFC6E66",
+    api_key: "06216450BA1844B4A86EC6E8C8D8DE05",
     type: "product",
     amazon_domain: "amazon.com",
     gtin: upc,
     device: "mobile"
   }
-  console.log(params);
 
-  // make the http GET request to Rainforest API
-  axios.get('https://api.rainforestapi.com/request', { params })
+
+  const getter = async () => {
+    let queryURL = "https://api.rainforestapi.com/request" + "?api_key=" + params.api_key + "&type=product&amazon_domain=amazon.com&gtin=" + upc;
+    
+     axios.get(queryURL)
     .then(response => {
-
       // print the JSON response from Rainforest API
-      console.log(JSON.stringify(response.data, 0, 2));
-
+      console.log(JSON.stringify(response.data, 0,2));
     }).catch(error => {
-      // catch and print the error
       console.log(error);
     })
+  }
 
   return (
     <View style={styles.container}>

@@ -1,69 +1,91 @@
-import { StyleSheet } from "react-native";
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
-import { colors } from "../../util/colors";
+import { StyleSheet } from 'react-native';
+import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
-  Page: {
-    flex: 1,
-    alignItems: "stretch",
+
+  child: {
+    width: "80%",
+    marginLeft: "10%",
+    marginTop: "5%"
+  },
+  child1: {
+    width: "45%",
+    marginLeft: "10%",
+    marginTop: "5%"
   },
   container: {
-    flex: 1,
     backgroundColor: colors.background,
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    paddingTop: hp("5%"),
+    color: colors.text,
+    height: "150%",
+    alignItems: 'stretch'
   },
-  child: {
-    backgroundColor: colors.background,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: hp("2%"),
-    paddingLeft: wp("2%"),
+  label:{
+    color: colors.label,
+    fontWeight: 'bold',
+    marginBottom: 5
   },
-  arrowButtonContainer: {
-    elevation: 8,
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+  uploadContainer:{
+    position: 'absolute',
+    alignSelf: "flex-end",
+    marginRight: '25%',
+    marginTop: "12%",
+    justifyContent: 'center', 
+    alignItems: 'center'
+
   },
-  TextInput: {
-    borderWidth: 1,
-    borderColor: colors.label,
-    borderRadius: 1,
-    paddingHorizontal: wp("2.5%"),
-    padding: 8,
-    margin: wp("5%"),
-    width: wp("50%"),
-    backgroundColor: colors.background,
+  uploadButton: {
+    
+    borderRadius: 200,
+    padding: 18,
+    borderWidth: 5,
+    borderColor: colors.icon
+   
   },
-  TextInput1: {
-    borderWidth: 1,
-    borderColor: colors.label,
-    borderRadius: 1,
-    paddingHorizontal: wp("2.5%"),
-    padding: 8,
-    margin: wp("5%"),
-    width: wp("85%"),
-    backgroundColor: colors.background,
-  },
-  appButtonContainer: {
-    elevation: 8,
-    backgroundColor: colors.button,
+  textInput: {
+    borderWidth: 0.5,
+    borderColor: colors.text,
     borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    marginHorizontal: wp("2%"),
-    alignItems: "center",
+    height: 35,
+    backgroundColor: colors.background,
+    color: colors.text,
+    paddingLeft: 8
   },
-  appButtonText: {
-    fontSize: 16,
+  notesInput:{
+    borderWidth: 0.5,
+    borderColor: colors.text,
+    borderRadius: 8,
+    height: 100,
+    backgroundColor: colors.background,
+    color: colors.text,
+    paddingLeft: 8
+  },
+  buttonContainer: { 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flexDirection: 'row',
+    marginTop: "5%",
+    marginBottom: "5%"
+  },
+  button: {
+    backgroundColor: colors.button,
+    borderRadius: 10,
+    paddingVertical: 8,
+    margin:"5%"
+
+  },
+  buttonCancel: {
+    backgroundColor: colors.button,
+    borderRadius: 10,
+    paddingVertical: 8,
+    width: '25%',
+    marginTop: "15%",
+    marginLeft: "10%"
+  },
+  buttonText: {
+    fontSize: 18,
     color: colors.buttonText,
     fontWeight: "bold",
     alignSelf: "center",
-    textTransform: "uppercase",
-  },
+    textTransform: "uppercase"
+  }
 });

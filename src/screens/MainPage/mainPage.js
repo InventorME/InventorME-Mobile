@@ -8,10 +8,11 @@ import scanItem from "../scanItemScreen/scanItem";
 import archived from "../ArchivedScreen/archived";
 import UpperTab from "../../Components/UpperTab";
 import collections from "../CollectionsScreen/collections"
-import items from "../ItemsScreen/Items";
+import recent from "../RecentScreen/recent";
 import profilePageNav from "../ProfilePage/profilePage";
 import { colors } from '../../util/colors';
 import { Database } from "../../util/Database";
+import StatsScreen from "../StatsScreen/StatsScreen";
 
 export const renderContext = React.createContext();
 
@@ -67,16 +68,16 @@ const mainNav = (props) => {
         options={{
           title : "Items"
         }}
-        name="Items"
-        component={items}
+        name="Recent"
+        component={recent}
       />
-      {/* <Drawer.Screen
+      <Drawer.Screen
         options={{
                   title : "Stats"
               }}
-        name="Settings"
-        // component={stats}
-      /> */}
+        name="StatsScreen"
+        component={StatsScreen}
+      />
       <Drawer.Screen
         options={{
                   title : "Profile"
@@ -107,7 +108,7 @@ const MainPageNav = () => {
       setData(await db.get());
     }
     catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 

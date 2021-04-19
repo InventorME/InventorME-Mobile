@@ -1,18 +1,22 @@
-import React, { useState } from "react";
-import { View, Text, ScrollView,TouchableWithoutFeedback, Keyboard  } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import styles from "./EditItem.style";
-import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
-import { Image } from 'react-native'
-import { Database } from '../../util/Database';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { colors } from '../../util/colors';
-
+import { Ionicons } from "@expo/vector-icons";
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
+import { Avatar } from "react-native-paper";
+import { Auth } from 'aws-amplify';
+import { Database } from "../../util/Database";
+import { colors } from "../../util/colors";
+import { Photo } from "../../util/Photos";
 
 const EditItemScreen = (props) => {
-
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [category, setCategory] = useState('');
+  const [photoURL, setPhotoURL] = useState('');
   const [location, setLocation] = useState('');
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState('');
@@ -20,18 +24,44 @@ const EditItemScreen = (props) => {
   const [purchaseAmt, setPurchaseAmt] = useState('');
   const [worth, setWorth] = useState('');
   const [receiptPhoto, setReceiptPhoto] = useState('');
-  const [itemManualUrl, setItemManualUrl] = useState('');
+  const [itemManualURL, setItemManualURL] = useState('');
   const [sellDate, setSellDate] = useState('');
   const [buyDate, setBuyDate] = useState('');
   const [sellAmt, setSellAmt] = useState('');
   const [recurrPayAmt, setRecurrPayAmt] = useState('');
-  const [EbayUrl, setEbayUrl] = useState('');
+  const [ebayURL, setEbayURL] = useState('');
   const [archived, setArchived] = useState('');
   const [folder, setFolder] = useState('');
+  const [image, setImage] = useState("");
+  const [imageTaken, setImageTaken] = useState(false);
+  const [imageState, setImageState] = useState(false);
+  const [imageType, setImageType] = useState("image/jpg");
   const db = new Database();
+  const photo = new Photo();
+
+  useEffect(() => {
+    console.log("useEffect is running");
+    (async () => {
+      if(photoURL != ""){
+        try {
+          console.log("photoURL:", photoURL);
+          const itemPhoto = await photo.get(photoURL);
+          // console.log("itemPhoto:",itemPhoto);
+          setImage(itemPhoto);
+          setImageState(true);
+          console.log("image found", imageState);
+        } catch {
+          console.log("photo not found");
+        }
+      }
+      
+
+    })();
+  }, [photoURL]);
+
 
   var PUTitemFORMAT = {
-    userEmail: "'lukelmiller@icloud.com'",
+    userEmail: `"${email}"`,
     itemID: "9",
     itemCategory: `"${category}"`,
     itemName: `"${name}"`,
@@ -51,233 +81,264 @@ const EditItemScreen = (props) => {
     itemTags: `"${tags}"`,
     itemArchived: '0',
     itemFolder: "null"
-}
+  }
 
-//   async function putter(){
-//     try{
-//         const item = await db.post(POSTitemFORMAT);
-//         console.log(item);
-//     } catch(error){
-//         console.log(error);
-//     }
-// }
+
+  const takePhoto = async () => {
+    const {
+      status: cameraPerm
+    } = await Permissions.askAsync(Permissions.CAMERA);
+
+    const {
+      status: cameraRollPerm
+    } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+    // only if user allows permission to camera AND camera roll
+    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+      let pickerResult = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+        quality: 0.2
+      });
+
+      if (!pickerResult.cancelled) {
+        setImage(pickerResult.base64);
+        setImageTaken(true);
+      }
+    } else{
+      const title = "No Photo Access";
+      const msg =  "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
+      alert(title, msg, [{ text: "OK" }], { cancelable: false });
+    }
+  }
+
+  const uploadImage = async () => {
+    try {
+      const pName = await photo.generateNewItemName("jpg");
+
+      // ******BUG HERE********
+      // NOT SURE THAT photoUrl is getting SET
+      setPhotoURL(pName);
+
+      // console.log(photoURL);
+      await photo.uploadFile(image, pName, imageType);
+    } catch (error) {
+      console.log("upload error", error);
+    }
+  }
+
+  async function poster() {
+    try {
+      const data = await Auth.currentUserInfo();
+      if (imageTaken) {
+        await uploadImage();
+      }
+      setEmail(data.attributes.email);
+      // const item = await db.post(PUTitemFORMAT);
+      // console.log(item);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
-<ScrollView contentContainerStyle={styles.Page}>
-    <KeyboardAwareScrollView 
-        resetScrollToCoords = {{x : 0, y : 0}}
-        contentContainerStyle = {styles.Page}
-        scrollEnabled = {true}  
-      >
-        <TouchableWithoutFeedback onPress = {Keyboard.dismiss}>
-          
-    <View style={styles.page}>
-      
-      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-        <View style={styles.columnView}>
-          <View style={styles.child}>
-            <Text style={{ color: colors.label }}>Name:</Text>
-            <TextInput
-              style={styles.ColTextInput}
-              placeholder='Name'
-              onChangeText={(text) => { setName(text) }}
-              value={name}
-            />
-          </View>
-
-          <View style={styles.child}>
-            <Text style={{ color: colors.label }}>Collection:</Text>
-            <TextInput
-              style={styles.ColTextInput}
-              placeholder='Collection'
-              onChangeText={(text) => { setCategory(text) }}
-              value={category}
-            />
-          </View>
-
-        </View>
-
-        <View>
-          <Text>Right</Text>
-        </View>
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Serial Number:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Serial Number'
-          onChangeText={(text) => { setSerialNum(text) }}
-          value={serialNum}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Purchase Amount:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Purchase Amount'
-          onChangeText={(text) => { setPurchaseAmt(text) }}
-          value={purchaseAmt}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Worth:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Worth'
-          onChangeText={(text) => { setWorth(text) }}
-          value={worth}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Receipt Photo:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Receipt Photo'
-          onChangeText={(text) => { setReceiptPhoto(text) }}
-          value={receiptPhoto}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Item Manual URL:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Item Manual'
-          onChangeText={(text) => { setItemManualUrl(text) }}
-          value={itemManualUrl}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Sell Date:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Sell Date'
-          onChangeText={(text) => { setSellDate(text) }}
-          value={sellDate}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Buy Date:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Buy Date'
-          onChangeText={(text) => { setBuyDate(text) }}
-          value={buyDate}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Sell Amount:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Sell Amount'
-          onChangeText={(text) => { setSellAmt(text) }}
-          value={sellAmt}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Recurring Payment:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Recurring Payment'
-          onChangeText={(text) => { setRecurrPayAmt(text) }}
-          value={recurrPayAmt}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Shopping Url:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Shopping Url'
-          onChangeText={(text) => { setEbayUrl(text) }}
-          value={EbayUrl}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Archived:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Archived'
-          onChangeText={(text) => { setArchived(text) }}
-          value={archived}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Folder:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Folder'
-          onChangeText={(text) => { setFolder(text) }}
-          value={folder}
-        />
-      </View>
-
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Location:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Location'
-          onChangeText={(text) => { setLocation(text) }}
-          value={location}
-        />
-      </View>
-      
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Notes:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Notes'
-          onChangeText={(text) => { setNotes(text) }}
-          value={notes}
-        />
-      </View>
-
-      <View style={styles.child}>
-        <Text style={{ color: colors.label }}>Tags:</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder='Tags'
-          onChangeText={(text) => { setTags(text) }}
-          value={tags}
-        />
-      </View>
-      
-
-
-      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+    <ScrollView>
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.Page}
+        scrollEnabled={true}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
 
         <TouchableOpacity
-          style={styles.appButtonContainer}
-          onPress={() => { { console.log("I am pressed Cancel") };props.navigation.goBack() }}
-        >
-          <Text style={styles.appButtonText}>Cancel</Text>
+          style={styles.buttonCancel}
+          onPress={() => { props.navigation.goBack() }} >
+          <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.appButtonContainer}
-          onPress={() => { { console.log("I am pressed Save")};poster();props.navigation.goBack() }}
-        >
-          <Text style={styles.appButtonText}>Save</Text>
-        </TouchableOpacity>
+        <View style={styles.child1}>
+          <Text style={styles.label}>Name:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Name"
+            onChangeText={(text) => { setName(text) }}
+            value={name} />
+        </View>
+
+        {imageState ? <View style={styles.uploadContainer}>
+            <TouchableOpacity
+              style={styles.uploadButton}
+              onPress={takePhoto}>
+              <Avatar.Image source={{uri: `data:${this.state.imageType};base64,${this.state.image}`}} size={90}/>
+            </TouchableOpacity>
+          </View>
+          : <View style={styles.uploadContainer}>
+            <TouchableOpacity
+              style={styles.uploadButton}
+              onPress={takePhoto}>
+              <Ionicons name="camera-outline" size={75} color={colors.label} />
+            </TouchableOpacity>
+          </View>}
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Collection:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Collection"
+            onChangeText={(text) => { setCategory(text) }}
+            value={category} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Serial Number:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Serial Number"
+            onChangeText={(text) => { setSerialNum(text) }}
+            value={serialNum} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Purchase Amount:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Purchase Amount"
+            onChangeText={(text) => { setPurchaseAmt(text) }}
+            value={purchaseAmt} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Worth:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Worth"
+            onChangeText={(text) => { setWorth(text) }}
+            value={worth} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Receipt Photo:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Receipt Photo"
+            onChangeText={(text) => { setReceiptPhoto(text) }}
+            value={receiptPhoto} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Item Manual URL:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Item Manual"
+            onChangeText={(text) => { setItemManualURL(text) }}
+            value={itemManualURL} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Sell Date:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Sell Date"
+            onChangeText={(text) => { setSellDate(text) }}
+            value={sellDate} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Buy Date:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Buy Date"
+            onChangeText={(text) => { setBuyDate(text) }}
+            value={buyDate} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Sell Amount:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Sell Amount"
+            onChangeText={(text) => { setSellAmt(text) }}
+            value={sellAmt} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Recurring Payment:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Recurring Payment"
+            onChangeText={(text) => { setRecurrPayAmt(text) }}
+            value={recurrPayAmt} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Shopping URL:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Shopping URL"
+            onChangeText={(text) => { setEbayURL(text) }}
+            value={ebayURL} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Archived:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Archived"
+            onChangeText={(text) => { setArchived(text) }}
+            value={archived} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Folder:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Folder"
+            onChangeText={(text) => { setFolder(text) }}
+            value={folder} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Location:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Location"
+            onChangeText={(text) => { setLocation(text) }}
+            value={location} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Notes:</Text>
+          <TextInput
+            style={styles.notesInput}
+            placeholder="Notes"
+            maxLength={200}
+            multiline={true}
+            onChangeText={(text) => { setNotes(text) }}
+            value={notes} />
+        </View>
+
+        <View style={styles.child}>
+          <Text style={styles.label}>Tags:</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Tags"
+            onChangeText={(text) => { setTags(text) }}
+            value={tags} />
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => { poster(); props.navigation.goBack() }}>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
 
-
-    </View>
-    
-    </TouchableWithoutFeedback>
-    </KeyboardAwareScrollView>
+      </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
     </ScrollView>
 
   );

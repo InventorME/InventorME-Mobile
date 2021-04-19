@@ -22,6 +22,7 @@ export default StyleSheet.create({
         borderWidth:1,
         borderColor: colors.text,
         color: colors.text,
+        borderRadius: 8,
         padding: 8,
         margin: 10,
         width: 200,

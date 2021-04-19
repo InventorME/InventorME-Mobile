@@ -1,24 +1,27 @@
 import React from "react";
 import { View, FlatList } from "react-native";
-import styles from "./Items.style";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
 
 const Items = (props) => {
 
-  const itemsToRender = props.itemsToRender;
+  let itemsToRender = [];
+
+  if (props.hasOwnProperty("itemsToRender")) {
+    itemsToRender = props.itemsToRender;
+  }
+  else {
+    itemsToRender = props.route.params.itemsToRender;
+  }
 
     return (
       <FlatList
         data = {itemsToRender}
         renderItem = {({item}) => (
-          <View style={styles.container}>
-            <View style = {styles.boxRow}>
               <BoxFolderComponent
                 title = {item.itemName}
               />
-            </View>
-          </View>
         )}
+        keyExtractor = {(item, index) => item.itemName}
       />
     );
 }

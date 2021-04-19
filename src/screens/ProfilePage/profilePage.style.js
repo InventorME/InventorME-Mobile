@@ -6,14 +6,20 @@ import {
 import { colors } from "../../util/colors";
 
 export default StyleSheet.create({
+  Pager:{
+    backgroundColor: colors.background
+  },
   Page: {
     flex: 1,
     alignItems: "stretch",
+    backgroundColor: colors.background,
+
   },
   child: {
     alignItems: "flex-start",
     justifyContent: "center",
     marginTop: hp("2%"),
+    color: colors.text
   },
   arrow: {
     alignItems: "flex-start",
@@ -84,6 +90,7 @@ export default StyleSheet.create({
   container2: {
     flex: 2,
     marginTop: hp("10%"),
+    color: colors.text,
     backgroundColor: colors.background,
   },
 });

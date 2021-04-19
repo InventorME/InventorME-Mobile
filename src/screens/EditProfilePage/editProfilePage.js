@@ -1,11 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-unused-state */
-/* eslint-disable react/sort-comp */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable vars-on-top */
-/* eslint-disable no-var */
-/* eslint-disable prefer-template */
-/* eslint-disable lines-between-class-members */
 import React, { Component } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import {
@@ -19,10 +11,16 @@ import {
   AppState,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
 import styles from "./editProfilePage.style";
 import { colors } from "../../util/colors";
+import { Photo } from "../../util/Photos";
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
+
+
+
 
 class EditProfilePage extends Component {
   constructor(props) {
@@ -33,6 +31,11 @@ class EditProfilePage extends Component {
       email: "",
       phone_number: "",
       phoneFormat: "",
+      photo: "",
+      photoType: "image/jpg",
+      imageLoaded: false,
+      photoName: "",
+      newPhoto: false
     };
     this.validateUser = this.validateUser.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
@@ -49,7 +52,7 @@ class EditProfilePage extends Component {
       this.setState({ phone_number: data.attributes.phone_number });
       this.phoneOnChange(this.state.phone_number);
     } catch (error) {
-      console.log("could not find user :(", error);
+      // console.log("could not find user :(", error);
       alert("Error: No user found, please sign in again");
       this.props.navigation.navigate("HomeScreen");
     }
@@ -91,18 +94,58 @@ class EditProfilePage extends Component {
     this.setState({ phoneFormat: format });
   };
 
+  pickImage = async () => {
+    const {
+      status: cameraRollPerm
+    } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+    // only if user allows permission to camera roll
+    if (cameraRollPerm === 'granted') {
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        base64: true,
+        aspect: [4, 3],
+        quality: 0.2,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images
+
+      });
+      if (!pickerResult.cancelled) {
+        this.setState({ newPhoto: true });
+        this.setState({ photo: pickerResult.base64 });
+        // this.setState({ photoType: pickerResult.type });
+        // console.log(this.state.photo);
+      }
+      // this.uploadImageAsync(pickerResult.uri);
+    } else {
+      this.createAlert("No Photo Access", "Please Go Into Phone Settings & Grant App Access To Photos");
+    }
+  };
+
+  async uploadImage() {
+    try {
+      const photos = new Photo();
+      const pName = await photos.generateProfilePicName("jpg");
+      await photos.uploadFile(this.state.photo, pName, this.state.photoType)
+    } catch (error) {
+      console.log("upload error", error);
+    }
+  }
+
   async saveChanges() {
     const attributes = {
       name: this.state.name,
       phone_number: this.state.phone_number,
-      family_name: this.state.family_name,
+      family_name: this.state.family_name
     };
     try {
+      if (this.state.newPhoto) {
+        this.uploadImage();
+      }
       const user = await Auth.currentAuthenticatedUser();
       await Auth.updateUserAttributes(user, attributes);
       this.props.navigation.goBack();
     } catch (error) {
-      console.log("error saving user", error);
+      this.createAlert("Saving Error", "Please Try Again Later");
     }
   }
 
@@ -125,41 +168,34 @@ class EditProfilePage extends Component {
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
-        scrollEnabled={false}
-      >
+        scrollEnabled={false}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView contentContainerStyle={styles.Page}>
             <View style={{ flexDirection: "row" }}>
               <View style={styles.arrow}>
                 <TouchableOpacity
                   style={styles.arrowButtonContainer}
-                  onPress={() => this.props.navigation.goBack()}
-                >
+                  onPress={() => this.props.navigation.goBack()}>
                   <FontAwesome
                     name="arrow-left"
                     color={colors.icon}
-                    size={45}
-                  />
+                    size={45}/>
                 </TouchableOpacity>
               </View>
               <View style={styles.deleteBtn}>
                 <TouchableOpacity
-                  style={styles.deleteButtonContainer}
-                  // onPress={}
-                >
+                  style={styles.deleteButtonContainer}>
                   <Text style={styles.deleteButtonText}>Delete Account</Text>
                 </TouchableOpacity>
               </View>
             </View>
             <View style={styles.container}>
-              <View style={styles.logo}>
-                <Image
-                  source={{
-                    uri: "https://api.adorable.io/avatars/285/10@adorable.png",
-                  }}
-                  size={160}
-                />
-              </View>
+
+              <TouchableOpacity
+                style={styles.uploadButton}
+                onPress={this.pickImage}>
+                <MaterialCommunityIcons name="cloud-upload-outline" size={100} color={colors.label} />
+              </TouchableOpacity>
 
               <View style={styles.child}>
                 <Text style={{ color: colors.label }}>First Name:</Text>
@@ -167,8 +203,7 @@ class EditProfilePage extends Component {
                   style={styles.TextInput}
                   placeholder="First Name"
                   onChangeText={this.nameOnChange}
-                  value={this.state.name}
-                />
+                  value={this.state.name}/>
               </View>
 
               <View style={styles.child}>
@@ -177,8 +212,7 @@ class EditProfilePage extends Component {
                   style={styles.TextInput}
                   placeholder="Last Name"
                   onChangeText={this.lastNameOnChange}
-                  value={this.state.family_name}
-                />
+                  value={this.state.family_name}/>
               </View>
 
               <View style={styles.child}>
@@ -188,15 +222,13 @@ class EditProfilePage extends Component {
                   style={styles.TextInput}
                   placeholder="Phone Number"
                   onChangeText={this.phoneOnChange}
-                  value={this.state.phoneFormat}
-                />
+                  value={this.state.phoneFormat}/>
               </View>
 
               <View style={styles.logo}>
                 <TouchableOpacity
                   style={styles.appButtonContainer}
-                  onPress={this.validateUser}
-                >
+                  onPress={this.validateUser}>
                   <Text style={styles.appButtonText}>Save</Text>
                 </TouchableOpacity>
               </View>

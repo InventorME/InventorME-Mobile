@@ -30,6 +30,7 @@ const mainNav = (props) => {
                       title={scene.descriptor.options.title}
                       nav={() => {scene.descriptor.navigation.toggleDrawer()}}
                       profileNav={()=>{props.navigation.navigate("ProfilePage")}}
+                      itemsNavigate={(items) => { props.navigation.navigate("ItemsScreen", {itemsToRender:items})}}
                     />
                           );
               },

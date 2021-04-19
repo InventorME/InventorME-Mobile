@@ -1,26 +1,63 @@
 /* eslint-disable react/jsx-equals-spacing */
 /* eslint-disable no-use-before-define */
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
 import { colors } from '../util/colors';
+import { Database } from "../util/Database";
 
 
 
-const UpperTab = props => {
+const UpperTab = (props) => {
   const [showSearchBar,setshowSearchBar]=useState(false);
   const [search,setSearch]=useState("");
   const [loading, setLoading] = useState(false);
-  
-  
+  const [data, setData] = useState(null);
 
+
+  let searchedList = [];
+ 
+  const db = new Database();
+
+  async function getter() {
+    try {
+      setData(await db.get());
+    }
+    catch (error) {
+      // console.log(error);
+    }
+  }
+
+  
+  const searchForData =()=>{
+    if (data != null) {
+      for (let i = 0; i < data.items.length; i++) {
+        let searchString=JSON.stringify(data.items[i]);
+        const lowerCaseSearch=search.toLowerCase();
+        searchString=searchString.toLowerCase();
+        if(searchString.includes(lowerCaseSearch)){
+          searchedList.push(data.items[i]);
+        } 
+      } 
+    }
+  }
   const searching=(text)=>{
+    console.log(text)
     setSearch(text);
   }
   const submitData=()=>{
     setLoading(true);
+    getter();
+    searchForData();
+    setLoading(false);
+    setshowSearchBar(false);
+    setSearch("");
+    const finalSearch=searchedList;
+    searchedList=[];
+    console.log(finalSearch);
+    props.itemsNavigate(finalSearch);
   }
     return (
       <View style={styles.container}>

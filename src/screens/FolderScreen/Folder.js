@@ -58,7 +58,7 @@ const Folder = ({navigation}) => {
                             </TouchableOpacity>
                         )}
                         style={styles.item}
-                        keyExtractor={(item, index) => item.itemID}
+                        keyExtractor={(item, index) => item.itemID.toString()}
                     />
                 </List.Accordion>
             )}

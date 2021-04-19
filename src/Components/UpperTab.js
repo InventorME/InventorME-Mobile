@@ -7,11 +7,17 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
 import { colors } from '../util/colors';
 
+
 const UpperTab = props => {
   const [showSearchBar,setshowSearchBar]=useState(false);
+  const [search,setSearch]=useState("");
 
-  const searching=()=>{
-    console.log("I AM HERE")
+
+  const searching=(text)=>{
+    setSearch(text);
+  }
+  const submitData=()=>{
+    console.log(`DOOONEEE${search}` );
   }
     return (
       <View style={styles.container}>
@@ -31,7 +37,17 @@ const UpperTab = props => {
               setshowSearchBar(!showSearchBar);
                 }}
           >
-            {showSearchBar?<View style={styles.Searchbar}><Searchbar style={styles.search} onChangeText={searching()} /></View> :<MaterialCommunityIcons name='magnify' size={30} color={colors.icon} />}
+            {showSearchBar? (
+              <View style={styles.Searchbar}>
+                <Searchbar 
+                  style={styles.search} 
+                  onChangeText={(text)=>searching(text)} 
+                  onSubmitEditing={submitData}
+                  value={search}
+                />
+              </View>
+          ) 
+            :<MaterialCommunityIcons name='magnify' size={30} color={colors.icon} />}
             
           </TouchableOpacity>
         </View>

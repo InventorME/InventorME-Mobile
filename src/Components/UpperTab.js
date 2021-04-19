@@ -9,6 +9,10 @@ import { colors } from '../util/colors';
 
 const UpperTab = props => {
   const [showSearchBar,setshowSearchBar]=useState(false);
+
+  const searching=()=>{
+    console.log("I AM HERE")
+  }
     return (
       <View style={styles.container}>
         <View style={styles.buttonLeftStyle}>
@@ -24,10 +28,10 @@ const UpperTab = props => {
         <View style={styles.buttonRightStyle}>
           <TouchableOpacity
             onPress={() => {
-              setshowSearchBar(true);
+              setshowSearchBar(!showSearchBar);
                 }}
           >
-            {showSearchBar?<View style={styles.Searchbar}><Searchbar style={styles.search} /></View> :<MaterialCommunityIcons name='magnify' size={30} color={colors.icon} />}
+            {showSearchBar?<View style={styles.Searchbar}><Searchbar style={styles.search} onChangeText={searching()} /></View> :<MaterialCommunityIcons name='magnify' size={30} color={colors.icon} />}
             
           </TouchableOpacity>
         </View>

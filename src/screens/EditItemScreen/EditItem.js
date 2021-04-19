@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -42,6 +42,19 @@ const EditItemScreen = (props) => {
   const photo = new Photo();
   const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
   const [scannedItem, setScannedItem] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await Auth.currentUserInfo();
+        setEmail(data.attributes.email);
+      }
+      catch {
+        console.log('could not find user :(', error);
+      }
+    })();
+  }, [email])
+
   if(createItem){
     setName(JSON.stringify(props.route.params.title));
     setCategory(JSON.stringify(props.route.params.category));
@@ -189,7 +202,6 @@ const EditItemScreen = (props) => {
       if (imageTaken) {
         await uploadImage();
       }
-      setEmail(data.attributes.email);
       const item = await db.post(POSTitemFORMAT);
       console.log("Posted to database")
       console.log(POSTitemFORMAT);
@@ -205,7 +217,6 @@ const EditItemScreen = (props) => {
       if (imageTaken) {
         await uploadImage();
       }
-      setEmail(data.attributes.email);
       // const item = await db.post(PUTitemFORMAT);
       // console.log(item);
     } catch (error) {

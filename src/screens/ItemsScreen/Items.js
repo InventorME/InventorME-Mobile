@@ -1,7 +1,7 @@
 import React from "react";
 import { View, FlatList } from "react-native";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
-
+import {colors} from "../../util/colors"
 const Items = (props) => {
 
   let itemsToRender = [];
@@ -15,6 +15,7 @@ const Items = (props) => {
 
     return (
       <FlatList
+      style={{ backgroundColor: colors.background }}
         data = {itemsToRender}
         renderItem = {({item}) => (
               <BoxFolderComponent

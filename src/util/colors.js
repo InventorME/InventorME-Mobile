@@ -12,46 +12,45 @@ function colorGenerator() {
       label: "#ffffff",
       icon: "#f2f7ff",
       objects: [
-        "#ffb5b9",
-        "#b3b5ff",
-        "#47ff72",
-        "#aebffc",
-        "#b3b5ff",
-        "#b3b5ff",
-        "#47ff72",
-        "#aebffc",
+        "#4e148c",
+        "#072ac8",
+        "#1e96fc",
+        "#a2d6f9",
+        "#f5eb00",
+        "#ffc600",
+        "#e66063",
+        "#bd1f21"
       ],
       objectsText: "#ffffff",
-      fill: "#404040"
+      fill: '#404040'
     };
     return color;
   }
   else {
     const color = {
-      text: "#000000",
+      text: "#ffffff",
       accent: "#fffc40",
       background: "#ffffff",
-      theme: "#3f9388",
-      button: "#f4ebc1",
+      theme: "#001e38",
+      button: "#4e148c",
       buttonText: "#ffffff",
-      label: "#000000",
+      label: "#ffffff",
       icon: "#36244f",
       objects: [
-        "#ffb5b9",
-        "#b3b5ff",
-        "#47ff72",
-        "#aebffc",
-        "#b3b5ff",
-        "#b3b5ff",
-        "#47ff72",
-        "#aebffc",
+        "#4e148c",
+        "#072ac8",
+        "#1e96fc",
+        "#a2d6f9",
+        "#f5eb00",
+        "#ffc600",
+        "#e66063",
+        "#bd1f21"
       ],
       objectsText: "#ffffff",
-      fill: "#e6e6e6"
-    }
+      fill: '#e6e6e6'
+    };
     return color;
-  };
-  
+  }
 }
 
 export const colors = colorGenerator();

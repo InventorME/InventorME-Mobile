@@ -24,29 +24,31 @@ const mainNav = (props) => {
     <Drawer.Navigator
       initialRouteName="Collections"
       screenOptions={{
-              header : ({scene}) => {
-                  return (
-                    <UpperTab
-                      title={scene.descriptor.options.title}
-                      nav={() => {scene.descriptor.navigation.toggleDrawer()}}
-                      profileNav={()=>{props.navigation.navigate("ProfilePage")}}
-                      itemsNavigate={(items) => { props.navigation.navigate("ItemsScreen", {itemsToRender:items})}}
-                    />
-                          );
-              },
-              headerShown : true
-          }}
+        header: ({ scene }) => {
+          return (
+            <UpperTab
+              title={scene.descriptor.options.title}
+              nav={() => { scene.descriptor.navigation.toggleDrawer() }}
+              profileNav={() => { props.navigation.navigate("ProfilePage") }}
+              itemsNavigate={(items) => { props.navigation.navigate("ItemsScreen", { itemsToRender: items }) }}
+            />
+          );
+        },
+        headerShown: true
+      }}
       drawerContentOptions={{
-              activeTintColor : colors.buttonText,
-              activeBackgroundColor : colors.button,
-              inactiveBackgroundColor : colors.background,
-              inactiveTintColor : colors.text,
-              backgroundColor: colors.background
-          }}
+        activeTintColor: colors.buttonText,
+        activeBackgroundColor: colors.button,
+        inactiveBackgroundColor: colors.background,
+        inactiveTintColor: colors.text,
+        backgroundColor: colors.background
+
+      }}
+      style={{ backgroundColor: colors.background }}
     >
       <Drawer.Screen
         options={{
-          title : "Collections"
+          title: "Collections"
         }}
         name="Collections"
         component={collections}
@@ -60,29 +62,29 @@ const mainNav = (props) => {
       /> */}
       <Drawer.Screen
         options={{
-          title : "Archived"
+          title: "Archived"
         }}
         name="Archived"
         component={archived}
       />
       <Drawer.Screen
         options={{
-          title : "Items"
+          title: "Items"
         }}
         name="Recent"
         component={recent}
       />
       <Drawer.Screen
         options={{
-                  title : "Stats"
-              }}
+          title: "Stats"
+        }}
         name="StatsScreen"
         component={StatsScreen}
       />
       <Drawer.Screen
         options={{
-                  title : "Profile"
-              }}
+          title: "Profile"
+        }}
         name="Profile"
         component={profilePageNav}
       />
@@ -130,7 +132,8 @@ const MainPageNav = () => {
           inactiveBackgroundColor: colors.background,
           style: {
             borderTopColor: colors.background,
-            backgroundColor: colors.background
+            backgroundColor: colors.background,
+
           },
           showLabel: false
 

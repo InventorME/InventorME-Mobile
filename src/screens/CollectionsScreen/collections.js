@@ -35,7 +35,7 @@ const collections = (props) => {
           object.itemsToRender.push(data.items[j]);
         }
       }
-      object.colorNum = (i%7);
+      object.colorNum = (i%8);
 
       countList.push(object);
     }

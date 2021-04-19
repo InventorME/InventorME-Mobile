@@ -2,7 +2,7 @@
 /* eslint-disable no-use-before-define */
 import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { Ionicons,MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons,MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
 import { colors } from '../util/colors';
@@ -54,7 +54,7 @@ const UpperTab = (props) => {
           <TouchableOpacity
             onPress={props.nav}
           >
-            <Ionicons name="menu" size={30} color={colors.icon} />
+            {!showSearchBar?<Ionicons name="menu" size={30} color={colors.icon} />:undefined}
           </TouchableOpacity>
         </View>
         <View style={{alignItems:'center'}}>
@@ -75,7 +75,7 @@ const UpperTab = (props) => {
                   onSubmitEditing={submitData}
                   value={search}
                   icon={()=> loading?
-                    <MaterialCommunityIcons name='book-search' size="small" color="black" />
+                    <MaterialIcons name='cancel' size="large" color="black" />
                     :
                     <MaterialCommunityIcons name='magnify' size="small" />
                   }

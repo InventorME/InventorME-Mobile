@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard,Alert} from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { Avatar } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./addItem.style";
@@ -8,9 +15,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { Database } from "../../util/Database";
 import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
-import { Auth } from 'aws-amplify';
-import * as Permissions from 'expo-permissions';
-import * as ImagePicker from 'expo-image-picker';
+import { Auth } from "aws-amplify";
+import * as Permissions from "expo-permissions";
+import * as ImagePicker from "expo-image-picker";
 
 const addItemScreen = (props) => {
   const [name, setName] = useState("");
@@ -29,53 +36,46 @@ const addItemScreen = (props) => {
   const db = new Database();
   const photo = new Photo();
 
-
   useEffect(() => {
     (async () => {
       try {
         const data = await Auth.currentUserInfo();
         setEmail(data.attributes.email);
-      }
-      catch {
-        console.log('could not find user :(', error);
+      } catch {
+        console.log("could not find user :(", error);
       }
     })();
   }, [email]);
 
-
-  const quotes = (value) =>{
-    if(!value || value === "null" || value.length < 1){
+  const quotes = (value) => {
+    if (!value || value === "null" || value.length < 1) {
       return null;
     }
-    if(!isNaN(value)){
+    if (!isNaN(value)) {
       return value;
     }
     return "'" + value + "'";
   };
 
-  const validateNonNullData= (name, category) =>{
+  const validateNonNullData = (name, category) => {
     let goodValid = true;
-    if(name === "null" || name === ''){
+    if (name === "null" || name === "") {
       console.log(name);
       Alert.alert("Error: Please Type and Item Name");
       goodValid = false;
       return goodValid;
-
     }
-    if (category === "null" || category === ''){
+    if (category === "null" || category === "") {
       console.log(category);
       Alert.alert("Error: Please Type and Item Collection");
       goodValid = false;
       return goodValid;
     }
-    if(goodValid){
-      console.log("I came inside this one name: " + name + " cat: " + category );
+    if (goodValid) {
+      console.log("I came inside this one name: " + name + " cat: " + category);
       poster();
-      
     }
-  }
-
-
+  };
 
   let POSTitemFORMAT = {
     userEmail: quotes(email),
@@ -88,7 +88,7 @@ const addItemScreen = (props) => {
     itemReceiptPhotoURL: "null",
     itemManualURL: "null",
     itemSellDate: "null",
-    itemBuyDate:"null",
+    itemBuyDate: "null",
     itemLocation: quotes(location),
     itemNotes: quotes(notes),
     itemSellAmount: "null",
@@ -96,7 +96,7 @@ const addItemScreen = (props) => {
     itemEbayURL: "null",
     itemTags: quotes(tags),
     itemArchived: "0",
-    itemFolder: quotes(folder)
+    itemFolder: quotes(folder),
   };
 
   const clear = () => {
@@ -110,34 +110,32 @@ const addItemScreen = (props) => {
     setPhotoUrl("");
     setImage("");
     setImageTaken(false);
-  }
+  };
 
   const takePhoto = async () => {
-    const {
-      status: cameraPerm
-    } = await Permissions.askAsync(Permissions.CAMERA);
+    const { status: cameraPerm } = await Permissions.askAsync(
+      Permissions.CAMERA
+    );
 
-    const {
-      status: cameraRollPerm
-    } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    const { status: cameraRollPerm } = await Permissions.askAsync(
+      Permissions.MEDIA_LIBRARY
+    );
 
     // only if user allows permission to camera AND camera roll
-    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+    if (cameraPerm === "granted" && cameraRollPerm === "granted") {
       let pickerResult = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
         base64: true,
-        quality: 0.2
+        quality: 0.2,
       });
 
       if (!pickerResult.cancelled) {
         setImage(pickerResult.base64);
         setImageTaken(true);
       }
-
     }
-  }
-
+  };
 
   const uploadImage = async () => {
     try {
@@ -153,11 +151,11 @@ const addItemScreen = (props) => {
     } catch (error) {
       console.log("upload error", error);
     }
-  }
+  };
 
   async function poster() {
     try {
-      console.log("POSTitemFORMAT", POSTitemFORMAT)
+      console.log("POSTitemFORMAT", POSTitemFORMAT);
       if (imageTaken) {
         await uploadImage();
       }
@@ -166,7 +164,6 @@ const addItemScreen = (props) => {
     } catch (error) {
       console.log(error);
     }
-
   }
 
   return (
@@ -176,10 +173,12 @@ const addItemScreen = (props) => {
       scrollEnabled={true}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>  */}
       <View style={styles.container}>
-
         <TouchableOpacity
           style={styles.buttonCancel}
-          onPress={() => { clear(); props.navigation.navigate("Collections"); }}
+          onPress={() => {
+            clear();
+            props.navigation.navigate("Collections");
+          }}
         >
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
@@ -188,28 +187,33 @@ const addItemScreen = (props) => {
           <Text style={styles.label}>Name:</Text>
           <TextInput
             style={styles.textInput}
-            placeholder='Name'
-            onChangeText={(text) => { setName(text) }}
+            placeholder="Name"
+            maxLength={45}
+            onChangeText={(text) => {
+              setName(text);
+            }}
             value={name}
           />
         </View>
-        {imageState ? ""
-          : <View style={styles.uploadContainer}>
-            <TouchableOpacity
-              style={styles.uploadButton}
-              onPress={takePhoto}
-            >
+        {imageState ? (
+          ""
+        ) : (
+          <View style={styles.uploadContainer}>
+            <TouchableOpacity style={styles.uploadButton} onPress={takePhoto}>
               <Ionicons name="camera-outline" size={75} color={colors.label} />
             </TouchableOpacity>
-          </View>}
-
+          </View>
+        )}
 
         <View style={styles.child}>
           <Text style={styles.label}>Collection:</Text>
           <TextInput
             style={styles.textInput}
-            placeholder='Collection'
-            onChangeText={(text) => { setCategory(text) }}
+            placeholder="Collection"
+            maxLenght={20}
+            onChangeText={(text) => {
+              setCategory(text);
+            }}
             value={category}
           />
         </View>
@@ -218,8 +222,12 @@ const addItemScreen = (props) => {
           <Text style={styles.label}>Worth:</Text>
           <TextInput
             style={styles.textInput}
-            placeholder='Worth'
-            onChangeText={(text) => { setWorth(text) }}
+            keyboardType="decimal-pad"
+            placeholder="Worth"
+            maxLength={12}
+            onChangeText={(text) => {
+              setWorth(text);
+            }}
             value={worth}
           />
         </View>
@@ -228,32 +236,38 @@ const addItemScreen = (props) => {
           <Text style={styles.label}>Folder:</Text>
           <TextInput
             style={styles.textInput}
-            placeholder='Folder'
-            onChangeText={(text) => { setFolder(text) }}
+            placeholder="Folder"
+            maxLength={30}
+            onChangeText={(text) => {
+              setFolder(text);
+            }}
             value={folder}
           />
         </View>
-
 
         <View style={styles.child}>
           <Text style={styles.label}>Location:</Text>
           <TextInput
             style={styles.textInput}
-            placeholder='Location'
-            onChangeText={(text) => { setLocation(text) }}
+            placeholder="Location"
+            maxLength={120}
+            onChangeText={(text) => {
+              setLocation(text);
+            }}
             value={location}
           />
         </View>
-
 
         <View style={styles.child}>
           <Text style={styles.label}>Notes:</Text>
           <TextInput
             style={styles.notesInput}
-            placeholder='Notes'
+            placeholder="Notes"
             maxLength={200}
             multiline={true}
-            onChangeText={(text) => { setNotes(text) }}
+            onChangeText={(text) => {
+              setNotes(text);
+            }}
             value={notes}
           />
         </View>
@@ -262,16 +276,16 @@ const addItemScreen = (props) => {
           <Text style={styles.label}>Tags:</Text>
           <TextInput
             style={styles.textInput}
-            placeholder='Tags'
-            onChangeText={(text) => { setTags(text) }}
+            placeholder="Tags"
+            maxLength={120}
+            onChangeText={(text) => {
+              setTags(text);
+            }}
             value={tags}
           />
         </View>
 
-
-
         <View style={styles.buttonContainer}>
-
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -286,7 +300,15 @@ const addItemScreen = (props) => {
             style={styles.button}
             onPress={() => {
               const itemCreated = true;
-              props.navigation.navigate("EditItemScreen", itemCreated,name,category,notes,folder,scannedItem);
+              props.navigation.navigate(
+                "EditItemScreen",
+                itemCreated,
+                name,
+                category,
+                notes,
+                folder,
+                scannedItem
+              );
             }}
           >
             <Text style={styles.buttonText}>Add Info</Text>
@@ -301,11 +323,10 @@ const addItemScreen = (props) => {
             <Text style={styles.buttonText}>New Item</Text>
           </TouchableOpacity>
         </View>
-
       </View>
       {/* </TouchableWithoutFeedback>
        </KeyboardAwareScrollView> */}
-    </ScrollView >
+    </ScrollView>
   );
 };
 

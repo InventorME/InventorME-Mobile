@@ -17,7 +17,7 @@ const recent = ({navigation}) => {
 
   for (let i = 0; i < dates.length; i++) {
     for (let j = 0; j < data.items.length; j++) {
-      if (data.items[j].itemCreationDate == dates[i]) {
+      if (data.items[j].itemCreationDate == dates[i] && data.items[j].itemArchived == 0) {
         recentItems.push(data.items[j]);
       }
     }

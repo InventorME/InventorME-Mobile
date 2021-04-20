@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
+import { Checkbox } from "react-native-elements";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,7 +21,6 @@ import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
 
 const EditItemScreen = (props) => {
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [category, setCategory] = useState("");
@@ -41,7 +48,7 @@ const EditItemScreen = (props) => {
   const photo = new Photo();
   const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
   const [scannedItem, setScannedItem] = useState(props.route.params.scanned);
-
+  const [itemID, setItemID] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -70,25 +77,30 @@ const EditItemScreen = (props) => {
           console.log("photo not found");
         }
       }
-
-
     })();
   }, [photoURL]);
 
   useEffect(() => {
     if (createItem) {
-      console.log("Entered create item")
+      console.log("Entered create item");
       if (scannedItem) {
-        console.log(props.route.params.title)
-        setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ''));
-        setCategory(JSON.stringify(props.route.params.category).replace(/['"]+/g, ''));
-        setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
-        setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
-        setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
+        console.log(props.route.params.title);
+        setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ""));
+        setCategory(
+          JSON.stringify(props.route.params.category).replace(/['"]+/g, "")
+        );
+        setPurchaseAmt(
+          JSON.stringify(props.route.params.price).replace(/['"]+/g, "")
+        );
+        setNotes(
+          JSON.stringify(props.route.params.description).replace(/['"]+/g, "")
+        );
+        setSerialNum(
+          JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, "")
+        );
         setCreateItem(true);
         setScannedItem(true);
-      }
-      else {
+      } else {
       }
       setName(props.route.params.name);
       setCategory(props.route.params.category);
@@ -96,12 +108,8 @@ const EditItemScreen = (props) => {
       setLocation(props.route.params.location);
       setNotes(props.route.params.notes);
       setTags(props.route.params.tags);
-
-
-
-    }
-    else {
-      console.log("Entered not create item")
+    } else {
+      console.log("Entered not create item");
       setName(props.route.params.details.item.itemName);
       setEmail(props.route.params.details.item.userEmail);
       setCategory(props.route.params.details.item.itemCategory);
@@ -117,18 +125,17 @@ const EditItemScreen = (props) => {
       setSellDate(props.route.params.details.item.itemSellDate);
       setBuyDate(props.route.params.details.item.itemBuyDate);
       setSellAmt(props.route.params.details.item.itemSellDate);
-      setRecurrPayAmt(props.route.params.details.item.itemRecurringPaymentAmount);
+      setRecurrPayAmt(
+        props.route.params.details.item.itemRecurringPaymentAmount
+      );
       setEbayURL(props.route.params.details.item.itemEbayURL);
       setArchived(props.route.params.details.item.itemArchived);
       setFolder(props.route.params.details.item.itemFolder);
+      setItemID(props.route.params.details.item.itemID);
+      console.log(itemID);
       //setCreateItem(false);
     }
-  }, [])
-
-
-
-
-
+  }, []);
 
   const quotes = (value) => {
     if (!value || value === "null" || value.length < 1) {
@@ -177,11 +184,8 @@ const EditItemScreen = (props) => {
           console.log("photo not found");
         }
       }
-
-
     })();
   }, [photoURL]);
-
 
   var PUTitemFORMAT = {
     userEmail: `"${email}"`,
@@ -251,7 +255,8 @@ const EditItemScreen = (props) => {
       }
     } else {
       const title = "No Photo Access";
-      const msg = "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
+      const msg =
+        "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
       alert(title, msg, [{ text: "OK" }], { cancelable: false });
     }
   };
@@ -303,14 +308,16 @@ const EditItemScreen = (props) => {
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
-        scrollEnabled>
+        scrollEnabled
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <TouchableOpacity
               style={styles.buttonCancel}
               onPress={() => {
                 props.navigation.goBack();
-              }}>
+              }}
+            >
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
 
@@ -326,20 +333,32 @@ const EditItemScreen = (props) => {
                 value={name}
               />
             </View>
-            {imageState ? <View style={styles.uploadContainer}>
-              <TouchableOpacity
-                style={styles.uploadButton}
-                onPress={takePhoto}>
-                <Avatar.Image source={{ uri: `data:${imageType};base64,${image}` }} size={90} />
-              </TouchableOpacity>
-            </View>
-              : <View style={styles.uploadContainer}>
+            {imageState ? (
+              <View style={styles.uploadContainer}>
                 <TouchableOpacity
                   style={styles.uploadButton}
-                  onPress={takePhoto}>
-                  <Ionicons name="camera-outline" size={75} color={colors.iconBackless} />
+                  onPress={takePhoto}
+                >
+                  <Avatar.Image
+                    source={{ uri: `data:${imageType};base64,${image}` }}
+                    size={90}
+                  />
                 </TouchableOpacity>
-              </View>}
+              </View>
+            ) : (
+              <View style={styles.uploadContainer}>
+                <TouchableOpacity
+                  style={styles.uploadButton}
+                  onPress={takePhoto}
+                >
+                  <Ionicons
+                    name="camera-outline"
+                    size={75}
+                    color={colors.iconBackless}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
 
             <View style={styles.child}>
               <Text style={styles.label}>Collection:</Text>
@@ -555,7 +574,10 @@ const EditItemScreen = (props) => {
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => { validateNonNullData(name, category); }}>
+                onPress={() => {
+                  validateNonNullData(name, category);
+                }}
+              >
                 <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>
             </View>
@@ -563,7 +585,7 @@ const EditItemScreen = (props) => {
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
     </ScrollView>
-  )
+  );
 };
 
 export default EditItemScreen;

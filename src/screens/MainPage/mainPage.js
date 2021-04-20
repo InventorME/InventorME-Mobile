@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useRoute } from '@react-navigation/native';
 import addItem from "../addItemScreen/addItem";
 import scanItem from "../scanItemScreen/scanItem";
 import archived from "../ArchivedScreen/archived";
@@ -8,10 +10,9 @@ import UpperTab from "../../Components/UpperTab";
 import collections from "../CollectionsScreen/collections"
 import recent from "../RecentScreen/recent";
 import profilePageNav from "../ProfilePage/profilePage";
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import Folder from "../FolderScreen/Folder";
 import { colors } from '../../util/colors';
 import { Database } from "../../util/Database";
-import { useRoute } from '@react-navigation/native';
 import StatsScreen from "../StatsScreen/StatsScreen";
 
 export const renderContext = React.createContext();
@@ -24,64 +25,67 @@ const mainNav = (props) => {
     <Drawer.Navigator
       initialRouteName="Collections"
       screenOptions={{
-              header : ({scene}) => {
-                  return (
-                    <UpperTab
-                      title={scene.descriptor.options.title}
-                      nav={() => {scene.descriptor.navigation.toggleDrawer()}}
-                      profileNav={()=>{props.navigation.navigate("ProfilePage")}}
-                    />
-                          );
-              },
-              headerShown : true
-          }}
+        header: ({ scene }) => {
+          return (
+            <UpperTab
+              title={scene.descriptor.options.title}
+              nav={() => { scene.descriptor.navigation.toggleDrawer() }}
+              profileNav={() => { props.navigation.navigate("ProfilePage") }}
+              itemsNavigate={(items) => { props.navigation.navigate("ItemsScreen", { itemsToRender: items }) }}
+            />
+          );
+        },
+        headerShown: true
+      }}
       drawerContentOptions={{
-              activeTintColor : colors.buttonText,
-              activeBackgroundColor : colors.button,
-              inactiveBackgroundColor : colors.background,
-              inactiveTintColor : colors.text,
-              backgroundColor: colors.background
-          }}
+        activeTintColor: colors.buttonText,
+        activeBackgroundColor: colors.button,
+        inactiveBackgroundColor: colors.background,
+        inactiveTintColor: colors.text,
+        backgroundColor: colors.background
+
+      }}
+      style={{ backgroundColor: colors.background }}
     >
       <Drawer.Screen
         options={{
-          title : "Collections"
+          title: "Collections"
         }}
         name="Collections"
         component={collections}
       />
-      {/* <Drawer.Screen
+      <Drawer.Screen
         options={{
           title : "Folders"
         }}
-        name="Date"
-        // component={date}
-      /> */}
+        name="Folders"
+        component={Folder}
+      />
       <Drawer.Screen
         options={{
-          title : "Archived"
+          title: "Archived"
         }}
         name="Archived"
         component={archived}
       />
       <Drawer.Screen
         options={{
-          title : "Items"
+          title: "Items"
         }}
         name="Recent"
         component={recent}
-        />
-      { <Drawer.Screen
-        options={{
-                  title : "Stats"
-              }}
-        name="StatsScreen"
-         component={StatsScreen}
-      /> }
+      />
       <Drawer.Screen
         options={{
-                  title : "Profile"
-              }}
+          title: "Stats"
+        }}
+        name="StatsScreen"
+        component={StatsScreen}
+      />
+      <Drawer.Screen
+        options={{
+          title: "Profile"
+        }}
         name="Profile"
         component={profilePageNav}
       />
@@ -123,13 +127,14 @@ const MainPageNav = () => {
         initialRouteName="mainNav"
         backBehavior="none"
         tabBarOptions={{
-          activeTintColor: colors.buttonText,
-          inactiveTintColor: colors.icon,
-          activeBackgroundColor: colors.icon,
-          inactiveBackgroundColor: colors.background,
+          activeTintColor: colors.dock,
+          inactiveTintColor: colors.title,
+          activeBackgroundColor: colors.title,
+          inactiveBackgroundColor: colors.dock,
           style: {
-            borderTopColor: colors.background,
-            backgroundColor: colors.background
+            borderTopColor: colors.navigator,
+            backgroundColor: colors.navigator,
+
           },
           showLabel: false
 

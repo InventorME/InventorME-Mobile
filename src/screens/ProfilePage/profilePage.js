@@ -117,7 +117,7 @@ class ProfilePageNav extends Component {
                   marginTop: hp("2%"),
                 }}
               >
-                <Icon name="phone" color={colors.icon} size={50} />
+                <Icon name="phone" color={colors.iconBackless} size={50} />
                 <View style={styles.child}>
                   <Text
                     style={{
@@ -148,7 +148,7 @@ class ProfilePageNav extends Component {
                   marginBottom: hp("4%"),
                 }}
               >
-                <Icon name="mail" color={colors.icon} size={50} />
+                <Icon name="mail" color={colors.iconBackless} size={50} />
                 <View style={styles.child}>
                   <Text
                     style={{

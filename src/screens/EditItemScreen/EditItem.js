@@ -51,6 +51,7 @@ const EditItemScreen = (props) => {
   const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
   const [scannedItem, setScannedItem] = useState(false);
 
+
   useEffect(() => {
     (async () => {
       try {
@@ -63,48 +64,27 @@ const EditItemScreen = (props) => {
     })();
   }, [email]);
 
-  //console.log(props.route.params);
-  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+  useEffect(() => {
+    console.log("useEffect is running");
+    (async () => {
+      if (photoURL != "") {
+        try {
+          console.log("photoURL:", photoURL);
+          const itemPhoto = await photo.get(photoURL);
+          // console.log("itemPhoto:",itemPhoto);
+          setImage(itemPhoto);
+          setImageState(true);
+          console.log("image found", imageState);
+        } catch {
+          console.log("photo not found");
+        }
+      }
 
-  if (createItem) {
-    setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ""));
-    setCategory(
-      JSON.stringify(props.route.params.category).replace(/['"]+/g, "")
-    );
-    setPurchaseAmt(
-      JSON.stringify(props.route.params.price).replace(/['"]+/g, "")
-    );
-    setNotes(
-      JSON.stringify(props.route.params.description).replace(/['"]+/g, "")
-    );
-    setSerialNum(
-      JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, "")
-    );
-    setCreateItem(false);
-    setScannedItem(true);
-  }
-  //  else{
-  //    console.log("4")
-  //     setName(props.route.params.itemName);
-  //     setEmail(props.route.params.userEmail);
-  //     setCategory(props.route.params.itemCategory);
-  //     setPhotoURL(props.route.params.itemPhotoURL);
-  //     setLocation(props.route.params.itemLocation);
-  //     setNotes(props.route.params.itemNotes);
-  //     setTags(props.route.params.itemTags);
-  //     setSerialNum(props.route.params.itemSerialNum);
-  //     setPurchaseAmt(props.route.params.itemPurchaseAmount);
-  //     setWorth(props.route.params.itemWorth);
-  //     setReceiptPhoto(props.route.params.itemReceiptPhotoURL);
-  //     setItemManualURL(props.route.params.itemManualURL);
-  //     setSellDate(props.route.params.itemSellDate);
-  //     setBuyDate(props.route.params.itemBuyDate);
-  //     setSellAmt(props.route.params.itemSellDate);
-  //     setRecurrPayAmt(props.route.params.itemRecurringPaymentAmount);
-  //     setEbayURL(props.route.params.itemEbayURL);
-  //     setArchived(props.route.params.itemArchived);
-  //     setFolder(props.route.params.itemFolder);
-  //   }
+
+    })();
+  }, [photoURL]);
+
+
 
   const quotes = (value) => {
     if (!value || value === "null" || value.length < 1) {
@@ -204,6 +184,10 @@ const EditItemScreen = (props) => {
         setImage(pickerResult.base64);
         setImageTaken(true);
       }
+    } else {
+      const title = "No Photo Access";
+      const msg = "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
+      alert(title, msg, [{ text: "OK" }], { cancelable: false });
     }
   };
 
@@ -213,8 +197,8 @@ const EditItemScreen = (props) => {
 
       // ******BUG HERE********
       // NOT SURE THAT photoUrl is getting SET
-
       setPhotoURL(pName);
+
       // console.log(photoURL);
       await photo.uploadFile(image, pName, imageType);
     } catch (error) {
@@ -250,277 +234,275 @@ const EditItemScreen = (props) => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.page}>
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
         scrollEnabled
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
+        <View style={styles.container}>
+          <TouchableOpacity
+            style={styles.buttonCancel}
+            onPress={() => {
+              props.navigation.goBack();
+            }}
+          >
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
+
+          <View style={styles.child1}>
+            <Text style={styles.label}>Name:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Name"
+              maxLength={45}
+              onChangeText={(text) => {
+                setName(text);
+              }}
+              value={name}
+            />
+          </View>
+          {imageState ? <View style={styles.uploadContainer}>
             <TouchableOpacity
-              style={styles.buttonCancel}
+              style={styles.uploadButton}
+              onPress={takePhoto}>
+              <Avatar.Image source={{ uri: `data:${imageType};base64,${image}` }} size={90} />
+            </TouchableOpacity>
+          </View>
+            : <View style={styles.uploadContainer}>
+              <TouchableOpacity
+                style={styles.uploadButton}
+                onPress={takePhoto}>
+                <Ionicons name="camera-outline" size={75} color={colors.iconBackless} />
+              </TouchableOpacity>
+            </View>}
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Collection:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Collection"
+              maxLength={20}
+              onChangeText={(text) => {
+                setCategory(text);
+              }}
+              value={category}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Serial Number:</Text>
+            <TextInput
+              style={styles.textInput}
+              keyboardType="numeric"
+              placeholder="Serial Number"
+              maxLength={10}
+              onChangeText={(text) => {
+                setSerialNum(text);
+              }}
+              value={serialNum}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Purchase Amount:</Text>
+            <TextInput
+              style={styles.textInput}
+              keyboardType="decimal-pad"
+              placeholder="Purchase Amount"
+              maxLength={12}
+              onChangeText={(text) => {
+                setPurchaseAmt(text);
+              }}
+              value={purchaseAmt}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Worth:</Text>
+            <TextInput
+              style={styles.textInput}
+              keyboardType="decimal-pad"
+              placeholder="Worth"
+              maxLength={12}
+              onChangeText={(text) => {
+                setWorth(text);
+              }}
+              value={worth}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Receipt Photo:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Receipt Photo"
+              maxLength={45}
+              onChangeText={(text) => {
+                setReceiptPhoto(text);
+              }}
+              value={receiptPhoto}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Item Manual URL:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Item Manual"
+              maxLength={45}
+              onChangeText={(text) => {
+                setItemManualURL(text);
+              }}
+              value={itemManualURL}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Sell Date:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Sell Date"
+              onChangeText={(text) => {
+                setSellDate(text);
+              }}
+              value={sellDate}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Buy Date:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Buy Date"
+              onChangeText={(text) => {
+                setBuyDate(text);
+              }}
+              value={buyDate}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Sell Amount:</Text>
+            <TextInput
+              style={styles.textInput}
+              keyboardType="decimal-pad"
+              placeholder="Sell Amount"
+              maxLength={12}
+              onChangeText={(text) => {
+                setSellAmt(text);
+              }}
+              value={sellAmt}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Recurring Payment:</Text>
+            <TextInput
+              style={styles.textInput}
+              keyboardType="decimal-pad"
+              placeholder="Recurring Payment"
+              maxLength={12}
+              onChangeText={(text) => {
+                setRecurrPayAmt(text);
+              }}
+              value={recurrPayAmt}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Shopping URL:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Shopping URL"
+              maxLength={300}
+              onChangeText={(text) => {
+                setEbayURL(text);
+              }}
+              value={ebayURL}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Archived:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Archived"
+              onChangeText={(text) => {
+                setArchived(text);
+              }}
+              value={archived}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Folder:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Folder"
+              maxLength={30}
+              onChangeText={(text) => {
+                setFolder(text);
+              }}
+              value={folder}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Location:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Location"
+              maxLength={120}
+              onChangeText={(text) => {
+                setLocation(text);
+              }}
+              value={location}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Notes:</Text>
+            <TextInput
+              style={styles.notesInput}
+              placeholder="Notes"
+              maxLength={200}
+              multiline
+              onChangeText={(text) => {
+                setNotes(text);
+              }}
+              value={notes}
+            />
+          </View>
+
+          <View style={styles.child}>
+            <Text style={styles.label}>Tags:</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Tags"
+              maxLength={120}
+              onChangeText={(text) => {
+                setTags(text);
+              }}
+              value={tags}
+            />
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
               onPress={() => {
-                props.navigation.goBack();
+                validateNonNullData(name, category);
               }}
             >
-              <Text style={styles.buttonText}>Cancel</Text>
+              <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
-
-            <View style={styles.child1}>
-              <Text style={styles.label}>Name:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Name"
-                maxLength={45}
-                onChangeText={(text) => {
-                  setName(text);
-                }}
-                value={name}
-              />
-            </View>
-            {imageState ? (
-              ""
-            ) : (
-              <View style={styles.uploadContainer}>
-                <TouchableOpacity
-                  style={styles.uploadButton}
-                  onPress={takePhoto}
-                >
-                  <Ionicons
-                    name="camera-outline"
-                    size={75}
-                    color={colors.label}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Collection:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Collection"
-                maxLength={20}
-                onChangeText={(text) => {
-                  setCategory(text);
-                }}
-                value={category}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Serial Number:</Text>
-              <TextInput
-                style={styles.textInput}
-                keyboardType="numeric"
-                placeholder="Serial Number"
-                maxLength={10}
-                onChangeText={(text) => {
-                  setSerialNum(text);
-                }}
-                value={serialNum}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Purchase Amount:</Text>
-              <TextInput
-                style={styles.textInput}
-                keyboardType="decimal-pad"
-                placeholder="Purchase Amount"
-                maxLength={12}
-                onChangeText={(text) => {
-                  setPurchaseAmt(text);
-                }}
-                value={purchaseAmt}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Worth:</Text>
-              <TextInput
-                style={styles.textInput}
-                keyboardType="decimal-pad"
-                placeholder="Worth"
-                maxLength={12}
-                onChangeText={(text) => {
-                  setWorth(text);
-                }}
-                value={worth}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Receipt Photo:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Receipt Photo"
-                maxLength={45}
-                onChangeText={(text) => {
-                  setReceiptPhoto(text);
-                }}
-                value={receiptPhoto}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Item Manual URL:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Item Manual"
-                maxLength={45}
-                onChangeText={(text) => {
-                  setItemManualURL(text);
-                }}
-                value={itemManualURL}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Sell Date:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Sell Date"
-                onChangeText={(text) => {
-                  setSellDate(text);
-                }}
-                value={sellDate}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Buy Date:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Buy Date"
-                onChangeText={(text) => {
-                  setBuyDate(text);
-                }}
-                value={buyDate}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Sell Amount:</Text>
-              <TextInput
-                style={styles.textInput}
-                keyboardType="decimal-pad"
-                placeholder="Sell Amount"
-                maxLength={12}
-                onChangeText={(text) => {
-                  setSellAmt(text);
-                }}
-                value={sellAmt}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Recurring Payment:</Text>
-              <TextInput
-                style={styles.textInput}
-                keyboardType="decimal-pad"
-                placeholder="Recurring Payment"
-                maxLength={12}
-                onChangeText={(text) => {
-                  setRecurrPayAmt(text);
-                }}
-                value={recurrPayAmt}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Shopping URL:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Shopping URL"
-                maxLength={300}
-                onChangeText={(text) => {
-                  setEbayURL(text);
-                }}
-                value={ebayURL}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Archived:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Archived"
-                onChangeText={(text) => {
-                  setArchived(text);
-                }}
-                value={archived}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Folder:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Folder"
-                maxLength={30}
-                onChangeText={(text) => {
-                  setFolder(text);
-                }}
-                value={folder}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Location:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Location"
-                maxLength={120}
-                onChangeText={(text) => {
-                  setLocation(text);
-                }}
-                value={location}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Notes:</Text>
-              <TextInput
-                style={styles.notesInput}
-                placeholder="Notes"
-                maxLength={200}
-                multiline
-                onChangeText={(text) => {
-                  setNotes(text);
-                }}
-                value={notes}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Tags:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Tags"
-                maxLength={120}
-                onChangeText={(text) => {
-                  setTags(text);
-                }}
-                value={tags}
-              />
-            </View>
-
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  validateNonNullData(name, category);
-                }}
-              >
-                <Text style={styles.buttonText}>Save</Text>
-              </TouchableOpacity>
-            </View>
           </View>
+        </View>
         </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView>
-    </ScrollView>
+      </KeyboardAwareScrollView >
+    </ScrollView >
   );
 };
 

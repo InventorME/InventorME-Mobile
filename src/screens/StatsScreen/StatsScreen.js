@@ -15,7 +15,15 @@ class StatsScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      Archived_Items: [], loading: false
+      Archived_Items: [],
+      loading: false,
+      currentWorth: 0,
+      allLength: 1,
+      depreciation: 0,
+      archiveLength: 0,
+      fullPercent: 100,
+      soldLength: 0,
+      Lost: 0
     }
   }
 
@@ -86,93 +94,92 @@ class StatsScreen extends Component {
       return <View key={index}>{key.toUpperCase()}</View>
     })
   }
-  
+
   render() {
-    
-    const percentage = 100;
-    if(!this.state.loading){
-    return (
-      //{this.state.loading ?
-      
-      <ScrollView>
-        <View style={styles.container}>
-        
-          
-        <View style={styles.stat}>
-          <ProgCircle
-            percent={percentage}
-            text={`$${Math.round(this.state.currentWorth / this.state.allLength) * 100}`}
-            color={colors.objects[0]}
+
+    if (!this.state.loading) {
+      return (
+        //{this.state.loading ?
+
+        <ScrollView style={styles.page}>
+          <View style={styles.container}>
 
 
-          />
-          <Text style={styles.label}> {'Net Worth '}</Text>
-        </View>
-        <View style={styles.stat}>
-          <ProgCircle
-            percent={(this.state.depreciation - this.state.currentWorth) / 100}
-            text={`$${(this.state.depreciation - this.state.currentWorth)}`}
-            color={colors.objects[1]}
-          />
-          <Text style={styles.label}> {'Depreciation'} </Text>
-        </View>
+            <View style={styles.stat}>
+              <ProgCircle
+                percent={this.state.fullPercent}
+                text={`$${Math.round(this.state.currentWorth / this.state.allLength) * 100}`}
+                color={colors.objects[0]}
+              />
+              <Text style={styles.label}> {'Net Worth '}</Text>
+            </View>
 
-        <View style={styles.stat}>
-          <ProgCircle
-           percent={(this.state.archiveLength / this.state.allLength) * 100}
-           text={`${this.state.archiveLength}`}
-           color={colors.objects[2]}
-          />
-          <Text style={styles.label}>{'Archived Items'} </Text>
-        </View>
+            <View style={styles.stat}>
+              <ProgCircle
+                percent={(this.state.depreciation - this.state.currentWorth) / 100}
+                text={`$${(this.state.depreciation - this.state.currentWorth)}`}
+                color={colors.objects[1]}
+              />
+              <Text style={styles.label}> {'Depreciation'} </Text>
+            </View>
 
-        <View style={styles.stat} >
-          <ProgCircle
-              percent={100}
-              text={`${this.state.allLength}`}
-              color={colors.objects[3]}
-          />
-          <Text style={styles.label}> {'# All Items'} </Text>
-        </View>
-        <View style={styles.stat}>
-          <ProgCircle
-            percent={percentage}
-            text={`$${this.state.depreciation}`}
-            color={colors.objects[4]}
-          />
-          <Text style={styles.label}> {'Money Invested'} </Text>
-        </View>
-        <View style={styles.stat}>
-          <ProgCircle
-            percent={(this.state.soldLength/this.state.allLength)*100}
-            text={`${this.state.soldLength}`}
-            color={colors.objects[5]}
-          />
-          <Text style={styles.label}> {'Items Sold'} </Text>
-        </View>
+            <View style={styles.stat}>
+              <ProgCircle
+                percent={(this.state.archiveLength / this.state.allLength) * 100}
+                text={`${this.state.archiveLength}`}
+                color={colors.objects[2]}
+              />
+              <Text style={styles.label}>{'Archived Items'} </Text>
+            </View>
 
-        <View style={styles.stat}>
-          <ProgCircle
-            percent={this.state.soldLength}
-            text={`${this.state.Lost * 100}%`}
-            color={colors.objects[6]}
-          />
-          <Text style={styles.label}> {'% Money Lost'} </Text>
-        </View>
+            <View style={styles.stat} >
+              <ProgCircle
+                percent={100}
+                text={`${this.state.allLength}`}
+                color={colors.objects[3]}
+              />
+              <Text style={styles.label}> {'# All Items'} </Text>
+            </View>
+            <View style={styles.stat}>
+              <ProgCircle
+                percent={this.state.fullPercent}
+                text={`$${this.state.depreciation}`}
+                color={colors.objects[4]}
+              />
+              <Text style={styles.label}> {'Money Invested'} </Text>
+            </View>
+            <View style={styles.stat}>
+              <ProgCircle
+                percent={(this.state.soldLength / this.state.allLength) * 100}
+                text={`${this.state.soldLength}`}
+                color={colors.objects[5]}
+              />
+              <Text style={styles.label}> {'Items Sold'} </Text>
+            </View>
 
-        <View style={styles.stat}>
-          <ProgCircle
-            percent={this.state.Lost * 100}
-            text={`$${this.state.Costper}/Mo`}
-            color={colors.objects[7]}
-          />
-          <Text style={styles.label}> {'Monthly Recurring Cost'} </Text>
-        </View>
-        </View>
-      </ScrollView> 
-      
-    )}else{
-      return(
+            <View style={styles.stat}>
+              <ProgCircle
+                percent={this.state.soldLength}
+                text={`${this.state.Lost * 100}%`}
+                color={colors.objects[6]}
+              />
+              <Text style={styles.label}> {'% Money Lost'} </Text>
+            </View>
+
+            <View style={styles.stat}>
+              <ProgCircle
+                percent={this.state.Lost * 100}
+                text={`$${this.state.Costper}/Mo`}
+                color={colors.objects[7]}
+              />
+              <Text style={styles.label}> {'Monthly Recurring Cost'} </Text>
+            </View>
+          </View>
+        </ScrollView>
+
+      )
+    } else {
+      return (
         <Text>Loading...</Text>
       )
     }

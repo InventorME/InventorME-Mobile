@@ -1,7 +1,7 @@
 import React from "react";
 import { View, FlatList, TouchableOpacity } from "react-native";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
-
+import {colors} from "../../util/colors"
 const Items = (props) => {
 
   let itemsToRender = [];
@@ -13,24 +13,19 @@ const Items = (props) => {
     itemsToRender = props.route.params.itemsToRender;
   }
 
-  return (
-
-    <FlatList
-
-      data={itemsToRender}
-      renderItem={({ item }) => (
-          <BoxFolderComponent
-            title={item.itemName}
-            
-            />
-
-      )}
-      keyExtractor={(item, index) => item.itemName}
-
-    />
-
-
-  );
+    return (
+      <FlatList
+      style={{ backgroundColor: colors.background }}
+        data = {itemsToRender}
+        renderItem = {({item}) => (
+              <BoxFolderComponent
+                title = {item.itemName}
+                detailsNavigate = {() => {props.navigation.navigate("EditItemScreen", {details : {item}})}}
+              />
+        )}
+        keyExtractor = {(item, index) => item.itemID.toString()}
+      />
+    );
 }
 
 export default Items;

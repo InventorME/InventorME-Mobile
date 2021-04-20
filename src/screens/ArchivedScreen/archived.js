@@ -14,7 +14,7 @@ const archived = ({navigation}) => {
   }
 
   return (
-    <Items itemsToRender = {archivedItems}/>
+    <Items itemsToRender = {archivedItems} navigation = {navigation}/>
   );
 }
 

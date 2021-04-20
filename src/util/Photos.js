@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const dateFormat = require('dateformat');
 import { Auth } from 'aws-amplify';
 
 var urly = "https://9zulviqkd0.execute-api.us-east-2.amazonaws.com/v1/imager";
@@ -61,10 +62,10 @@ export class Photo {
     }
     async generateNewItemName(type){
         try{
-            console.log("generating");
             const data = await Auth.currentUserInfo();
             var url = data.attributes.email;
             var now = new Date();
+            now = dateFormat(now,"ddMMyymmss");
             url += now;
             url += "."+type;
             return Promise.resolve(url);

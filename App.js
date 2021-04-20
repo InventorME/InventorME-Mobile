@@ -96,9 +96,10 @@ function myStack() {
             name="ItemsScreen"
             component={Items}
             options={{
-              headerStyle: { backgroundColor: colors.background },
-              headerBackImage: () => { return <FontAwesome name="arrow-left" color="white" size={25} /> },
+              headerStyle: { backgroundColor: colors.navigator },
+              headerBackImage: () => { return <FontAwesome name="arrow-left" color={colors.icon} size={25} /> },
               headerBackTitleVisible: false,
+              headerTitleStyle: {color: colors.title},
               headerLeftContainerStyle: { marginLeft: "2%" }
             }}
           />

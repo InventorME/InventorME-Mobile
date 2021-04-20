@@ -130,7 +130,7 @@ const CreateAccountScreen = (props) => {
               style={styles.arrowButtonContainer}
               onPress={() => props.navigation.navigate("HomeScreen")}
             >
-              <FontAwesome name='arrow-left' color={colors.icon} size={45} />
+              <FontAwesome name='arrow-left' color={colors.iconBackless} size={45} />
             </TouchableOpacity>
 
           </View>

@@ -80,7 +80,7 @@ export default StyleSheet.create({
     borderRadius: 140,
     padding: 35,
     borderWidth: 8,
-    borderColor: colors.icon,
+    borderColor: colors.iconBackless,
     marginTop: "-25%",
     marginBottom: "5%"
   },

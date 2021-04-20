@@ -11,7 +11,6 @@ import collections from "../CollectionsScreen/collections"
 import recent from "../RecentScreen/recent";
 import profilePageNav from "../ProfilePage/profilePage";
 import Folder from "../FolderScreen/Folder";
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { colors } from '../../util/colors';
 import { Database } from "../../util/Database";
 import StatsScreen from "../StatsScreen/StatsScreen";

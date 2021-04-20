@@ -279,7 +279,7 @@ const addItemScreen = (props) => {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  poster();
+                  validateNonNullData(name, category);
                   props.navigation.navigate("Collections");
                 }}
               >
@@ -289,7 +289,9 @@ const addItemScreen = (props) => {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  props.navigation.navigate("EditItemScreen");
+                  const scanned = false;
+                  const itemCreated = true;
+                  props.navigation.navigate("EditItemScreen",{name,category,worth,folder,location,notes,tags,scanned,itemCreated});
                 }}
               >
                 <Text style={styles.buttonText}>Add Info</Text>
@@ -298,7 +300,7 @@ const addItemScreen = (props) => {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  poster();
+                  validateNonNullData(name, category);
                 }}
               >
                 <Text style={styles.buttonText}>New Item</Text>

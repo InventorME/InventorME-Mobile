@@ -50,12 +50,13 @@ const ScanItem = (props) => {
                 const price= info.product.buybox_winner.price.value;
                 const serialNumber = info.request_parameters.gtin;
                 const itemCreated=true;
+                const scanned = true;
                 console.log(description);
                 console.log(title);
                 console.log(category);
                 console.log(price);
                 // send image
-                props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated,serialNumber});
+                props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated,serialNumber,scanned});
               },
             },
           ],

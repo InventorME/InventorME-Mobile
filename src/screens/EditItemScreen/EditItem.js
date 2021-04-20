@@ -43,7 +43,7 @@ const EditItemScreen = (props) => {
   const db = new Database();
   const photo = new Photo();
   const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
-  const [scannedItem, setScannedItem] = useState(false);
+  const [scannedItem, setScannedItem] = useState(props.route.params.scanned);
 
   useEffect(() => {
     (async () => {
@@ -64,13 +64,25 @@ const EditItemScreen = (props) => {
   useEffect(() => {
     if(createItem){
       console.log("Entered create item")
+      if(scannedItem){
+        console.log(props.route.params.title)
       setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ''));
       setCategory(JSON.stringify(props.route.params.category).replace(/['"]+/g, ''));
       setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
       setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
       setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
-      setCreateItem(false);
+      setCreateItem(true);
       setScannedItem(true);
+    }
+    else{
+    }
+    setName(props.route.params.name);
+    setCategory(props.route.params.category);
+    setWorth(props.route.params.worth);
+    setLocation(props.route.params.location);
+    setNotes(props.route.params.notes);
+    setTags(props.route.params.tags);
+
       
     
   }
@@ -465,7 +477,7 @@ const EditItemScreen = (props) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => { poster(); props.navigation.goBack() }}>
+            onPress={() => {validateNonNullData(name, category);}}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
         </View>

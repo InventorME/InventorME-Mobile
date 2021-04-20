@@ -45,7 +45,6 @@ const EditItemScreen = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        console.log("enter");
         const data = await Auth.currentUserInfo();
         setEmail(data.attributes.email);
       } catch {
@@ -143,7 +142,7 @@ const EditItemScreen = (props) => {
     itemFolder: quotes(folder),
   };
 
-  var PUTitemFORMAT = {
+  const PUTitemFORMAT = {
     itemID: "9",
     userEmail: quotes(email),
     itemCategory: quotes(category),
@@ -284,15 +283,14 @@ const EditItemScreen = (props) => {
             </View>
             {imageState ? <View style={styles.uploadContainer}>
               <TouchableOpacity
-                style={styles.imageContainer}
-                onPress={takePhoto}>
+                onPress={() => takePhoto()}>
                 <Avatar.Image source={{ uri: `data:${imageType};base64,${image}` }} size={125} />
               </TouchableOpacity>
             </View>
               : <View style={styles.uploadContainer}>
                 <TouchableOpacity
                   style={styles.uploadButton}
-                  onPress={takePhoto}>
+                  onPress={() => takePhoto()}>
                   <Ionicons name="camera-outline" size={75} color={colors.iconBackless} />
                 </TouchableOpacity>
               </View>}

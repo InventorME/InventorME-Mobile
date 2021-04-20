@@ -155,14 +155,14 @@ const EditItemScreen = (props) => {
   const validateNonNullData= (name, category) =>{
     console.log("8")
     let goodValid = true;
-    if(name === "null" || name === ''){
+    if(name === null || name === ''){
       console.log(name);
       Alert.alert("Error: Please Type and Item Name");
       goodValid = false;
       return goodValid;
 
     }
-    if (category === "null" || category === ''){
+    if (category === null || category === ''){
       console.log(category);
       Alert.alert("Error: Please Type and Item Collection");
       goodValid = false;

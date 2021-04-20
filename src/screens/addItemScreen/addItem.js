@@ -29,6 +29,7 @@ const addItemScreen = (props) => {
   const [worth, setWorth] = useState("");
   const [folder, setFolder] = useState("");
   const [image, setImage] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
   const [imageType, setImageType] = useState("image/jpg");
@@ -81,7 +82,7 @@ const addItemScreen = (props) => {
     userEmail: quotes(email),
     itemCategory: quotes(category),
     itemName: quotes(name),
-    itemPhotoURL: "null",
+    itemPhotoURL: quotes(photoURL),
     itemSerialNum: "null",
     itemPurchaseAmount: "null",
     itemWorth: quotes(worth),
@@ -107,7 +108,7 @@ const addItemScreen = (props) => {
     setNotes("");
     setWorth("");
     setTags("");
-    setPhotoUrl("");
+    setPhotoURL("");
     setImage("");
     setImageTaken(false);
   };
@@ -306,7 +307,7 @@ const addItemScreen = (props) => {
                 onPress={() => {
                   const scanned = false;
                   const itemCreated = true;
-                  props.navigation.navigate("EditItemScreen",{name,category,worth,folder,location,notes,tags,scanned,itemCreated});
+                  props.navigation.navigate("EditItemScreen", { name, category, worth, folder, location, notes, tags, scanned, itemCreated });
                 }}
               >
                 <Text style={styles.buttonText}>Add Info</Text>

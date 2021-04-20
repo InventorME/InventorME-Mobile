@@ -44,11 +44,11 @@ const EditItemScreen = (props) => {
   const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
   const [imageType, setImageType] = useState("image/jpg");
-  const db = new Database();
-  const photo = new Photo();
   const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
   const [scannedItem, setScannedItem] = useState(props.route.params.scanned);
   const [itemID, setItemID] = useState("");
+  const db = new Database();
+  const photo = new Photo();
 
   useEffect(() => {
     (async () => {
@@ -63,22 +63,18 @@ const EditItemScreen = (props) => {
   }, [email]);
 
   useEffect(() => {
-    console.log("useEffect is running");
     (async () => {
       if (photoURL != "") {
         try {
-          console.log("photoURL:", photoURL);
           const itemPhoto = await photo.get(photoURL);
-          // console.log("itemPhoto:",itemPhoto);
           setImage(itemPhoto);
           setImageState(true);
-          console.log("image found", imageState);
         } catch {
           console.log("photo not found");
         }
       }
     })();
-  }, [photoURL]);
+  }, [photoURL, imageState]);
 
   useEffect(() => {
     if (createItem) {
@@ -101,13 +97,13 @@ const EditItemScreen = (props) => {
         setCreateItem(true);
         setScannedItem(true);
       } else {
+        setName(props.route.params.name);
+        setCategory(props.route.params.category);
+        setWorth(props.route.params.worth);
+        setLocation(props.route.params.location);
+        setNotes(props.route.params.notes);
+        setTags(props.route.params.tags);
       }
-      setName(props.route.params.name);
-      setCategory(props.route.params.category);
-      setWorth(props.route.params.worth);
-      setLocation(props.route.params.location);
-      setNotes(props.route.params.notes);
-      setTags(props.route.params.tags);
     } else {
       console.log("Entered not create item");
       setName(props.route.params.details.item.itemName);
@@ -133,17 +129,12 @@ const EditItemScreen = (props) => {
       setFolder(props.route.params.details.item.itemFolder);
       setItemID(props.route.params.details.item.itemID);
       console.log(itemID);
-      //setCreateItem(false);
     }
   }, []);
 
   const quotes = (value) => {
-    if (!value || value === "null" || value.length < 1) {
-      return null;
-    }
-    if (!isNaN(value)) {
-      return value;
-    }
+    if (!value || value === "null" || value.length < 1) return null;
+    if (!isNaN(value)) return value;
     return "'" + value + "'";
   };
 
@@ -169,46 +160,29 @@ const EditItemScreen = (props) => {
     itemFolder: quotes(folder),
   };
 
-  useEffect(() => {
-    console.log("useEffect is running");
-    (async () => {
-      if (photoURL != "") {
-        try {
-          console.log("photoURL:", photoURL);
-          const itemPhoto = await photo.get(photoURL);
-          // console.log("itemPhoto:",itemPhoto);
-          setImage(itemPhoto);
-          setImageState(true);
-          console.log("image found", imageState);
-        } catch {
-          console.log("photo not found");
-        }
-      }
-    })();
-  }, [photoURL]);
-
   var PUTitemFORMAT = {
-    userEmail: `"${email}"`,
-    itemID: "9",
-    itemCategory: `"${category}"`,
-    itemName: `"${name}"`,
-    itemPhotoURL: `"${[photoURL]}"`,
-    itemSerialNum: `"${serialNum}"`,
-    itemPurchaseAmount: `"${purchaseAmt}"`,
-    itemWorth: `"${worth}"`,
-    itemReceiptPhotoURL: `"${receiptPhoto}"`,
-    itemManualURL: `"${itemManualURL}"`,
-    itemSellDate: `"${sellDate}"`,
-    itemBuyDate: `"${buyDate}"`,
-    itemLocation: `"${location}"`,
-    itemNotes: `"${notes}"`,
-    itemSellAmount: `"${sellAmt}"`,
-    itemRecurringPaymentAmount: `${recurrPayAmt}`,
-    itemEbayURL: `${ebayURL}`,
-    itemTags: `"${tags}"`,
-    itemArchived: `${archived}`,
-    itemFolder: "null",
+    itemID: quotes(itemID),
+    userEmail: quotes(email),
+    itemCategory: quotes(category),
+    itemName: quotes(name),
+    itemPhotoURL: quotes(photoURL),
+    itemSerialNum: quotes(serialNum),
+    itemPurchaseAmount: quotes(purchaseAmt),
+    itemWorth: quotes(worth),
+    itemReceiptPhotoURL: quotes(receiptPhoto),
+    itemManualURL: quotes(itemManualURL),
+    itemSellDate: quotes(sellDate),
+    itemBuyDate: quotes(buyDate),
+    itemLocation: quotes(location),
+    itemNotes: quotes(notes),
+    itemSellAmount: quotes(sellAmt),
+    itemRecurringPaymentAmount: quotes(recurrPayAmt),
+    itemEbayURL: quotes(ebayURL),
+    itemTags: quotes(tags),
+    itemArchived: quotes(archived),
+    itemFolder: quotes(folder),
   };
+
   const validateNonNullData = (name, category) => {
     console.log("8");
     let goodValid = true;
@@ -278,13 +252,10 @@ const EditItemScreen = (props) => {
 
   async function poster() {
     try {
-      const data = await Auth.currentUserInfo();
       if (imageTaken) {
         await uploadImage();
       }
       const item = await db.post(POSTitemFORMAT);
-      console.log("Posted to database");
-      console.log(POSTitemFORMAT);
     } catch (error) {
       console.log(error);
     }
@@ -292,12 +263,10 @@ const EditItemScreen = (props) => {
 
   async function putter() {
     try {
-      const data = await Auth.currentUserInfo();
       if (imageTaken) {
         await uploadImage();
       }
-      // const item = await db.post(PUTitemFORMAT);
-      // console.log(item);
+      const item = await db.put(PUTitemFORMAT);
     } catch (error) {
       console.log(error);
     }
@@ -336,12 +305,12 @@ const EditItemScreen = (props) => {
             {imageState ? (
               <View style={styles.uploadContainer}>
                 <TouchableOpacity
-                  style={styles.uploadButton}
+                  style={styles.imageContainer}
                   onPress={takePhoto}
                 >
                   <Avatar.Image
                     source={{ uri: `data:${imageType};base64,${image}` }}
-                    size={90}
+                    size={125}
                   />
                 </TouchableOpacity>
               </View>

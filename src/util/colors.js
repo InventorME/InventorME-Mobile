@@ -21,8 +21,8 @@ function colorGenerator() {
         "#072ac8",
         "#1e96fc",
         "#a2d6f9",
-        "#f5eb00",
-        "#ffc600",
+        "#ebe100",
+        "#eeb800",
         "#e66063",
         "#bd1f21"
       ],
@@ -51,8 +51,8 @@ function colorGenerator() {
         "#072ac8",
         "#1e96fc",
         "#a2d6f9",
-        "#f5eb00",
-        "#ffc600",
+        "#ebe100",
+        "#eeb800",
         "#e66063",
         "#bd1f21"
       ],

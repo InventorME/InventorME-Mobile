@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard,Alert} from "react-native";
 import { Avatar } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./addItem.style";
@@ -14,41 +14,89 @@ import * as ImagePicker from 'expo-image-picker';
 
 const addItemScreen = (props) => {
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [folder, setFolder] = useState("");
-  const [location, setLocation] = useState("");
-  const [photoUrl, setPhotoUrl] = useState('');
-  const [notes, setNotes] = useState("");
-  const [worth, setWorth] = useState("");
-  const [tags, setTags] = useState("");
   const [email, setEmail] = useState("");
+  const [category, setCategory] = useState("");
+  const [location, setLocation] = useState("");
+  const [notes, setNotes] = useState("");
+  const [tags, setTags] = useState("");
+  const [worth, setWorth] = useState("");
+  const [folder, setFolder] = useState("");
   const [image, setImage] = useState("");
   const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
   const [imageType, setImageType] = useState("image/jpg");
+  const [scannedItem, setScannedItem] = useState(false);
   const db = new Database();
   const photo = new Photo();
 
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await Auth.currentUserInfo();
+        setEmail(data.attributes.email);
+      }
+      catch {
+        console.log('could not find user :(', error);
+      }
+    })();
+  }, [email]);
+
+
+  const quotes = (value) =>{
+    if(!value || value === "null" || value.length < 1){
+      return null;
+    }
+    if(!isNaN(value)){
+      return value;
+    }
+    return "'" + value + "'";
+  };
+
+  const validateNonNullData= (name, category) =>{
+    let goodValid = true;
+    if(name === "null" || name === ''){
+      console.log(name);
+      Alert.alert("Error: Please Type and Item Name");
+      goodValid = false;
+      return goodValid;
+
+    }
+    if (category === "null" || category === ''){
+      console.log(category);
+      Alert.alert("Error: Please Type and Item Collection");
+      goodValid = false;
+      return goodValid;
+    }
+    if(goodValid){
+      console.log("I came inside this one name: " + name + " cat: " + category );
+      poster();
+      
+    }
+  }
+
+
+
   let POSTitemFORMAT = {
-    userEmail: `"${email}"`,
-    itemCategory: `"${category}"`,
-    itemName: `"${name}"`,
+    userEmail: quotes(email),
+    itemCategory: quotes(category),
+    itemName: quotes(name),
     itemPhotoURL: "null",
     itemSerialNum: "null",
     itemPurchaseAmount: "null",
-    itemWorth: "null",
-    itemReceiptPhotoUrl: "null",
+    itemWorth: quotes(worth),
+    itemReceiptPhotoURL: "null",
     itemManualURL: "null",
     itemSellDate: "null",
-    itemBuyDate: "null",
-    itemLocation: `"${location}"`,
-    itemNotes: `"${notes}"`,
+    itemBuyDate:"null",
+    itemLocation: quotes(location),
+    itemNotes: quotes(notes),
     itemSellAmount: "null",
     itemRecurringPaymentAmount: "null",
     itemEbayURL: "null",
-    itemTags: `"${tags}"`,
+    itemTags: quotes(tags),
     itemArchived: "0",
-    itemFolder: "null",
+    itemFolder: quotes(folder)
   };
 
   const clear = () => {
@@ -113,11 +161,10 @@ const addItemScreen = (props) => {
 
   async function poster() {
     try {
-      const data = await Auth.currentUserInfo();
+      console.log("POSTitemFORMAT", POSTitemFORMAT)
       if (imageTaken) {
         await uploadImage();
       }
-      setEmail(data.attributes.email);
       const item = await db.post(POSTitemFORMAT);
       clear();
     } catch (error) {

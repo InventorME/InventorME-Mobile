@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
-import styles from "./EditItem.style";
+import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,36 +7,128 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from "react-native-paper";
 import { Auth } from 'aws-amplify';
+import styles from "./EditItem.style";
 import { Database } from "../../util/Database";
 import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
+import { set } from "react-native-reanimated";
 
 const EditItemScreen = (props) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [category, setCategory] = useState('');
-  const [photoURL, setPhotoURL] = useState('');
-  const [location, setLocation] = useState('');
-  const [notes, setNotes] = useState('');
-  const [tags, setTags] = useState('');
-  const [serialNum, setSerialNum] = useState('');
-  const [purchaseAmt, setPurchaseAmt] = useState('');
-  const [worth, setWorth] = useState('');
-  const [receiptPhoto, setReceiptPhoto] = useState('');
-  const [itemManualURL, setItemManualURL] = useState('');
-  const [sellDate, setSellDate] = useState('');
-  const [buyDate, setBuyDate] = useState('');
-  const [sellAmt, setSellAmt] = useState('');
-  const [recurrPayAmt, setRecurrPayAmt] = useState('');
-  const [ebayURL, setEbayURL] = useState('');
-  const [archived, setArchived] = useState('');
-  const [folder, setFolder] = useState('');
+
+  let item;
+  
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [category, setCategory] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
+  const [location, setLocation] = useState("");
+  const [notes, setNotes] = useState("");
+  const [tags, setTags] = useState("");
+  const [serialNum, setSerialNum] = useState("");
+  const [purchaseAmt, setPurchaseAmt] = useState("");
+  const [worth, setWorth] = useState("");
+  const [receiptPhoto, setReceiptPhoto] = useState("");
+  const [itemManualURL, setItemManualURL] = useState("");
+  const [sellDate, setSellDate] = useState("");
+  const [buyDate, setBuyDate] = useState("");
+  const [sellAmt, setSellAmt] = useState("");
+  const [recurrPayAmt, setRecurrPayAmt] = useState("");
+  const [ebayURL, setEbayURL] = useState("");
+  const [archived, setArchived] = useState('0');
+  const [folder, setFolder] = useState("");
   const [image, setImage] = useState("");
   const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
   const [imageType, setImageType] = useState("image/jpg");
   const db = new Database();
   const photo = new Photo();
+  const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
+  const [scannedItem, setScannedItem] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        console.log("enter");
+        const data = await Auth.currentUserInfo();
+        setEmail(data.attributes.email);
+      }
+      catch {
+        console.log('could not find user :(', error);
+      }
+    })();
+  }, [email])
+
+  //console.log(props.route.params);
+  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+  
+  if(createItem){
+    
+    setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ''));
+    setCategory(JSON.stringify(props.route.params.category).replace(/['"]+/g, ''));
+    setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
+    setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
+    setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
+    setCreateItem(false);
+    setScannedItem(true);
+    
+  
+}
+//  else{
+//    console.log("4")
+//     setName(props.route.params.itemName);
+//     setEmail(props.route.params.userEmail);
+//     setCategory(props.route.params.itemCategory);
+//     setPhotoURL(props.route.params.itemPhotoURL);
+//     setLocation(props.route.params.itemLocation);
+//     setNotes(props.route.params.itemNotes);
+//     setTags(props.route.params.itemTags);
+//     setSerialNum(props.route.params.itemSerialNum);
+//     setPurchaseAmt(props.route.params.itemPurchaseAmount);
+//     setWorth(props.route.params.itemWorth);
+//     setReceiptPhoto(props.route.params.itemReceiptPhotoURL);
+//     setItemManualURL(props.route.params.itemManualURL);
+//     setSellDate(props.route.params.itemSellDate);
+//     setBuyDate(props.route.params.itemBuyDate);
+//     setSellAmt(props.route.params.itemSellDate);
+//     setRecurrPayAmt(props.route.params.itemRecurringPaymentAmount);
+//     setEbayURL(props.route.params.itemEbayURL);
+//     setArchived(props.route.params.itemArchived);
+//     setFolder(props.route.params.itemFolder);
+//   }
+
+  const quotes = (value) =>{
+    if(!value || value === "null" || value.length < 1){
+      
+      return null;
+    }
+    if(!isNaN(value)){
+      
+      return value;
+    }
+    return "'" + value + "'";
+  };
+
+  const POSTitemFORMAT = {
+    userEmail: quotes(email),
+    itemCategory: quotes(category),
+    itemName: quotes(name),
+    itemPhotoURL: quotes(photoURL),
+    itemSerialNum: quotes(serialNum),
+    itemPurchaseAmount: quotes(purchaseAmt),
+    itemWorth: quotes(worth),
+    itemReceiptPhotoURL: quotes(receiptPhoto),
+    itemManualURL: quotes(itemManualURL),
+    itemSellDate: quotes(sellDate),
+    itemBuyDate: quotes(buyDate),
+    itemLocation: quotes(location),
+    itemNotes: quotes(notes),
+    itemSellAmount: quotes(sellAmt),
+    itemRecurringPaymentAmount: quotes(recurrPayAmt),
+    itemEbayURL: quotes(ebayURL),
+    itemTags: quotes(tags),
+    itemArchived: quotes(archived),
+    itemFolder: quotes(folder)
+  }
 
   useEffect(() => {
     console.log("useEffect is running");
@@ -65,23 +156,47 @@ const EditItemScreen = (props) => {
     itemID: "9",
     itemCategory: `"${category}"`,
     itemName: `"${name}"`,
-    itemPhotoURL: "null",
-    itemSerialNum: "null",
-    itemPurchaseAmount: "null",
-    itemWorth: "null",
-    itemReceiptPhotoURL: "null",
-    itemManualURL: "null",
-    itemSellDate: "null",
-    itemBuyDate: "null",
+    itemPhotoURL: `"${[photoURL]}"`,
+    itemSerialNum: `"${serialNum}"`,
+    itemPurchaseAmount: `"${purchaseAmt}"`,
+    itemWorth: `"${worth}"`,
+    itemReceiptPhotoURL: `"${receiptPhoto}"`,
+    itemManualURL: `"${itemManualURL}"`,
+    itemSellDate: `"${sellDate}"`,
+    itemBuyDate: `"${buyDate}"`,
     itemLocation: `"${location}"`,
     itemNotes: `"${notes}"`,
-    itemSellAmount: "null",
-    itemRecurringPaymentAmount: "null",
-    itemEbayURL: "null",
+    itemSellAmount: `"${sellAmt}"`,
+    itemRecurringPaymentAmount: `${recurrPayAmt}`,
+    itemEbayURL: `${ebayURL}`,
     itemTags: `"${tags}"`,
-    itemArchived: '0',
+    itemArchived: `${archived}`,
     itemFolder: "null"
   }
+  const validateNonNullData= (name, category) =>{
+    console.log("8")
+    let goodValid = true;
+    if(name === null || name === ''){
+      console.log(name);
+      Alert.alert("Error: Please Type and Item Name");
+      goodValid = false;
+      return goodValid;
+
+    }
+    if (category === null || category === ''){
+      console.log(category);
+      Alert.alert("Error: Please Type and Item Collection");
+      goodValid = false;
+      return goodValid;
+    }
+    if(goodValid){
+      console.log("I came inside this one name: " + name + " cat: " + category );
+      scannedItem ? poster() : putter();
+      props.navigation.goBack()
+    }
+  }
+
+
 
 
   const takePhoto = async () => {
@@ -95,7 +210,7 @@ const EditItemScreen = (props) => {
 
     // only if user allows permission to camera AND camera roll
     if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
-      let pickerResult = await ImagePicker.launchCameraAsync({
+      const pickerResult = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
         base64: true,
@@ -134,7 +249,21 @@ const EditItemScreen = (props) => {
       if (imageTaken) {
         await uploadImage();
       }
-      setEmail(data.attributes.email);
+      const item = await db.post(POSTitemFORMAT);
+      console.log("Posted to database")
+      console.log(POSTitemFORMAT);
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  async function putter() {
+    try {
+      const data = await Auth.currentUserInfo();
+      if (imageTaken) {
+        await uploadImage();
+      }
       // const item = await db.post(PUTitemFORMAT);
       // console.log(item);
     } catch (error) {
@@ -147,7 +276,8 @@ const EditItemScreen = (props) => {
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
-        scrollEnabled={true}>
+        scrollEnabled
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
 

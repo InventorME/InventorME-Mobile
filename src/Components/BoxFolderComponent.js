@@ -11,9 +11,11 @@ const BoxFolderComponent = props => {
 
   if (type == 1) {
     return (
+      
       <TouchableOpacity 
         style={{...styles.Box1, ...props.style, height : boxHeight / 5}}
         onPress = {props.itemsNavigate}
+    
       >
         <View style={{padding: "2%"}}>
           <TouchableOpacity
@@ -22,6 +24,7 @@ const BoxFolderComponent = props => {
             <AntDesign name='pluscircle' size={30} color={colors.icon} style={{marginLeft: "80%"}} />
           </TouchableOpacity>
         </View>
+       
         <View style={styles.boxText1}>
           <Text style={styles.textStyle1}>{props.title}</Text>
         </View>
@@ -30,7 +33,8 @@ const BoxFolderComponent = props => {
             {props.numItems}
           </Text>
         </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        
     );
   }
 

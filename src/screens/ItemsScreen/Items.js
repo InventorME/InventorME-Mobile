@@ -5,6 +5,7 @@ import {colors} from "../../util/colors"
 const Items = (props) => {
 
   let itemsToRender = [];
+  const createItem = false;
 
   if (props.hasOwnProperty("itemsToRender")) {
     itemsToRender = props.itemsToRender;
@@ -17,10 +18,13 @@ const Items = (props) => {
       <FlatList
       style={{ backgroundColor: colors.background }}
         data = {itemsToRender}
+        
         renderItem = {({item}) => (
+          
               <BoxFolderComponent
+                
                 title = {item.itemName}
-                detailsNavigate = {() => {props.navigation.navigate("EditItemScreen", {details : {item}})}}
+                detailsNavigate = {() => {props.navigation.navigate("EditItemScreen", {details : {item}},createItem)}}
               />
         )}
         keyExtractor = {(item, index) => item.itemID.toString()}

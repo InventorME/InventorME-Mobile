@@ -60,41 +60,46 @@ const EditItemScreen = (props) => {
 
   //console.log(props.route.params);
   console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-  
-  if(createItem){
+
+  useEffect(() => {
+    if(createItem){
+      console.log("Entered create item")
+      setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ''));
+      setCategory(JSON.stringify(props.route.params.category).replace(/['"]+/g, ''));
+      setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
+      setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
+      setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
+      setCreateItem(false);
+      setScannedItem(true);
+      
     
-    setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ''));
-    setCategory(JSON.stringify(props.route.params.category).replace(/['"]+/g, ''));
-    setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
-    setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
-    setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
-    setCreateItem(false);
-    setScannedItem(true);
-    
+  }
+   else{
+      console.log("Entered not create item")
+      setName(props.route.params.details.item.itemName);
+      setEmail(props.route.params.details.item.userEmail);
+      setCategory(props.route.params.details.item.itemCategory);
+      setPhotoURL(props.route.params.details.item.itemPhotoURL);
+      setLocation(props.route.params.details.item.itemLocation);
+      setNotes(props.route.params.details.item.itemNotes);
+      setTags(props.route.params.details.item.itemTags);
+      setSerialNum(props.route.params.details.item.itemSerialNum);
+      setPurchaseAmt(props.route.params.details.item.itemPurchaseAmount);
+      setWorth(props.route.params.details.item.itemWorth);
+      setReceiptPhoto(props.route.params.details.item.itemReceiptPhotoURL);
+      setItemManualURL(props.route.params.details.item.itemManualURL);
+      setSellDate(props.route.params.details.item.itemSellDate);
+      setBuyDate(props.route.params.details.item.itemBuyDate);
+      setSellAmt(props.route.params.details.item.itemSellDate);
+      setRecurrPayAmt(props.route.params.details.item.itemRecurringPaymentAmount);
+      setEbayURL(props.route.params.details.item.itemEbayURL);
+      setArchived(props.route.params.details.item.itemArchived);
+      setFolder(props.route.params.details.item.itemFolder);
+      //setCreateItem(false);
+    }
+  },[])
   
-}
-//  else{
-//    console.log("4")
-//     setName(props.route.params.itemName);
-//     setEmail(props.route.params.userEmail);
-//     setCategory(props.route.params.itemCategory);
-//     setPhotoURL(props.route.params.itemPhotoURL);
-//     setLocation(props.route.params.itemLocation);
-//     setNotes(props.route.params.itemNotes);
-//     setTags(props.route.params.itemTags);
-//     setSerialNum(props.route.params.itemSerialNum);
-//     setPurchaseAmt(props.route.params.itemPurchaseAmount);
-//     setWorth(props.route.params.itemWorth);
-//     setReceiptPhoto(props.route.params.itemReceiptPhotoURL);
-//     setItemManualURL(props.route.params.itemManualURL);
-//     setSellDate(props.route.params.itemSellDate);
-//     setBuyDate(props.route.params.itemBuyDate);
-//     setSellAmt(props.route.params.itemSellDate);
-//     setRecurrPayAmt(props.route.params.itemRecurringPaymentAmount);
-//     setEbayURL(props.route.params.itemEbayURL);
-//     setArchived(props.route.params.itemArchived);
-//     setFolder(props.route.params.itemFolder);
-//   }
+  
 
   const quotes = (value) =>{
     if(!value || value === "null" || value.length < 1){
@@ -300,7 +305,7 @@ const EditItemScreen = (props) => {
             <TouchableOpacity
               style={styles.uploadButton}
               onPress={takePhoto}>
-              <Avatar.Image source={{uri: `data:${this.state.imageType};base64,${this.state.image}`}} size={90}/>
+              <Avatar.Image source={{uri: `data:${imageType};base64,${image}`}} size={90}/>
             </TouchableOpacity>
           </View>
           : <View style={styles.uploadContainer}>

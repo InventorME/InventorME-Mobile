@@ -77,6 +77,14 @@ export default StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center'
   },
+  imageContainer:{
+    position: 'absolute',
+    alignSelf: "flex-end",
+    marginRight: '25%',
+    marginTop: "12%",
+    justifyContent: 'center', 
+    alignItems: 'center'
+  },
   uploadButton: {
     borderRadius: 200,
     padding: 18,

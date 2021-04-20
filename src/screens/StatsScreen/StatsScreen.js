@@ -101,7 +101,7 @@ class StatsScreen extends Component {
       return (
         //{this.state.loading ?
 
-        <ScrollView>
+        <ScrollView style={styles.page}>
           <View style={styles.container}>
 
 

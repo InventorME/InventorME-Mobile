@@ -178,7 +178,7 @@ class EditProfilePage extends Component {
                   onPress={() => this.props.navigation.goBack()}>
                   <FontAwesome
                     name="arrow-left"
-                    color={colors.icon}
+                    color={colors.iconBackless}
                     size={45}/>
                 </TouchableOpacity>
               </View>
@@ -194,7 +194,7 @@ class EditProfilePage extends Component {
               <TouchableOpacity
                 style={styles.uploadButton}
                 onPress={this.pickImage}>
-                <MaterialCommunityIcons name="cloud-upload-outline" size={100} color={colors.label} />
+                <MaterialCommunityIcons name="cloud-upload-outline" size={100} color={colors.iconBackless} />
               </TouchableOpacity>
 
               <View style={styles.child}>

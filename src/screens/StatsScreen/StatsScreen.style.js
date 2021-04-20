@@ -2,6 +2,9 @@ import {StyleSheet} from 'react-native';
 import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
+    page:{
+        backgroundColor: colors.background
+    },
     container:{
         backgroundColor: colors.background,
         flex:1,

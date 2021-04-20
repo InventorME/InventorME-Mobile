@@ -143,7 +143,7 @@ const EditItemScreen = (props) => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.page}>
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
@@ -177,7 +177,7 @@ const EditItemScreen = (props) => {
             <TouchableOpacity
               style={styles.uploadButton}
               onPress={takePhoto}>
-              <Ionicons name="camera-outline" size={75} color={colors.label} />
+              <Ionicons name="camera-outline" size={75} color={colors.iconBackless} />
             </TouchableOpacity>
           </View>}
 

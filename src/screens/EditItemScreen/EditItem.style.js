@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
-
+  page:{
+    backgroundColor: colors.background
+  },
   child: {
     width: "80%",
     marginLeft: "10%",
@@ -79,7 +81,7 @@ export default StyleSheet.create({
     borderRadius: 200,
     padding: 18,
     borderWidth: 5,
-    borderColor: colors.icon
+    borderColor: colors.iconBackless
   },
   buttonText: {
     fontSize: 18,

@@ -87,9 +87,9 @@ const addItemScreen = (props) => {
         setImageTaken(true);
       }
 
-    } else{
+    } else {
       const title = "No Photo Access";
-      const msg =  "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
+      const msg = "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
       alert(title, msg, [{ text: "OK" }], { cancelable: false });
     }
   }
@@ -127,140 +127,140 @@ const addItemScreen = (props) => {
   }
 
   return (
-    <ScrollView>
-      <KeyboardAwareScrollView 
-       resetScrollToCoords={{ x: 0, y: 0 }}
-      scrollEnabled={true}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
-      <View style={styles.container}>
+    <ScrollView style={styles.page}>
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled={true}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
 
-        <TouchableOpacity
-          style={styles.buttonCancel}
-          onPress={() => { clear(); props.navigation.navigate("Collections"); }}
-        >
-          <Text style={styles.buttonText}>Cancel</Text>
-        </TouchableOpacity>
-
-        <View style={styles.child1}>
-          <Text style={styles.label}>Name:</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder='Name'
-            onChangeText={(text) => { setName(text) }}
-            value={name}
-          />
-        </View>
-        {imageState ? ""
-          : <View style={styles.uploadContainer}>
             <TouchableOpacity
-              style={styles.uploadButton}
-              onPress={takePhoto}
+              style={styles.buttonCancel}
+              onPress={() => { clear(); props.navigation.navigate("Collections"); }}
             >
-              <Ionicons name="camera-outline" size={75} color={colors.label} />
+              <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
-          </View>}
+
+            <View style={styles.child1}>
+              <Text style={styles.label}>Name:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Name'
+                onChangeText={(text) => { setName(text) }}
+                value={name}
+              />
+            </View>
+            {imageState ? ""
+              : <View style={styles.uploadContainer}>
+                <TouchableOpacity
+                  style={styles.uploadButton}
+                  onPress={takePhoto}
+                >
+                  <Ionicons name="camera-outline" size={75} color={colors.iconBackless} />
+                </TouchableOpacity>
+              </View>}
 
 
-        <View style={styles.child}>
-          <Text style={styles.label}>Collection:</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder='Collection'
-            onChangeText={(text) => { setCategory(text) }}
-            value={category}
-          />
-        </View>
+            <View style={styles.child}>
+              <Text style={styles.label}>Collection:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Collection'
+                onChangeText={(text) => { setCategory(text) }}
+                value={category}
+              />
+            </View>
 
-        <View style={styles.child}>
-          <Text style={styles.label}>Worth:</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder='Worth'
-            onChangeText={(text) => { setWorth(text) }}
-            value={worth}
-          />
-        </View>
+            <View style={styles.child}>
+              <Text style={styles.label}>Worth:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Worth'
+                onChangeText={(text) => { setWorth(text) }}
+                value={worth}
+              />
+            </View>
 
-        <View style={styles.child}>
-          <Text style={styles.label}>Folder:</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder='Folder'
-            onChangeText={(text) => { setFolder(text) }}
-            value={folder}
-          />
-        </View>
-
-
-        <View style={styles.child}>
-          <Text style={styles.label}>Location:</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder='Location'
-            onChangeText={(text) => { setLocation(text) }}
-            value={location}
-          />
-        </View>
+            <View style={styles.child}>
+              <Text style={styles.label}>Folder:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Folder'
+                onChangeText={(text) => { setFolder(text) }}
+                value={folder}
+              />
+            </View>
 
 
-        <View style={styles.child}>
-          <Text style={styles.label}>Notes:</Text>
-          <TextInput
-            style={styles.notesInput}
-            placeholder='Notes'
-            maxLength={200}
-            multiline={true}
-            onChangeText={(text) => { setNotes(text) }}
-            value={notes}
-          />
-        </View>
-
-        <View style={styles.child}>
-          <Text style={styles.label}>Tags:</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder='Tags'
-            onChangeText={(text) => { setTags(text) }}
-            value={tags}
-          />
-        </View>
+            <View style={styles.child}>
+              <Text style={styles.label}>Location:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Location'
+                onChangeText={(text) => { setLocation(text) }}
+                value={location}
+              />
+            </View>
 
 
+            <View style={styles.child}>
+              <Text style={styles.label}>Notes:</Text>
+              <TextInput
+                style={styles.notesInput}
+                placeholder='Notes'
+                maxLength={200}
+                multiline={true}
+                onChangeText={(text) => { setNotes(text) }}
+                value={notes}
+              />
+            </View>
 
-        <View style={styles.buttonContainer}>
+            <View style={styles.child}>
+              <Text style={styles.label}>Tags:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder='Tags'
+                onChangeText={(text) => { setTags(text) }}
+                value={tags}
+              />
+            </View>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              poster();
-              props.navigation.navigate("Collections");
-            }}
-          >
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              props.navigation.navigate("EditItemScreen");
-            }}
-          >
-            <Text style={styles.buttonText}>Add Info</Text>
-          </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              poster();
-            }}
-          >
-            <Text style={styles.buttonText}>New Item</Text>
-          </TouchableOpacity>
-        </View>
+            <View style={styles.buttonContainer}>
 
-      </View>
-      </TouchableWithoutFeedback>
-       </KeyboardAwareScrollView>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  poster();
+                  props.navigation.navigate("Collections");
+                }}
+              >
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  props.navigation.navigate("EditItemScreen");
+                }}
+              >
+                <Text style={styles.buttonText}>Add Info</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  poster();
+                }}
+              >
+                <Text style={styles.buttonText}>New Item</Text>
+              </TouchableOpacity>
+            </View>
+
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
     </ScrollView >
   );
 };

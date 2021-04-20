@@ -127,13 +127,13 @@ const MainPageNav = () => {
         initialRouteName="mainNav"
         backBehavior="none"
         tabBarOptions={{
-          activeTintColor: colors.buttonText,
-          inactiveTintColor: colors.icon,
-          activeBackgroundColor: colors.icon,
-          inactiveBackgroundColor: colors.background,
+          activeTintColor: colors.dock,
+          inactiveTintColor: colors.title,
+          activeBackgroundColor: colors.title,
+          inactiveBackgroundColor: colors.dock,
           style: {
-            borderTopColor: colors.background,
-            backgroundColor: colors.background,
+            borderTopColor: colors.navigator,
+            backgroundColor: colors.navigator,
 
           },
           showLabel: false

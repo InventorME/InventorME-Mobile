@@ -41,7 +41,7 @@ const Folder = ({navigation}) => {
 
     return (
         <FlatList
-            style={styles.constainer}
+            style={styles.container}
             data={renderList}
             renderItem={({ item }) => (
                 <List.Accordion

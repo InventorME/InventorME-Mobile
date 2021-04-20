@@ -32,10 +32,10 @@ const UpperTab = (props) => {
         } 
       } 
     }
-    console.log(data);
+    // console.log(data);
   }
   const searching=(text)=>{
-    console.log(text);
+    // console.log(text);
     setSearch(text);
   }
   const submitData=()=>{
@@ -44,7 +44,7 @@ const UpperTab = (props) => {
     setSearch("");
     const finalSearch=searchedList;
     searchedList=[];
-    console.log(finalSearch);
+    // console.log(finalSearch);
     setLoading(false);
     props.itemsNavigate(finalSearch);
   }
@@ -93,14 +93,17 @@ const styles = StyleSheet.create({
     Searchbar : {
       flexDirection:'row',
       justifyContent:'flex-end',
-      alignItems:'flex-end',
+      alignItems:'flex-end'
     },
     search : {
       flexDirection:'row',
       justifyContent:'flex-end',
       alignItems:'flex-end',
-      maxWidth:'90%',
-      margin:'2%',
+      maxWidth:'98%',
+      marginTop:'3%',
+      marginRight: 0,
+      marginLeft: 0,
+      borderRadius: 12
       },
     container : {
         // flex:.1,
@@ -111,7 +114,7 @@ const styles = StyleSheet.create({
         alignItems:'flex-end',
     },
     textStyle:{
-        color: colors.text,
+        color: colors.title,
         fontSize:20,
         fontWeight:"bold",
         height:30,

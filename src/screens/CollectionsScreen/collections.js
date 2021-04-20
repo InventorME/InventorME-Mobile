@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { View, Text, FlatList } from "react-native";
 import styles from "./collections.style";
 import BoxFolderComponent from "../../Components/BoxFolderComponent";
+import Loading from "../../Components/Loading";
 import { renderContext } from "../MainPage/mainPage";
 import { colors } from '../../util/colors';
 
@@ -43,9 +44,7 @@ const collections = (props) => {
   
   if (data == null) {
     return (
-      <View>
-        <Text>Loading</Text>
-      </View>
+      <Loading/>
     );
   }
   

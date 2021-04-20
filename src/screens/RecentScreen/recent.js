@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { renderContext } from "../MainPage/mainPage";
 import Items from "../ItemsScreen/Items";
 
-const recent = () => {
+const recent = ({navigation}) => {
 
   const data = useContext(renderContext);
   let dates = [];
@@ -24,7 +24,7 @@ const recent = () => {
   }
 
   return (
-    <Items itemsToRender = {recentItems}/>
+    <Items itemsToRender = {recentItems} navigation = {navigation}/>
   );
 }
 

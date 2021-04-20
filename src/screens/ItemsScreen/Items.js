@@ -20,9 +20,10 @@ const Items = (props) => {
         renderItem = {({item}) => (
               <BoxFolderComponent
                 title = {item.itemName}
+                detailsNavigate = {() => {props.navigation.navigate("EditItemScreen", {details : {item}})}}
               />
         )}
-        keyExtractor = {(item, index) => item.itemName}
+        keyExtractor = {(item, index) => item.itemID.toString()}
       />
     );
 }

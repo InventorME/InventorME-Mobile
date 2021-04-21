@@ -124,7 +124,7 @@ const addItemScreen = (props) => {
         allowsEditing: true,
         aspect: [4, 3],
         base64: true,
-        quality: 0.2,
+        quality: 0.1,
       });
       if (!pickerResult.cancelled) {
         setImage(pickerResult.base64);

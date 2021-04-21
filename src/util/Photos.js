@@ -47,6 +47,7 @@ export class Photo {
             await this.post(fileName, clean, type);
         } catch (error) {
             console.log("upload error",error);
+            return Promise.reject(error);
         }
     }
     async generateProfilePicName(type){

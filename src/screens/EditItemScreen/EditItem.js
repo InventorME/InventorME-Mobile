@@ -67,7 +67,7 @@ const EditItemScreen = (props) => {
         }
       }
     })();
-  }, [photoURL, imageState, image]);
+  }, [photoURL, imageState, image, imageTaken]);
 
   useEffect(() => {
     (async () => {
@@ -129,7 +129,6 @@ const EditItemScreen = (props) => {
       setEbayURL(props.route.params.details.item.itemEbayURL);
       setArchived(props.route.params.details.item.itemArchived);
       setFolder(props.route.params.details.item.itemFolder);
-      console.log("incoming item:", props.route.params.details.item);
       if(props.route.params.details.item.itemSerialNum !== null && props.route.params.details.item.itemSerialNum !== 'null')
         setSerialNum(`${props.route.params.details.item.itemSerialNum}`);
     }
@@ -246,7 +245,7 @@ const EditItemScreen = (props) => {
         allowsEditing: true,
         aspect: [4, 3],
         base64: true,
-        quality: 0.2,
+        quality: 0.1,
       });
       if (!pickerResult.cancelled) {
         setImage(pickerResult.base64);

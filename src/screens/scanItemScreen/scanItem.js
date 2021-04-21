@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Alert, ActivityIndicator} from 'react-native';
+import { Text, View, StyleSheet, Alert, ActivityIndicator} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import styles from "./scanItem.style";
 import { colors } from '../../util/colors';
-import { TabRouter } from 'react-navigation';
-import { set } from 'react-native-reanimated';
+
 
 const axios = require('axios');
 
@@ -54,6 +53,7 @@ const ScanItem = (props) => {
                   const description=info.product.description.replace(/['"]+/g, '');
                   const title=info.product.title.replace(/['"]+/g, '');
                   const category= info.product.categories[0].name.replace(/['"]+/g, '');
+                  const link= info.product.categories[1].link.replace(/['"]+/g, '');
                   const price= info.product.buybox_winner.price.value;
                   const serialNumber = info.request_parameters.gtin;
                   const itemCreated=true;
@@ -63,7 +63,7 @@ const ScanItem = (props) => {
                   console.log(category);
                   console.log(price);
                   // send image
-                  props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated,serialNumber,scanned});
+                  props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated,serialNumber,scanned,link});
                 },
               },
             ],

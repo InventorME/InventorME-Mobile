@@ -91,19 +91,24 @@ const EditItemScreen = (props) => {
         setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
         setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
         setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
+        setWorth(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
+        setEbayURL(JSON.stringify(props.route.params.link).replace(/['"]+/g, ''));
         setCreateItem(true);
         setScannedItem(true);
       }
       else {
-      }
+      console.log(props.route.params);
       setName(props.route.params.name);
       setCategory(props.route.params.category);
       setWorth(props.route.params.worth);
       setLocation(props.route.params.location);
       setNotes(props.route.params.notes);
       setTags(props.route.params.tags);
+      setFolder(props.route.params.folder);
+      }
     }
     else {
+      
       setName(props.route.params.details.item.itemName);
       setID(props.route.params.details.item.itemID);
       setEmail(props.route.params.details.item.userEmail);
@@ -126,7 +131,7 @@ const EditItemScreen = (props) => {
       setFolder(props.route.params.details.item.itemFolder);
       console.log("incoming item:", props.route.params.details.item);
       if(props.route.params.details.item.itemSerialNum !== null && props.route.params.details.item.itemSerialNum !== 'null')
-        setSerialNum(''+props.route.params.details.item.itemSerialNum);
+        setSerialNum(`${props.route.params.details.item.itemSerialNum}`);
     }
     
   }, []);
@@ -138,22 +143,22 @@ const EditItemScreen = (props) => {
       return null;
     if (!isNaN(value))
       return value;
-    return "'" + value + "'";
+    return `'${  value  }'`;
   };
 
   const date = (date) =>{
-    date = ('' + date).replace(/\D/g, '');
+    date = (`${  date}`).replace(/\D/g, '');
     if(!date || date === "null" || date === '' || date.length < 8)
       return null;
-    date = date.substr(4,4) + '-' + date.substr(0,2) + '-' + date.substr(2,2);
-    date = "'" + date + "'";
+    date = `${date.substr(4,4)  }-${  date.substr(0,2)  }-${  date.substr(2,2)}`;
+    date = `'${  date  }'`;
     return date;
   }
 
   const incomingDate = (date) =>{
     if(!date || date === "null" || date.length < 1)
       return null;
-    date = ('' + date).replace(/\D/g, '');
+    date = (`${  date}`).replace(/\D/g, '');
     date = date.substr(4,2) + date.substr(6,2) + date.substr(0,4);
     return date;
   }
@@ -206,20 +211,20 @@ const EditItemScreen = (props) => {
   const createAlert = (title, msg) => Alert.alert(title,msg,[{ text: "OK" }],{ cancelable: false });
 
   const dateFormatter = (text) => {
-    text = ('' + text).replace(/\D/g, '');
+    text = (`${  text}`).replace(/\D/g, '');
     if (text.length > 4)
-      return text.substr(0, 2) + "/" + text.substr(2, 2) + "/" + text.substr(4, 4);
+      return `${text.substr(0, 2)  }/${  text.substr(2, 2)  }/${  text.substr(4, 4)}`;
     if (text.length > 2)
-      return text.substr(0, 2) + "/" + text.substr(2, 2);
+      return `${text.substr(0, 2)  }/${  text.substr(2, 2)}`;
     if (text.length < 3)
       return text.substr(0, 2);
     return text;
   }
 
   const currencyFormatter = (text) => {
-    text = ('' + text).replaceAll(/[^\d.-]/g, "");
+    text = (`${  text}`).replaceAll(/[^\d.-]/g, "");
     if (text.length > 0)
-      return ('$' + text);
+      return (`$${  text}`);
   }
 
   const toggleArchived = () => {
@@ -308,14 +313,16 @@ const EditItemScreen = (props) => {
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
-        scrollEnabled>
+        scrollEnabled
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <TouchableOpacity
               style={styles.buttonCancel}
               onPress={() => {
                 props.navigation.goBack();
-              }}>
+              }}
+            >
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
 
@@ -331,19 +338,25 @@ const EditItemScreen = (props) => {
                 value={name}
               />
             </View>
-            {imageState ? <View style={styles.uploadContainer}>
-              <TouchableOpacity
-                onPress={() => takePhoto()}>
-                <Avatar.Image source={{ uri: `data:${imageType};base64,${image}` }} size={125} />
-              </TouchableOpacity>
-            </View>
-              : <View style={styles.uploadContainer}>
+            {imageState ? (
+              <View style={styles.uploadContainer}>
                 <TouchableOpacity
-                  style={styles.uploadButton}
-                  onPress={() => takePhoto()}>
-                  <Ionicons name="camera-outline" size={75} color={colors.iconBackless} />
+                  onPress={() => takePhoto()}
+                >
+                  <Avatar.Image source={{ uri: `data:${imageType};base64,${image}` }} size={125} />
                 </TouchableOpacity>
-              </View>}
+              </View>
+)
+              : (
+                <View style={styles.uploadContainer}>
+                  <TouchableOpacity
+                    style={styles.uploadButton}
+                    onPress={() => takePhoto()}
+                  >
+                    <Ionicons name="camera-outline" size={75} color={colors.iconBackless} />
+                  </TouchableOpacity>
+                </View>
+)}
 
             <View style={styles.child}>
               <Text style={styles.label}>Collection:</Text>
@@ -393,7 +406,7 @@ const EditItemScreen = (props) => {
                 placeholder="Purchase Amount"
                 maxLength={12}
                 onChangeText={(text) => {
-                  text = ('' + text).replaceAll(/[^\d.-]/g, "");
+                  text = (`${  text}`).replaceAll(/[^\d.-]/g, "");
                   setPurchaseAmt(text);
                 }}
                 value={currencyFormatter(purchaseAmt)}
@@ -408,7 +421,7 @@ const EditItemScreen = (props) => {
                 placeholder="Worth"
                 maxLength={12}
                 onChangeText={(text) => {
-                  text = ('' + text).replaceAll(/[^\d.-]/g, "");
+                  text = (`${  text}`).replaceAll(/[^\d.-]/g, "");
                   setWorth(text);
                 }}
                 value={currencyFormatter(worth)}
@@ -449,7 +462,7 @@ const EditItemScreen = (props) => {
                 placeholder="MM/DD/YYYY"
                 maxLength={10}
                 onChangeText={(text) => {
-                  text = ('' + text).replace(/\D/g, '');
+                  text = (`${  text}`).replace(/\D/g, '');
                   setSellDate(text);
                 }}
                 value={dateFormatter(sellDate)}
@@ -464,7 +477,7 @@ const EditItemScreen = (props) => {
                 placeholder="MM/DD/YYYY"
                 maxLength={10}
                 onChangeText={(text) => {
-                  text = ('' + text).replace(/\D/g, '');
+                  text = (`${  text}`).replace(/\D/g, '');
                   setBuyDate(text);
                 }}
                 value={dateFormatter(buyDate)}
@@ -479,7 +492,7 @@ const EditItemScreen = (props) => {
                 placeholder="Sell Amount"
                 maxLength={12}
                 onChangeText={(text) => {
-                  text = ('' + text).replaceAll(/[^\d.-]/g, "");
+                  text = (`${  text}`).replaceAll(/[^\d.-]/g, "");
                   setSellAmt(text);
                 }}
                 value={currencyFormatter(sellAmt)}
@@ -494,7 +507,7 @@ const EditItemScreen = (props) => {
                 placeholder="Recurring Payment"
                 maxLength={12}
                 onChangeText={(text) => {
-                  text = ('' + text).replaceAll(/[^\d.-]/g, "");
+                  text = (`${  text}`).replaceAll(/[^\d.-]/g, "");
                   setRecurrPayAmt(text);
                 }}
                 value={currencyFormatter(recurrPayAmt)}
@@ -570,7 +583,8 @@ const EditItemScreen = (props) => {
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => { validateNonNullData(name, category); }}>
+                onPress={() => { validateNonNullData(name, category); }}
+              >
                 <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>
             </View>

@@ -41,7 +41,7 @@ const BoxFolderComponent = props => {
   else {
     return (
       <TouchableOpacity
-        style = {{...styles.Box2, ...props.style, height : boxHeight / 5}}
+        style = {{...styles.Box2, ...props.style, height : boxHeight / 7}}
         onPress = {props.detailsNavigate}
       >
         <View style = {styles.boxText2}>

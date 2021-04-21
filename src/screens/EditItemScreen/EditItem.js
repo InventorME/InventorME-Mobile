@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import DatePicker from 'react-native-datepicker';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox } from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { Avatar } from "react-native-paper";
@@ -15,9 +21,8 @@ import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
 import { set } from "react-native-reanimated";
 
-var newImageURL = '';
+var newImageURL = "";
 const EditItemScreen = (props) => {
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [category, setCategory] = useState("");
@@ -69,31 +74,36 @@ const EditItemScreen = (props) => {
           console.log("photo not found");
         }
       }
-
     })();
   }, [photoURL, imageState, image]);
 
   useEffect(() => {
     if (createItem) {
       if (scannedItem) {
-        setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ''));
-        setCategory(JSON.stringify(props.route.params.category).replace(/['"]+/g, ''));
-        setPurchaseAmt(JSON.stringify(props.route.params.price).replace(/['"]+/g, ''));
-        setNotes(JSON.stringify(props.route.params.description).replace(/['"]+/g, ''));
-        setSerialNum(JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, ''));
+        setName(JSON.stringify(props.route.params.title).replace(/['"]+/g, ""));
+        setCategory(
+          JSON.stringify(props.route.params.category).replace(/['"]+/g, "")
+        );
+        setPurchaseAmt(
+          JSON.stringify(props.route.params.price).replace(/['"]+/g, "")
+        );
+        setNotes(
+          JSON.stringify(props.route.params.description).replace(/['"]+/g, "")
+        );
+        setSerialNum(
+          JSON.stringify(props.route.params.serialNumber).replace(/['"]+/g, "")
+        );
         setCreateItem(true);
         setScannedItem(true);
+      } else {
+        setName(props.route.params.name);
+        setCategory(props.route.params.category);
+        setWorth(props.route.params.worth);
+        setLocation(props.route.params.location);
+        setNotes(props.route.params.notes);
+        setTags(props.route.params.tags);
       }
-      else {
-      }
-      setName(props.route.params.name);
-      setCategory(props.route.params.category);
-      setWorth(props.route.params.worth);
-      setLocation(props.route.params.location);
-      setNotes(props.route.params.notes);
-      setTags(props.route.params.tags);
-    }
-    else {
+    } else {
       setName(props.route.params.details.item.itemName);
       setEmail(props.route.params.details.item.userEmail);
       setCategory(props.route.params.details.item.itemCategory);
@@ -109,19 +119,22 @@ const EditItemScreen = (props) => {
       setSellDate(props.route.params.details.item.itemSellDate);
       setBuyDate(props.route.params.details.item.itemBuyDate);
       setSellAmt(props.route.params.details.item.itemSellDate);
-      setRecurrPayAmt(props.route.params.details.item.itemRecurringPaymentAmount);
+      setRecurrPayAmt(
+        props.route.params.details.item.itemRecurringPaymentAmount
+      );
       setEbayURL(props.route.params.details.item.itemEbayURL);
-      console.log("passed archived:", props.route.params.details.item.itemArchived);
+      console.log(
+        "passed archived:",
+        props.route.params.details.item.itemArchived
+      );
       setArchived(props.route.params.details.item.itemArchived);
       setFolder(props.route.params.details.item.itemFolder);
     }
   }, []);
 
   const quotes = (value) => {
-    if (!value || value === "null" || value.length < 1)
-      return null;
-    if (!isNaN(value))
-      return value;
+    if (!value || value === "null" || value.length < 1) return null;
+    if (!isNaN(value)) return value;
     return "'" + value + "'";
   };
 
@@ -167,7 +180,7 @@ const EditItemScreen = (props) => {
     itemEbayURL: quotes(ebayURL),
     itemTags: quotes(tags),
     itemArchived: quotes(archived),
-    itemFolder: quotes(folder)
+    itemFolder: quotes(folder),
   };
 
   const validateNonNullData = (name, category) => {
@@ -216,7 +229,8 @@ const EditItemScreen = (props) => {
       }
     } else {
       const title = "No Photo Access";
-      const msg = "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
+      const msg =
+        "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
       alert(title, msg, [{ text: "OK" }], { cancelable: false });
     }
   };
@@ -259,29 +273,36 @@ const EditItemScreen = (props) => {
   }
 
   const dateFormatter = (text) => {
-    var text = ('' + text).replace(/\D/g, '');
+    var text = ("" + text).replace(/\D/g, "");
     if (text.length > 4)
-      return text.substr(0, 2) + "/" + text.substr(2, 2) + "/" + text.substr(4, 4);
-    if (text.length > 2)
-      return text.substr(0, 2) + "/" + text.substr(2, 2);
-    if (text.length < 3)
-      return text.substr(0, 2);
+      return (
+        text.substr(0, 2) + "/" + text.substr(2, 2) + "/" + text.substr(4, 4)
+      );
+    if (text.length > 2) return text.substr(0, 2) + "/" + text.substr(2, 2);
+    if (text.length < 3) return text.substr(0, 2);
     return text;
-  }
+  };
+
+  const moneyFormatter = (text) => {
+    var text = ("" + text).replace(/\D/g, ".");
+    return "$" + text.substr(0, 12);
+  };
 
   return (
     <ScrollView style={styles.page}>
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles.Page}
-        scrollEnabled>
+        scrollEnabled
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <TouchableOpacity
               style={styles.buttonCancel}
               onPress={() => {
                 props.navigation.goBack();
-              }}>
+              }}
+            >
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
 
@@ -297,19 +318,29 @@ const EditItemScreen = (props) => {
                 value={name}
               />
             </View>
-            {imageState ? <View style={styles.uploadContainer}>
-              <TouchableOpacity
-                onPress={() => takePhoto()}>
-                <Avatar.Image source={{ uri: `data:${imageType};base64,${image}` }} size={125} />
-              </TouchableOpacity>
-            </View>
-              : <View style={styles.uploadContainer}>
+            {imageState ? (
+              <View style={styles.uploadContainer}>
+                <TouchableOpacity onPress={() => takePhoto()}>
+                  <Avatar.Image
+                    source={{ uri: `data:${imageType};base64,${image}` }}
+                    size={125}
+                  />
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={styles.uploadContainer}>
                 <TouchableOpacity
                   style={styles.uploadButton}
-                  onPress={() => takePhoto()}>
-                  <Ionicons name="camera-outline" size={75} color={colors.iconBackless} />
+                  onPress={() => takePhoto()}
+                >
+                  <Ionicons
+                    name="camera-outline"
+                    size={75}
+                    color={colors.iconBackless}
+                  />
                 </TouchableOpacity>
-              </View>}
+              </View>
+            )}
 
             <View style={styles.child}>
               <Text style={styles.label}>Collection:</Text>
@@ -346,9 +377,10 @@ const EditItemScreen = (props) => {
                 placeholder="Purchase Amount"
                 maxLength={12}
                 onChangeText={(text) => {
-                  setPurchaseAmt(text);
+                  var temp = ("" + text).replace(/\D/g, "");
+                  setPurchaseAmt(temp);
                 }}
-                value={purchaseAmt}
+                value={moneyFormatter(purchaseAmt)}
               />
             </View>
 
@@ -360,9 +392,10 @@ const EditItemScreen = (props) => {
                 placeholder="Worth"
                 maxLength={12}
                 onChangeText={(text) => {
-                  setWorth(text);
+                  var temp = ("" + text).replace(/\D/g, "");
+                  setWorth(temp);
                 }}
-                value={worth}
+                value={moneyFormatter(worth)}
               />
             </View>
 
@@ -399,7 +432,7 @@ const EditItemScreen = (props) => {
                 placeholder="MM/DD/YYYY"
                 maxLength={10}
                 onChangeText={(text) => {
-                  var temp = ('' + text).replace(/\D/g, '');
+                  var temp = ("" + text).replace(/\D/g, "");
                   setSellDate(temp);
                 }}
                 value={dateFormatter(sellDate)}
@@ -413,7 +446,7 @@ const EditItemScreen = (props) => {
                 placeholder="MM/DD/YYYY"
                 maxLength={10}
                 onChangeText={(text) => {
-                  var temp = ('' + text).replace(/\D/g, '');
+                  var temp = ("" + text).replace(/\D/g, "");
                   setBuyDate(temp);
                 }}
                 value={dateFormatter(buyDate)}
@@ -428,9 +461,10 @@ const EditItemScreen = (props) => {
                 placeholder="Sell Amount"
                 maxLength={12}
                 onChangeText={(text) => {
-                  setSellAmt(text);
+                  var temp = ("" + text).replace(/\D/g, "");
+                  setSellAmt(temp);
                 }}
-                value={sellAmt}
+                value={moneyFormatter(sellAmt)}
               />
             </View>
 
@@ -442,9 +476,10 @@ const EditItemScreen = (props) => {
                 placeholder="Recurring Payment"
                 maxLength={12}
                 onChangeText={(text) => {
-                  setRecurrPayAmt(text);
+                  var temp = ("" + text).replace(/\D/g, "");
+                  setRecurrPayAmt(temp);
                 }}
-                value={recurrPayAmt}
+                value={moneyFormatter(recurrPayAmt)}
               />
             </View>
 
@@ -517,12 +552,26 @@ const EditItemScreen = (props) => {
             <View style={styles.child}>
               <Text style={styles.label}>Archived:</Text>
               <CheckBox
-               center
+                center
                 checkedColor={colors.delete}
-                checkedIcon={<MaterialIcons name="check-box" size={45} color={colors.delete} />}
-                uncheckedIcon={<MaterialIcons name="check-box-outline-blank" size={45} color={colors.label} />}
+                checkedIcon={
+                  <MaterialIcons
+                    name="check-box"
+                    size={45}
+                    color={colors.delete}
+                  />
+                }
+                uncheckedIcon={
+                  <MaterialIcons
+                    name="check-box-outline-blank"
+                    size={45}
+                    color={colors.label}
+                  />
+                }
                 containerStyle={{ marginBottom: 0, padding: 0 }}
-                onPress={()=> {archived ? setArchived(0) : setArchived(1);}}
+                onPress={() => {
+                  archived ? setArchived(0) : setArchived(1);
+                }}
                 checked={archived}
               />
             </View>
@@ -530,7 +579,10 @@ const EditItemScreen = (props) => {
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => { validateNonNullData(name, category); }}>
+                onPress={() => {
+                  validateNonNullData(name, category);
+                }}
+              >
                 <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>
             </View>
@@ -538,7 +590,7 @@ const EditItemScreen = (props) => {
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
     </ScrollView>
-  )
+  );
 };
 
 export default EditItemScreen;

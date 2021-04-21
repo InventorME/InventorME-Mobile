@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, Alert } fro
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import DatePicker from 'react-native-datepicker';
 import { CheckBox } from 'react-native-elements';
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -34,7 +35,7 @@ const EditItemScreen = (props) => {
   const [recurrPayAmt, setRecurrPayAmt] = useState("");
   const [ebayURL, setEbayURL] = useState("");
   const [archived, setArchived] = useState(0);
-  const [archivedChecked, setArchivedChecked]= useState(false);
+  const [archivedChecked, setArchivedChecked] = useState(false);
   const [folder, setFolder] = useState("");
   const [image, setImage] = useState("");
   const [imageTaken, setImageTaken] = useState(false);
@@ -256,12 +257,32 @@ const EditItemScreen = (props) => {
       console.log(error);
     }
   }
-  const toggleArchive = () =>{
-    if(archived){
+  const toggleArchive = () => {
+    if (archived) {
       setArchived(0);
-    }else{
+    } else {
       setArchived(1);
     }
+  }
+  // const dateFormatter = (text) =>{
+  //   text = text.replace("/", "");
+  //   setBuyDate(text);
+    
+  // }
+  const dateFormatter = (text) =>{
+    console.log(buyDate);
+    text = text.replace("/", "");
+    // text = text.replace(" ", "");
+    var text = ('' + text).replace(/\D/g, '');
+    // setBuyDate(text);
+    
+    if(text.length < 3)
+      text = text.substr(0,2) + "/";
+    else if(text.length < 5)
+      text = text.substr(0,2) + "/" + text.substr(2,2)  + "/";
+    else if(text.length >= 5)
+      text = text.substr(0,2) + "/" + text.substr(2,2)  + "/" + text.substr(4,4);
+    return text;
   }
 
   return (
@@ -389,25 +410,20 @@ const EditItemScreen = (props) => {
 
             <View style={styles.child}>
               <Text style={styles.label}>Sell Date:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Sell Date"
-                onChangeText={(text) => {
-                  setSellDate(text);
-                }}
-                value={sellDate}
-              />
+              
             </View>
 
             <View style={styles.child}>
               <Text style={styles.label}>Buy Date:</Text>
               <TextInput
                 style={styles.textInput}
-                placeholder="Buy Date"
+                placeholder="MM/DD/YYYY"
+                maxLength={13}
                 onChangeText={(text) => {
-                  setBuyDate(text);
+                  var temp = ('' + text).replace(/\D/g, '');
+                  setBuyDate(temp);
                 }}
-                value={buyDate}
+                value={dateFormatter(buyDate)}
               />
             </View>
 
@@ -453,13 +469,13 @@ const EditItemScreen = (props) => {
             </View>
 
             <View style={styles.child}>
-            <Text style={styles.label}>Archived:</Text>
+              <Text style={styles.label}>Archived:</Text>
               <CheckBox
-                checkedColor = {colors.delete}
-                checkedIcon={<MaterialIcons name="check-box" size={45} color={colors.delete}/>}
-                uncheckedIcon={<MaterialIcons name="check-box-outline-blank" size={45} color={colors.label}/>}
-                containerStyle={{marginBottom:0, padding: 0}}
-                onPress={()=> toggleArchive()}
+                checkedColor={colors.delete}
+                checkedIcon={<MaterialIcons name="check-box" size={45} color={colors.delete} />}
+                uncheckedIcon={<MaterialIcons name="check-box-outline-blank" size={45} color={colors.label} />}
+                containerStyle={{ marginBottom: 0, padding: 0 }}
+                onPress={() => toggleArchive()}
                 checked={archived}
               />
             </View>

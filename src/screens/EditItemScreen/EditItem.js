@@ -257,31 +257,15 @@ const EditItemScreen = (props) => {
       console.log(error);
     }
   }
-  const toggleArchive = () => {
-    if (archived) {
-      setArchived(0);
-    } else {
-      setArchived(1);
-    }
-  }
-  // const dateFormatter = (text) =>{
-  //   text = text.replace("/", "");
-  //   setBuyDate(text);
-    
-  // }
-  const dateFormatter = (text) =>{
-    console.log(buyDate);
-    text = text.replace("/", "");
-    // text = text.replace(" ", "");
+
+  const dateFormatter = (text) => {
     var text = ('' + text).replace(/\D/g, '');
-    // setBuyDate(text);
-    
-    if(text.length < 3)
-      text = text.substr(0,2) + "/";
-    else if(text.length < 5)
-      text = text.substr(0,2) + "/" + text.substr(2,2)  + "/";
-    else if(text.length >= 5)
-      text = text.substr(0,2) + "/" + text.substr(2,2)  + "/" + text.substr(4,4);
+    if (text.length > 4)
+      return text.substr(0, 2) + "/" + text.substr(2, 2) + "/" + text.substr(4, 4);
+    if (text.length > 2)
+      return text.substr(0, 2) + "/" + text.substr(2, 2);
+    if (text.length < 3)
+      return text.substr(0, 2);
     return text;
   }
 
@@ -410,7 +394,16 @@ const EditItemScreen = (props) => {
 
             <View style={styles.child}>
               <Text style={styles.label}>Sell Date:</Text>
-              
+              <TextInput
+                style={styles.textInput}
+                placeholder="MM/DD/YYYY"
+                maxLength={10}
+                onChangeText={(text) => {
+                  var temp = ('' + text).replace(/\D/g, '');
+                  setSellDate(temp);
+                }}
+                value={dateFormatter(sellDate)}
+              />
             </View>
 
             <View style={styles.child}>
@@ -418,7 +411,7 @@ const EditItemScreen = (props) => {
               <TextInput
                 style={styles.textInput}
                 placeholder="MM/DD/YYYY"
-                maxLength={13}
+                maxLength={10}
                 onChangeText={(text) => {
                   var temp = ('' + text).replace(/\D/g, '');
                   setBuyDate(temp);
@@ -465,18 +458,6 @@ const EditItemScreen = (props) => {
                   setEbayURL(text);
                 }}
                 value={ebayURL}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Archived:</Text>
-              <CheckBox
-                checkedColor={colors.delete}
-                checkedIcon={<MaterialIcons name="check-box" size={45} color={colors.delete} />}
-                uncheckedIcon={<MaterialIcons name="check-box-outline-blank" size={45} color={colors.label} />}
-                containerStyle={{ marginBottom: 0, padding: 0 }}
-                onPress={() => toggleArchive()}
-                checked={archived}
               />
             </View>
 
@@ -530,6 +511,18 @@ const EditItemScreen = (props) => {
                   setTags(text);
                 }}
                 value={tags}
+              />
+            </View>
+            
+            <View style={styles.child}>
+              <Text style={styles.label}>Archived:</Text>
+              <CheckBox
+                checkedColor={colors.delete}
+                checkedIcon={<MaterialIcons name="check-box" size={45} color={colors.delete} />}
+                uncheckedIcon={<MaterialIcons name="check-box-outline-blank" size={45} color={colors.label} />}
+                containerStyle={{ marginBottom: 0, padding: 0 }}
+                onPress={()=> {archived ? setArchived(0) : setArchived(1);}}
+                checked={archived}
               />
             </View>
 

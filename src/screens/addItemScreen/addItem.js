@@ -176,6 +176,8 @@ const addItemScreen = (props) => {
       clear();
       if(flagger)
         props.navigation.navigate("Collections");
+      else
+      createAlert("SAVED", "");
 
     } catch (error) {
       console.log(error);
@@ -239,6 +241,19 @@ const addItemScreen = (props) => {
             </View>
 
             <View style={styles.child}>
+              <Text style={styles.label}>Folder:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Folder"
+                maxLength={30}
+                onChangeText={(text) => {
+                  setFolder(text);
+                }}
+                value={folder}
+              />
+            </View>
+
+            <View style={styles.child}>
               <Text style={styles.label}>Worth:</Text>
               <TextInput
                 style={styles.textInput}
@@ -250,19 +265,6 @@ const addItemScreen = (props) => {
                   setWorth(text);
                 }}
                 value={currencyFormatter(worth)}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Folder:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Folder"
-                maxLength={30}
-                onChangeText={(text) => {
-                  setFolder(text);
-                }}
-                value={folder}
               />
             </View>
 

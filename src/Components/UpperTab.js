@@ -74,11 +74,7 @@ const UpperTab = (props) => {
                   onChangeText={(text)=>searching(text)} 
                   onSubmitEditing={submitData}
                   value={search}
-                  icon={()=> loading?
-                    <MaterialIcons name='cancel' size="large" color="black" />
-                    :
-                    <MaterialCommunityIcons name='magnify' size="small" />
-                  }
+                  icon={()=> <MaterialCommunityIcons name='magnify' size={25} />}
                 />
               </View>
           ) 
@@ -115,10 +111,10 @@ const styles = StyleSheet.create({
     },
     textStyle:{
         color: colors.title,
-        fontSize:20,
-        fontWeight:"bold",
-        height:30,
-        alignItems:"stretch",
+        fontSize: 20,
+        fontWeight: "bold",
+        height: 30,
+        alignItems: "stretch",
     },
     buttonLeftStyle:{
       alignItems:'flex-start',

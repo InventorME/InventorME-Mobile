@@ -9,10 +9,11 @@ export default StyleSheet.create({
     },
     folder:{
         backgroundColor : colors.background,
-        color: colors.text
+        color: colors.text,
     },
     title:{
-        color: colors.text
+        color: colors.text,
+        fontSize: 30
     },
     item:{
         backgroundColor : colors.background,

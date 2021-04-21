@@ -45,7 +45,7 @@ const addItemScreen = (props) => {
     (async () => {
       try {
         if (imageTaken) {
-          console.log("picture taken");
+          // console.log("picture taken");
           const pName = await photo.generateNewItemName("jpg");
           setPhotoURL(pName);
         }
@@ -55,6 +55,16 @@ const addItemScreen = (props) => {
     })();
   }, [imageTaken, photoURL]);
 
+  const createAlert = (title, msg) =>
+    Alert.alert(
+      title,
+      msg,
+      [
+        { text: "OK" }
+      ],
+      { cancelable: false }
+    );
+
   const quotes = (value) => {
     if (!value || value === "null" || value.length < 1) {
       return null;
@@ -63,22 +73,6 @@ const addItemScreen = (props) => {
       return value;
     }
     return "'" + value + "'";
-  };
-
-  const validateNonNullData = (name, category) => {
-    if (name === "null" || name === "") {
-      Alert.alert("Error: Please Type and Item Name");
-      return false;
-    }
-    if (category === "null" || category === "") {
-      console.log(category);
-      Alert.alert("Error: Please Type and Item Collection");
-      return false;
-    }
-    if (goodValid) {
-      console.log("I came inside this one name: " + name + " cat: " + category);
-      poster();
-    }
   };
 
   let POSTitemFORMAT = {
@@ -143,6 +137,12 @@ const addItemScreen = (props) => {
     }
   };
 
+  const currencyFormatter = (text) => {
+    text = ('' + text).replaceAll(/[^\d.-]/g, "");
+    if (text.length > 0)
+      return ('$' + text);
+  }
+
   const uploadImage = async () => {
     try {
       await photo.uploadFile(image, photoURL, imageType);
@@ -151,14 +151,32 @@ const addItemScreen = (props) => {
     }
   };
 
-  async function poster() {
+  const validateNonNullData = (flagger) => {
+    if (name === "null" || name === "") {
+      createAlert("Could Not Save:", "Please Input Item Name");
+      return false;
+    }
+    if (category === "null" || category === "") {
+      createAlert("Could Not Save:", "Please Input Collection");
+      return false;
+    }
+    if (folder === "null" || folder === "") {
+      createAlert("Could Not Save:", "Please Input Folder");
+      return false;
+    }
+    poster(flagger);
+  };
+
+  async function poster(flagger) {
     try {
-      // console.log("POSTitemFORMAT", POSTitemFORMAT);
       if (imageTaken) {
         await uploadImage();
       }
       const item = await db.post(POSTitemFORMAT);
       clear();
+      if(flagger)
+        props.navigation.navigate("Collections");
+
     } catch (error) {
       console.log(error);
     }
@@ -228,9 +246,10 @@ const addItemScreen = (props) => {
                 placeholder="Worth"
                 maxLength={12}
                 onChangeText={(text) => {
+                  text = ('' + text).replaceAll(/[^\d.-]/g, "");
                   setWorth(text);
                 }}
-                value={worth}
+                value={currencyFormatter(worth)}
               />
             </View>
 
@@ -291,8 +310,7 @@ const addItemScreen = (props) => {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  validateNonNullData(name, category);
-                  props.navigation.navigate("Collections");
+                  validateNonNullData(true);
                 }}
               >
                 <Text style={styles.buttonText}>Save</Text>
@@ -312,7 +330,7 @@ const addItemScreen = (props) => {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  validateNonNullData(name, category);
+                  validateNonNullData(false);
                 }}
               >
                 <Text style={styles.buttonText}>New Item</Text>

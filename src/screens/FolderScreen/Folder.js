@@ -28,7 +28,7 @@ const Folder = ({navigation}) => {
 
     for (let i = 0; i < foldersList.length; i++) {
         let itemsToRender = [];
-        let object = { name: foldersList[i], itemsToRender: itemsToRender, key: foldersList[i] };
+        let object = { name: foldersList[i], itemsToRender: itemsToRender, key: foldersList[i].toString() };
 
         for (let j = 0; j < data.items.length; j++) {
             if (data.items[j].itemFolder == foldersList[i]) {
@@ -46,8 +46,9 @@ const Folder = ({navigation}) => {
             renderItem={({ item }) => (
                 <List.Accordion
                     title={item.name}
-                    left={props => <List.Icon {...props} icon="folder" color={getColors()} />}
+                    left={props => <List.Icon {...props} icon="folder" color={getColors()}/>}
                     style={styles.folder}
+                    
                     titleStyle={styles.title}
                 >
                     <FlatList

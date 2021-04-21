@@ -3,7 +3,6 @@ import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, Alert } fro
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import DatePicker from 'react-native-datepicker';
 import { CheckBox } from 'react-native-elements';
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -13,11 +12,10 @@ import styles from "./EditItem.style";
 import { Database } from "../../util/Database";
 import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
-import { set } from "react-native-reanimated";
 
-var newImageURL = '';
 const EditItemScreen = (props) => {
 
+  const [ID, setID] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [category, setCategory] = useState("");
@@ -36,16 +34,15 @@ const EditItemScreen = (props) => {
   const [recurrPayAmt, setRecurrPayAmt] = useState("");
   const [ebayURL, setEbayURL] = useState("");
   const [archived, setArchived] = useState(0);
-  const [archivedChecked, setArchivedChecked] = useState(false);
   const [folder, setFolder] = useState("");
   const [image, setImage] = useState("");
   const [imageTaken, setImageTaken] = useState(false);
   const [imageState, setImageState] = useState(false);
-  const [imageType, setImageType] = useState("image/jpg");
   const [createItem, setCreateItem] = useState(props.route.params.itemCreated);
   const [scannedItem, setScannedItem] = useState(props.route.params.scanned);
   const db = new Database();
   const photo = new Photo();
+  const imageType = "image/jpg";
 
   useEffect(() => {
     (async () => {
@@ -60,7 +57,7 @@ const EditItemScreen = (props) => {
 
   useEffect(() => {
     (async () => {
-      if (photoURL != "") {
+      if (photoURL !== "" && photoURL && !imageTaken) {
         try {
           const itemPhoto = await photo.get(photoURL);
           setImage(itemPhoto);
@@ -69,9 +66,22 @@ const EditItemScreen = (props) => {
           console.log("photo not found");
         }
       }
-
     })();
   }, [photoURL, imageState, image]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (imageTaken) {
+          const pName = await photo.generateNewItemName("jpg");
+          setPhotoURL(pName);
+          // console.log("photoURL set:", photoURL);
+        }
+      } catch (error) {
+        console.log("could not find user :(", error);
+      }
+    })();
+  }, [imageTaken, photoURL]);
 
   useEffect(() => {
     if (createItem) {
@@ -95,6 +105,7 @@ const EditItemScreen = (props) => {
     }
     else {
       setName(props.route.params.details.item.itemName);
+      setID(props.route.params.details.item.itemID);
       setEmail(props.route.params.details.item.userEmail);
       setCategory(props.route.params.details.item.itemCategory);
       setPhotoURL(props.route.params.details.item.itemPhotoURL);
@@ -106,24 +117,46 @@ const EditItemScreen = (props) => {
       setWorth(props.route.params.details.item.itemWorth);
       setReceiptPhoto(props.route.params.details.item.itemReceiptPhotoURL);
       setItemManualURL(props.route.params.details.item.itemManualURL);
-      setSellDate(props.route.params.details.item.itemSellDate);
-      setBuyDate(props.route.params.details.item.itemBuyDate);
-      setSellAmt(props.route.params.details.item.itemSellDate);
+      setSellDate(incomingDate(props.route.params.details.item.itemSellDate));
+      setBuyDate(incomingDate(props.route.params.details.item.itemBuyDate));
+      setSellAmt(props.route.params.details.item.itemSellAmount);
       setRecurrPayAmt(props.route.params.details.item.itemRecurringPaymentAmount);
       setEbayURL(props.route.params.details.item.itemEbayURL);
-      console.log("passed archived:", props.route.params.details.item.itemArchived);
       setArchived(props.route.params.details.item.itemArchived);
       setFolder(props.route.params.details.item.itemFolder);
+      console.log("incoming item:", props.route.params.details.item);
+      if(props.route.params.details.item.itemSerialNum !== null && props.route.params.details.item.itemSerialNum !== 'null')
+        setSerialNum(''+props.route.params.details.item.itemSerialNum);
     }
+    
   }, []);
 
   const quotes = (value) => {
+    if(value === 0)
+      return 0;
     if (!value || value === "null" || value.length < 1)
       return null;
     if (!isNaN(value))
       return value;
     return "'" + value + "'";
   };
+
+  const date = (date) =>{
+    date = ('' + date).replace(/\D/g, '');
+    if(!date || date === "null" || date === '' || date.length < 8)
+      return null;
+    date = date.substr(4,4) + '-' + date.substr(0,2) + '-' + date.substr(2,2);
+    date = "'" + date + "'";
+    return date;
+  }
+
+  const incomingDate = (date) =>{
+    if(!date || date === "null" || date.length < 1)
+      return null;
+    date = ('' + date).replace(/\D/g, '');
+    date = date.substr(4,2) + date.substr(6,2) + date.substr(0,4);
+    return date;
+  }
 
   const POSTitemFORMAT = {
     userEmail: quotes(email),
@@ -135,8 +168,8 @@ const EditItemScreen = (props) => {
     itemWorth: quotes(worth),
     itemReceiptPhotoURL: quotes(receiptPhoto),
     itemManualURL: quotes(itemManualURL),
-    itemSellDate: quotes(sellDate),
-    itemBuyDate: quotes(buyDate),
+    itemSellDate: date(sellDate),
+    itemBuyDate: date(buyDate),
     itemLocation: quotes(location),
     itemNotes: quotes(notes),
     itemSellAmount: quotes(sellAmt),
@@ -148,7 +181,7 @@ const EditItemScreen = (props) => {
   };
 
   const PUTitemFORMAT = {
-    itemID: "9",
+    itemID: quotes(ID),
     userEmail: quotes(email),
     itemCategory: quotes(category),
     itemName: quotes(name),
@@ -158,8 +191,8 @@ const EditItemScreen = (props) => {
     itemWorth: quotes(worth),
     itemReceiptPhotoURL: quotes(receiptPhoto),
     itemManualURL: quotes(itemManualURL),
-    itemSellDate: quotes(sellDate),
-    itemBuyDate: quotes(buyDate),
+    itemSellDate: date(sellDate),
+    itemBuyDate: date(buyDate),
     itemLocation: quotes(location),
     itemNotes: quotes(notes),
     itemSellAmount: quotes(sellAmt),
@@ -170,38 +203,39 @@ const EditItemScreen = (props) => {
     itemFolder: quotes(folder)
   };
 
-  const validateNonNullData = (name, category) => {
-    console.log("8");
-    let goodValid = true;
-    if (name === null || name === "") {
-      console.log(name);
-      Alert.alert("Error: Please Type and Item Name");
-      goodValid = false;
-      return goodValid;
-    }
-    if (category === null || category === "") {
-      console.log(category);
-      Alert.alert("Error: Please Type and Item Collection");
-      goodValid = false;
-      return goodValid;
-    }
-    if (goodValid) {
-      console.log("I came inside this one name: " + name + " cat: " + category);
-      scannedItem ? poster() : putter();
-      props.navigation.goBack();
-    }
-  };
+  const createAlert = (title, msg) => Alert.alert(title,msg,[{ text: "OK" }],{ cancelable: false });
+
+  const dateFormatter = (text) => {
+    text = ('' + text).replace(/\D/g, '');
+    if (text.length > 4)
+      return text.substr(0, 2) + "/" + text.substr(2, 2) + "/" + text.substr(4, 4);
+    if (text.length > 2)
+      return text.substr(0, 2) + "/" + text.substr(2, 2);
+    if (text.length < 3)
+      return text.substr(0, 2);
+    return text;
+  }
+
+  const currencyFormatter = (text) => {
+    text = ('' + text).replaceAll(/[^\d.-]/g, "");
+    if (text.length > 0)
+      return ('$' + text);
+  }
+
+  const toggleArchived = () => {
+    if (archived)
+      setArchived(0);
+    else
+      setArchived(1);
+  }
 
   const takePhoto = async () => {
     const { status: cameraPerm } = await Permissions.askAsync(
       Permissions.CAMERA
     );
-
     const { status: cameraRollPerm } = await Permissions.askAsync(
       Permissions.MEDIA_LIBRARY
     );
-
-    // only if user allows permission to camera AND camera roll
     if (cameraPerm === "granted" && cameraRollPerm === "granted") {
       const pickerResult = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
@@ -209,10 +243,10 @@ const EditItemScreen = (props) => {
         base64: true,
         quality: 0.2,
       });
-
       if (!pickerResult.cancelled) {
         setImage(pickerResult.base64);
         setImageTaken(true);
+        setImageState(true);
       }
     } else {
       const title = "No Photo Access";
@@ -223,17 +257,26 @@ const EditItemScreen = (props) => {
 
   const uploadImage = async () => {
     try {
-      const pName = await photo.generateNewItemName("jpg");
-
-      // ******BUG HERE********
-      // NOT SURE THAT photoUrl is getting SET
-      setPhotoURL(pName);
-
-      // console.log(photoURL);
-      await photo.uploadFile(image, pName, imageType);
+      await photo.uploadFile(image, photoURL, imageType);
     } catch (error) {
       console.log("upload error", error);
     }
+  };
+
+  const validateNonNullData = (name, category) => {
+    if (name === "null" || name === "") {
+      createAlert("Could Not Save:", "Please Input Item Name");
+      return false;
+    }
+    if (category === "null" || category === "") {
+      createAlert("Could Not Save:", "Please Input Collection");
+      return false;
+    }
+    if (folder === "null" || folder === "") {
+      createAlert("Could Not Save:", "Please Input Folder");
+      return false;
+    }
+    createItem ? poster() : putter();
   };
 
   async function poster() {
@@ -242,6 +285,7 @@ const EditItemScreen = (props) => {
         await uploadImage();
       }
       const item = await db.post(POSTitemFORMAT);
+      props.navigation.navigate("Recent");
     } catch (error) {
       console.log(error);
     }
@@ -253,20 +297,10 @@ const EditItemScreen = (props) => {
         await uploadImage();
       }
       const item = await db.put(PUTitemFORMAT);
+      props.navigation.goBack();
     } catch (error) {
       console.log(error);
     }
-  }
-
-  const dateFormatter = (text) => {
-    var text = ('' + text).replace(/\D/g, '');
-    if (text.length > 4)
-      return text.substr(0, 2) + "/" + text.substr(2, 2) + "/" + text.substr(4, 4);
-    if (text.length > 2)
-      return text.substr(0, 2) + "/" + text.substr(2, 2);
-    if (text.length < 3)
-      return text.substr(0, 2);
-    return text;
   }
 
   return (
@@ -325,6 +359,19 @@ const EditItemScreen = (props) => {
             </View>
 
             <View style={styles.child}>
+              <Text style={styles.label}>Folder:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Folder"
+                maxLength={30}
+                onChangeText={(text) => {
+                  setFolder(text);
+                }}
+                value={folder}
+              />
+            </View>
+
+            <View style={styles.child}>
               <Text style={styles.label}>Serial Number:</Text>
               <TextInput
                 style={styles.textInput}
@@ -346,9 +393,10 @@ const EditItemScreen = (props) => {
                 placeholder="Purchase Amount"
                 maxLength={12}
                 onChangeText={(text) => {
+                  text = ('' + text).replaceAll(/[^\d.-]/g, "");
                   setPurchaseAmt(text);
                 }}
-                value={purchaseAmt}
+                value={currencyFormatter(purchaseAmt)}
               />
             </View>
 
@@ -360,9 +408,10 @@ const EditItemScreen = (props) => {
                 placeholder="Worth"
                 maxLength={12}
                 onChangeText={(text) => {
+                  text = ('' + text).replaceAll(/[^\d.-]/g, "");
                   setWorth(text);
                 }}
-                value={worth}
+                value={currencyFormatter(worth)}
               />
             </View>
 
@@ -396,11 +445,12 @@ const EditItemScreen = (props) => {
               <Text style={styles.label}>Sell Date:</Text>
               <TextInput
                 style={styles.textInput}
+                keyboardType="numeric"
                 placeholder="MM/DD/YYYY"
                 maxLength={10}
                 onChangeText={(text) => {
-                  var temp = ('' + text).replace(/\D/g, '');
-                  setSellDate(temp);
+                  text = ('' + text).replace(/\D/g, '');
+                  setSellDate(text);
                 }}
                 value={dateFormatter(sellDate)}
               />
@@ -410,11 +460,12 @@ const EditItemScreen = (props) => {
               <Text style={styles.label}>Buy Date:</Text>
               <TextInput
                 style={styles.textInput}
+                keyboardType="numeric"
                 placeholder="MM/DD/YYYY"
                 maxLength={10}
                 onChangeText={(text) => {
-                  var temp = ('' + text).replace(/\D/g, '');
-                  setBuyDate(temp);
+                  text = ('' + text).replace(/\D/g, '');
+                  setBuyDate(text);
                 }}
                 value={dateFormatter(buyDate)}
               />
@@ -428,9 +479,10 @@ const EditItemScreen = (props) => {
                 placeholder="Sell Amount"
                 maxLength={12}
                 onChangeText={(text) => {
+                  text = ('' + text).replaceAll(/[^\d.-]/g, "");
                   setSellAmt(text);
                 }}
-                value={sellAmt}
+                value={currencyFormatter(sellAmt)}
               />
             </View>
 
@@ -442,9 +494,10 @@ const EditItemScreen = (props) => {
                 placeholder="Recurring Payment"
                 maxLength={12}
                 onChangeText={(text) => {
+                  text = ('' + text).replaceAll(/[^\d.-]/g, "");
                   setRecurrPayAmt(text);
                 }}
-                value={recurrPayAmt}
+                value={currencyFormatter(recurrPayAmt)}
               />
             </View>
 
@@ -458,19 +511,6 @@ const EditItemScreen = (props) => {
                   setEbayURL(text);
                 }}
                 value={ebayURL}
-              />
-            </View>
-
-            <View style={styles.child}>
-              <Text style={styles.label}>Folder:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Folder"
-                maxLength={30}
-                onChangeText={(text) => {
-                  setFolder(text);
-                }}
-                value={folder}
               />
             </View>
 
@@ -517,12 +557,12 @@ const EditItemScreen = (props) => {
             <View style={styles.child}>
               <Text style={styles.label}>Archived:</Text>
               <CheckBox
-               center
+                center
                 checkedColor={colors.delete}
                 checkedIcon={<MaterialIcons name="check-box" size={45} color={colors.delete} />}
                 uncheckedIcon={<MaterialIcons name="check-box-outline-blank" size={45} color={colors.label} />}
                 containerStyle={{ marginBottom: 0, padding: 0 }}
-                onPress={()=> {archived ? setArchived(0) : setArchived(1);}}
+                onPress={() => toggleArchived()}
                 checked={archived}
               />
             </View>

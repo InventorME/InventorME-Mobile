@@ -33,7 +33,8 @@ export default StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12,
-        marginTop:'25%',
+        marginTop:'15%',
+        marginRight:'4%',
         margin : 5
       },
       signUpButton:{
@@ -42,8 +43,7 @@ export default StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12,
-        marginTop:'15%',
-        marginRight:'4%',
+        marginTop:'25%',
         margin : 5
       },
       appButtonText: {

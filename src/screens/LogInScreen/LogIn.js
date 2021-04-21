@@ -8,8 +8,8 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import styles from "./LogIn.style";
 import { Auth } from "aws-amplify";
+import styles from "./LogIn.style";
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class HomeScreen extends Component {
     this.emailOnChange = this.emailOnChange.bind(this);
     this.passwordOnChange = this.passwordOnChange.bind(this);
   }
+
   async componentDidMount() {
     try {
       const session = await Auth.currentSession();
@@ -67,13 +68,12 @@ class HomeScreen extends Component {
         <View style={styles.mainContainer}>
           <View style={{ flex: 1, alignItems: "flex-end" }}>
             <TouchableOpacity
-              style={styles.signUpButton}
-              onPress={() =>
-                this.props.navigation.navigate("CreateAccountScreen")
-              }
+              style={styles.appButtonContainer}
+              onPress={this.validateUser}
             >
-              <Text style={styles.signUpText}>Sign Up</Text>
+              <Text style={styles.appButtonText}>Log In</Text>
             </TouchableOpacity>
+            
           </View>
           <View style={styles.container}>
             <Image
@@ -95,10 +95,12 @@ class HomeScreen extends Component {
               value={this.password}
             />
             <TouchableOpacity
-              style={styles.appButtonContainer}
-              onPress={this.validateUser}
+              style={styles.signUpButton}
+              onPress={() =>
+                this.props.navigation.navigate("CreateAccountScreen")
+              }
             >
-              <Text style={styles.appButtonText}>Log In</Text>
+              <Text style={styles.signUpText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -44,7 +44,7 @@ class ProfilePageNav extends Component {
     }
     try{
       const photos = new Photo();
-      const profilePic = await photos.get("lukelmiller@icloud.com.jpg");
+      const profilePic = await photos.get(this.state.email + '.jpg');
       this.setState({ profilePic: profilePic });
       this.setState({ photoType: "image/jpg"});
       this.setState({imageLoaded: true});

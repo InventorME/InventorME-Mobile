@@ -27,7 +27,8 @@ function colorGenerator() {
         "#bd1f21"
       ],
       objectsText: "#ffffff",
-      fill: '#404040'
+      fill: '#404040',
+      delete: "#e01f0d"
     };
     return color;
   }

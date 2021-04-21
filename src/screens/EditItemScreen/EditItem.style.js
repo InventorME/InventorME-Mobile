@@ -3,7 +3,7 @@ import { colors } from '../../util/colors';
 
 export default StyleSheet.create({
   page:{
-    backgroundColor: colors.background
+    backgroundColor: colors.background,
   },
   child: {
     width: "80%",

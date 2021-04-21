@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { StyleSheet } from "react-native";
-import { color } from "react-native-reanimated";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -63,7 +62,7 @@ export default StyleSheet.create({
     paddingHorizontal: 12,
   },
   deleteButtonContainer: {
-    backgroundColor: "#e01f0d",
+    backgroundColor: colors.delete,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,

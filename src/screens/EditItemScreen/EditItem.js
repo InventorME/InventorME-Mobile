@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { CheckBox } from 'react-native-elements';
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { Avatar } from "react-native-paper";
@@ -11,6 +12,7 @@ import styles from "./EditItem.style";
 import { Database } from "../../util/Database";
 import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
+import { set } from "react-native-reanimated";
 
 const EditItemScreen = (props) => {
 
@@ -31,7 +33,8 @@ const EditItemScreen = (props) => {
   const [sellAmt, setSellAmt] = useState("");
   const [recurrPayAmt, setRecurrPayAmt] = useState("");
   const [ebayURL, setEbayURL] = useState("");
-  const [archived, setArchived] = useState("0");
+  const [archived, setArchived] = useState(0);
+  const [archivedChecked, setArchivedChecked]= useState(false);
   const [folder, setFolder] = useState("");
   const [image, setImage] = useState("");
   const [imageTaken, setImageTaken] = useState(false);
@@ -107,6 +110,7 @@ const EditItemScreen = (props) => {
       setSellAmt(props.route.params.details.item.itemSellDate);
       setRecurrPayAmt(props.route.params.details.item.itemRecurringPaymentAmount);
       setEbayURL(props.route.params.details.item.itemEbayURL);
+      console.log("passed archived:", props.route.params.details.item.itemArchived);
       setArchived(props.route.params.details.item.itemArchived);
       setFolder(props.route.params.details.item.itemFolder);
     }
@@ -250,6 +254,13 @@ const EditItemScreen = (props) => {
       const item = await db.put(PUTitemFORMAT);
     } catch (error) {
       console.log(error);
+    }
+  }
+  const toggleArchive = () =>{
+    if(archived){
+      setArchived(0);
+    }else{
+      setArchived(1);
     }
   }
 
@@ -442,14 +453,14 @@ const EditItemScreen = (props) => {
             </View>
 
             <View style={styles.child}>
-              <Text style={styles.label}>Archived:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Archived"
-                onChangeText={(text) => {
-                  setArchived(text);
-                }}
-                value={archived}
+            <Text style={styles.label}>Archived:</Text>
+              <CheckBox
+                checkedColor = {colors.delete}
+                checkedIcon={<MaterialIcons name="check-box" size={45} color={colors.delete}/>}
+                uncheckedIcon={<MaterialIcons name="check-box-outline-blank" size={45} color={colors.label}/>}
+                containerStyle={{marginBottom:0, padding: 0}}
+                onPress={()=> toggleArchive()}
+                checked={archived}
               />
             </View>
 

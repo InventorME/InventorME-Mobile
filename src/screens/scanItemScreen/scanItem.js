@@ -3,17 +3,19 @@ import { Text, View, StyleSheet, Button, Alert, ActivityIndicator} from 'react-n
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import styles from "./scanItem.style";
 import { colors } from '../../util/colors';
+import { TabRouter } from 'react-navigation';
+import { set } from 'react-native-reanimated';
 
 const axios = require('axios');
 
 let upc = '';
 let info;
-
 const ScanItem = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [loading, setLoading] = useState(false);
-  // const [info, setInfo]=useState()
+  // const [info, setInfo]=useState('');
+  const [noConnection,setNoConnection]= useState(true);
 
 
   useEffect(() => {
@@ -29,66 +31,83 @@ const ScanItem = (props) => {
     setScanned(true);
     upc = data;
     console.log("data", data);
+    console.log(info);
     await getter();
-    console.log(info.request_info.success);
-    if(info.request_info.success){
-      Alert.alert(`${info.product.title} \n Do you want to add this item?`,' ',
+    console.log(info);
+    console.log(noConnection);
+    
+    if(info!==undefined){
+      console.log("We are here");
+      if(info.request_info.success){
+        Alert.alert(`${info.product.title} \n Do you want to add this item?`,' ',
+            [
+              {
+                text:'Cancel' ,
+                onPress:()=>{
+                  console.log("###########CANCEL######################");
+                  setScanned(false);
+                },
+              },
+              {
+                text:'Yes' ,
+                onPress:()=>{
+                  const description=info.product.description.replace(/['"]+/g, '');
+                  const title=info.product.title.replace(/['"]+/g, '');
+                  const category= info.product.categories[0].name.replace(/['"]+/g, '');
+                  const price= info.product.buybox_winner.price.value;
+                  const serialNumber = info.request_parameters.gtin;
+                  const itemCreated=true;
+                  const scanned = true;
+                  console.log(description);
+                  console.log(title);
+                  console.log(category);
+                  console.log(price);
+                  // send image
+                  props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated,serialNumber,scanned});
+                },
+              },
+            ],
+            {
+              calcelable:false,
+            },
+          );
+        }else{
+          Alert.alert('The Item Was not found ',' ',
+            [
+              {
+                text:'Retry' ,
+                onPress:()=>{
+                  
+                  console.log("###########CANCEL######################");
+                  console.log(`Info ${ info.request_info.success }`);
+                },
+              },
+              {
+                text:'Add Item Manually' ,
+                onPress:()=>{
+                  const itemCreated = false;
+                  const scannedItem = false;
+                  props.navigation.navigate("addItem",scannedItem);
+                },
+              },
+            ],  
+            {
+              cancelable:false,
+            }
+          );    
+        }
+    }else{
+      Alert.alert('There seems to be a problem with your connection, please make sure you have an internet connection and try again',"",
           [
             {
-              text:'Cancel' ,
+              text:'Ok' ,
               onPress:()=>{
-                console.log("###########CANCEL######################");
                 setScanned(false);
               },
             },
-            {
-              text:'Yes' ,
-              onPress:()=>{
-                const description=info.product.description.replace(/['"]+/g, '');
-                const title=info.product.title.replace(/['"]+/g, '');
-                const category= info.product.categories[0].name.replace(/['"]+/g, '');
-                const price= info.product.buybox_winner.price.value;
-                const serialNumber = info.request_parameters.gtin;
-                const itemCreated=true;
-                const scanned = true;
-                console.log(description);
-                console.log(title);
-                console.log(category);
-                console.log(price);
-                // send image
-                props.navigation.navigate("EditItemScreen",{description,title,category,price,itemCreated,serialNumber,scanned});
-              },
-            },
-          ],
-          {
-            calcelable:false,
-          },
-        );
-      }else{
-        Alert.alert('The Item Was not found ',' ',
-          [
-            {
-              text:'Retry' ,
-              onPress:()=>{
-                
-                console.log("###########CANCEL######################");
-                console.log(`Info ${ info.request_info.success }`);
-              },
-            },
-            {
-              text:'Add Item Manually' ,
-              onPress:()=>{
-                const itemCreated = false;
-                const scannedItem = false;
-                props.navigation.navigate("addItem",scannedItem);
-              },
-            },
-          ],  
-          {
-            cancelable:false,
-          }
-        );    
-      }  
+          ]  
+    );
+    } 
   };
 
   if (hasPermission === null) {
@@ -111,6 +130,7 @@ const ScanItem = (props) => {
 
   const getter = async () => {
     setLoading(true);
+    setNoConnection(true);
     const queryURL = `${"https://api.rainforestapi.com/request" + "?api_key="}${  params.api_key  }&type=product&amazon_domain=amazon.com&gtin=${  upc}`;
     
      await axios.get(queryURL)
@@ -118,13 +138,12 @@ const ScanItem = (props) => {
       // print the JSON response from Rainforest API
       // console.log(response.data,0,2);
       info = response.data,0,2;
-      console.log(JSON.stringify(info));
     }).catch(error => {
       console.log(error);
-    })
-    setLoading(false);
+      info=undefined;
+  });
+  setLoading(false);
   }
-
   return (
     <View style={styles.container}>
       <BarCodeScanner

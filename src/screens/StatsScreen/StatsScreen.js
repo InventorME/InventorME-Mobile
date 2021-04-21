@@ -108,7 +108,7 @@ class StatsScreen extends Component {
             <View style={styles.stat}>
               <ProgCircle
                 percent={this.state.fullPercent}
-                text={`$${Math.round(this.state.currentWorth / this.state.allLength) * 100}`}
+                text={`$${Math.round(this.state.currentWorth)}`}
                 color={colors.objects[0]}
               />
               <Text style={styles.label}> {'Net Worth '}</Text>
@@ -116,7 +116,7 @@ class StatsScreen extends Component {
 
             <View style={styles.stat}>
               <ProgCircle
-                percent={(this.state.depreciation - this.state.currentWorth) / 100}
+                percent={this.state.Lost * 100}
                 text={`$${(this.state.depreciation - this.state.currentWorth)}`}
                 color={colors.objects[1]}
               />
@@ -159,7 +159,7 @@ class StatsScreen extends Component {
 
             <View style={styles.stat}>
               <ProgCircle
-                percent={this.state.soldLength}
+                percent={this.state.Lost * 100}
                 text={`${this.state.Lost * 100}%`}
                 color={colors.objects[6]}
               />
@@ -168,7 +168,7 @@ class StatsScreen extends Component {
 
             <View style={styles.stat}>
               <ProgCircle
-                percent={this.state.Lost * 100}
+                percent={ 100}
                 text={`$${this.state.Costper}/Mo`}
                 color={colors.objects[7]}
               />

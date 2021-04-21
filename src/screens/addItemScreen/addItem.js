@@ -175,7 +175,7 @@ const addItemScreen = (props) => {
       const item = await db.post(POSTitemFORMAT);
       clear();
       if(flagger)
-        props.navigation.navigate("Collections");
+        props.navigation.navigate("Recent");
       else
       createAlert("SAVED", "");
 

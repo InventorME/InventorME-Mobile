@@ -75,6 +75,8 @@ const EditItemScreen = (props) => {
         if (imageTaken) {
           const pName = await photo.generateNewItemName("jpg");
           setPhotoURL(pName);
+          setImageState(true);
+          uploadImage();
           // console.log("photoURL set:", photoURL);
         }
       } catch (error) {
@@ -250,7 +252,6 @@ const EditItemScreen = (props) => {
       if (!pickerResult.cancelled) {
         setImage(pickerResult.base64);
         setImageTaken(true);
-        setImageState(true);
       }
     } else {
       const title = "No Photo Access";
@@ -285,9 +286,9 @@ const EditItemScreen = (props) => {
 
   async function poster() {
     try {
-      if (imageTaken) {
-        await uploadImage();
-      }
+      // if (imageTaken) {
+      //   await uploadImage();
+      // }
       const item = await db.post(POSTitemFORMAT);
       props.navigation.navigate("Recent");
     } catch (error) {
@@ -297,9 +298,9 @@ const EditItemScreen = (props) => {
 
   async function putter() {
     try {
-      if (imageTaken) {
-        await uploadImage();
-      }
+      // if (imageTaken) {
+      //   await uploadImage();
+      // }
       const item = await db.put(PUTitemFORMAT);
       props.navigation.goBack();
     } catch (error) {

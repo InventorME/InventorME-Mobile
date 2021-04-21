@@ -15,6 +15,7 @@ import { colors } from "../../util/colors";
 import { Photo } from "../../util/Photos";
 import { set } from "react-native-reanimated";
 
+var newImageURL = '';
 const EditItemScreen = (props) => {
 
   const [name, setName] = useState("");
@@ -69,9 +70,8 @@ const EditItemScreen = (props) => {
         }
       }
 
-
     })();
-  }, [photoURL, imageState]);
+  }, [photoURL, imageState, image]);
 
   useEffect(() => {
     if (createItem) {
@@ -513,10 +513,11 @@ const EditItemScreen = (props) => {
                 value={tags}
               />
             </View>
-            
+
             <View style={styles.child}>
               <Text style={styles.label}>Archived:</Text>
               <CheckBox
+               center
                 checkedColor={colors.delete}
                 checkedIcon={<MaterialIcons name="check-box" size={45} color={colors.delete} />}
                 uncheckedIcon={<MaterialIcons name="check-box-outline-blank" size={45} color={colors.label} />}

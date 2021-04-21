@@ -41,6 +41,20 @@ const addItemScreen = (props) => {
     })();
   }, [email]);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        if (imageTaken) {
+          console.log("picture taken");
+          const pName = await photo.generateNewItemName("jpg");
+          setPhotoURL(pName);
+        }
+      } catch (error) {
+        console.log("could not find user :(", error);
+      }
+    })();
+  }, [imageTaken, photoURL]);
+
   const quotes = (value) => {
     if (!value || value === "null" || value.length < 1) {
       return null;
@@ -52,18 +66,14 @@ const addItemScreen = (props) => {
   };
 
   const validateNonNullData = (name, category) => {
-    let goodValid = true;
     if (name === "null" || name === "") {
-      console.log(name);
       Alert.alert("Error: Please Type and Item Name");
-      goodValid = false;
-      return goodValid;
+      return false;
     }
     if (category === "null" || category === "") {
       console.log(category);
       Alert.alert("Error: Please Type and Item Collection");
-      goodValid = false;
-      return goodValid;
+      return false;
     }
     if (goodValid) {
       console.log("I came inside this one name: " + name + " cat: " + category);
@@ -96,26 +106,25 @@ const addItemScreen = (props) => {
   const clear = () => {
     setName("");
     setCategory("");
-    setFolder("");
     setLocation("");
     setNotes("");
-    setWorth("");
     setTags("");
-    setPhotoURL("");
+    setWorth("");
+    setFolder("");
     setImage("");
+    setPhotoURL("");
     setImageTaken(false);
+    setImageState(false);
+    setScannedItem(false);
   };
 
   const takePhoto = async () => {
     const { status: cameraPerm } = await Permissions.askAsync(
       Permissions.CAMERA
     );
-
     const { status: cameraRollPerm } = await Permissions.askAsync(
       Permissions.MEDIA_LIBRARY
     );
-
-    // only if user allows permission to camera AND camera roll
     if (cameraPerm === "granted" && cameraRollPerm === "granted") {
       let pickerResult = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
@@ -123,12 +132,10 @@ const addItemScreen = (props) => {
         base64: true,
         quality: 0.2,
       });
-
       if (!pickerResult.cancelled) {
         setImage(pickerResult.base64);
         setImageTaken(true);
       }
-
     } else {
       const title = "No Photo Access";
       const msg = "Please Go Into Phone Settings & Grant App Access To Camera & Photos";
@@ -138,15 +145,7 @@ const addItemScreen = (props) => {
 
   const uploadImage = async () => {
     try {
-      const pName = await photo.generateNewItemName("jpg");
-
-      // ******BUG HERE********
-      // NOT SURE THAT photoUrl is getting SET
-
-      setPhotoUrl(String(pName));
-      // console.log("photoUrl:", photoUrl);
-      // await photo.uploadFile(image, photoUrl, imageType);
-      await photo.uploadFile(image, pName, imageType);
+      await photo.uploadFile(image, photoURL, imageType);
     } catch (error) {
       console.log("upload error", error);
     }
@@ -154,7 +153,7 @@ const addItemScreen = (props) => {
 
   async function poster() {
     try {
-      console.log("POSTitemFORMAT", POSTitemFORMAT);
+      // console.log("POSTitemFORMAT", POSTitemFORMAT);
       if (imageTaken) {
         await uploadImage();
       }
@@ -166,7 +165,7 @@ const addItemScreen = (props) => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: colors.background }}>
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         scrollEnabled={true}>
@@ -177,8 +176,7 @@ const addItemScreen = (props) => {
               onPress={() => {
                 clear();
                 props.navigation.navigate("Collections");
-              }}
-            >
+              }}>
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
 
@@ -194,8 +192,13 @@ const addItemScreen = (props) => {
                 value={name}
               />
             </View>
-            {imageState ? (
-              ""
+            {imageTaken ? (
+              <View style={styles.uploadContainer}>
+                <TouchableOpacity
+                  onPress={() => takePhoto()}>
+                  <Avatar.Image source={{ uri: `data:${imageType};base64,${image}` }} size={125} />
+                </TouchableOpacity>
+              </View>
             ) : (
               <View style={styles.uploadContainer}>
                 <TouchableOpacity style={styles.uploadButton} onPress={takePhoto}>

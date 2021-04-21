@@ -58,7 +58,8 @@ function colorGenerator() {
         "#bd1f21"
       ],
       objectsText: "#ffffff",
-      fill: '#e6e6e6'
+      fill: '#e6e6e6',
+      delete: "#e01f0d"
     };
     return color;
   }
